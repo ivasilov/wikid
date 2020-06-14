@@ -1,0 +1,10 @@
+Dockerfile
+node_modules
+*/node_modules
+*/buil
+.gitignore
+.giattributes
+.prettierignore
+.prettierrc
+README.md
+extension

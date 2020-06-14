@@ -1,0 +1,72 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Bookmark {
+  id: ID!
+  url: String!
+  name: String!
+  pages: [Page!]!
+}
+
+input CreateBookmarkInput {
+  url: String!
+  name: String!
+  pageIds: [ID!]
+}
+
+input CreatePageInput {
+  name: String!
+  description: String
+  content: String
+  bookmarkIds: [ID!]
+}
+
+type Mutation {
+  createBookmark(params: CreateBookmarkInput!): Bookmark!
+  updateBookmark(params: UpdateBookmarkInput!): Bookmark!
+  deleteBookmark(id: ID!): ID!
+  createPage(params: CreatePageInput!): Page!
+  updatePage(params: UpdatePageInput!): Page!
+  deletePage(id: ID!): ID!
+}
+
+type Page {
+  id: ID!
+  name: String!
+  description: String!
+  content: String!
+  bookmarks: [Bookmark!]!
+}
+
+type Query {
+  bookmark(id: ID!): Bookmark!
+  page(id: ID!): Page!
+  currentUser: User!
+}
+
+input UpdateBookmarkInput {
+  id: ID!
+  url: String
+  name: String
+  pageIds: [UpdateBookmarkNullablePage!]
+}
+
+input UpdateBookmarkNullablePage {
+  id: ID
+  name: String!
+}
+
+input UpdatePageInput {
+  id: ID!
+  name: String
+  description: String
+  content: String
+}
+
+type User {
+  id: ID!
+  email: String!
+  pages: [Page!]!
+  bookmarks: [Bookmark!]!
+}

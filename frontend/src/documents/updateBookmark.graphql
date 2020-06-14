@@ -1,0 +1,13 @@
+mutation updateBookmark($params: UpdateBookmarkInput!) {
+  updateBookmark(params: $params) {
+    id
+    url
+    name
+    pages {
+      id
+      name
+      description
+      content
+    }
+  }
+}

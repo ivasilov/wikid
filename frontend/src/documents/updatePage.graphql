@@ -1,0 +1,8 @@
+mutation updatePage($params: UpdatePageInput!) {
+  updatePage(params: $params) {
+    id
+    name
+    description
+    content
+  }
+}

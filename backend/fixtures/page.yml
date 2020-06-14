@@ -1,0 +1,6 @@
+entity: PageEntity
+items:
+  page{1..10}:
+    name: '{{lorem.words}}'
+    description: '{{lorem.sentence}}'
+    content: '{{lorem.sentences}}'

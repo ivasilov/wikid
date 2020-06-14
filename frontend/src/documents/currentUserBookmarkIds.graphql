@@ -1,0 +1,8 @@
+query currentUserBookmarkIds {
+  currentUser {
+    id
+    bookmarks {
+      id
+    }
+  }
+}

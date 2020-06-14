@@ -1,0 +1,34 @@
+@import '../utils.scss';
+
+.w-sidebar {
+  background-color: #f2f4f7;
+  height: 100vh;
+
+  .w-logo {
+    height: 40px;
+    width: 40px;
+    background-color: #343b4b;
+    font-size: 16px;
+    color: white;
+    padding: 10px 12px 10px 12px;
+  }
+
+  .w-icon {
+    color: #cecece;
+  }
+
+  .w-categories {
+    list-style: none;
+  }
+  .w-categories-list {
+    .w-category-name {
+      color: #4288e9;
+    }
+
+    .w-icon {
+      color: #cecece;
+    }
+  }
+
+  @include scroll();
+}

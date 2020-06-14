@@ -1,0 +1,7 @@
+entity: BookmarkEntity
+items:
+  bookmark{1..10}:
+    name: '{{internet.domainName}}'
+    url: '{{internet.url}}'
+    pages:
+      - '@page*'

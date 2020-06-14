@@ -1,0 +1,46 @@
+{
+  "name": "wikid",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "run-p build:*",
+    "build:gql": "graphql-codegen --config codegen.yml",
+    "build:backend": "yarn workspace backend run build",
+    "build:frontend": "yarn workspace frontend run build",
+    "develop": "run-p develop:*",
+    "develop:gql": "graphql-codegen --config codegen.yml --watch",
+    "develop:backend": "yarn workspace backend run develop",
+    "develop:frontend": "yarn workspace frontend run start",
+    "clean": "npm-run-all -p clean:backend clean:frontend -p clean:workspace",
+    "clean:backend": "yarn workspace backend run clean",
+    "clean:frontend": "yarn workspace frontend run clean",
+    "clean:workspace": "rimraf node_modules",
+    "test": "run-p test:*",
+    "test:frontend": "yarn workspace frontend run test",
+    "test:backend": "yarn workspace backend run test",
+    "prettier:fix": "prettier --write '**/*.ts' '**/*.tsx' '**/*.md' '**/*.json' '**/*.js' '**/*.css' '**/*.scss'",
+    "docker:build": "docker build -t ivasilov/wikid ."
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@graphql-codegen/cli": "^1.8.0",
+    "@graphql-codegen/fragment-matcher": "^1.8.0",
+    "@graphql-codegen/introspection": "^1.8.0",
+    "@graphql-codegen/typescript": "^1.8.0",
+    "@graphql-codegen/typescript-graphql-files-modules": "^1.8.0",
+    "@graphql-codegen/typescript-operations": "^1.8.0",
+    "@graphql-codegen/typescript-react-apollo": "^1.8.0",
+    "@graphql-codegen/typescript-resolvers": "^1.8.0",
+    "graphql": "^14.4.2",
+    "graphql-tag": "^2.10.1",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^1.18.2",
+    "typescript": "3.7.2"
+  },
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "private": true
+}

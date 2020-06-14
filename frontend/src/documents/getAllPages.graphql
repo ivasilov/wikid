@@ -1,0 +1,12 @@
+query getAllPages {
+  currentUser {
+    id
+    pages {
+      id
+      name
+      bookmarks {
+        id
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+overwrite: true
+schema: "backend/schema.graphql"
+documents: "frontend/src/**/*.graphql"
+hooks:
+  afterAllFileWrite:
+    - prettier --write
+generates:
+  frontend/src/models.tsx:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
+    config:
+      typesPrefix: "gql"
+      withHOC: false
+      withComponent: false
+      withHooks: true
+      withMutationFn: false
+  # backend/src/models.ts:
+  #   plugins:
+  #     - typescript
+  #     - typescript-resolvers
+  #   config:
+  #     typesPrefix: 'gql'
+  #     avoidOptionals: true
+  #     useIndexSignature: true
+  #     contextType: ./helpers/context#Context

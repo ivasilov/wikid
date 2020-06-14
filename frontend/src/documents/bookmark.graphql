@@ -1,0 +1,13 @@
+query bookmark($id: ID!) {
+  bookmark(id: $id) {
+    id
+    url
+    name
+    pages {
+      id
+      name
+      description
+      content
+    }
+  }
+}

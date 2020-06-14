@@ -1,0 +1,5 @@
+mutation createBookmark($params: CreateBookmarkInput!) {
+  createBookmark(params: $params) {
+    id
+  }
+}

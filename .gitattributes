@@ -1,0 +1,4 @@
+*.sh eol=lf
+*.js eol=lf
+*.ts eol=lf
+*.tsx eol=lf
