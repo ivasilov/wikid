@@ -3,6 +3,12 @@ image: node:12
 services:
   - postgres:latest
 
+variables:
+  POSTGRES_DB: wikidb
+  POSTGRES_USER: wikid
+  POSTGRES_PASSWORD: wikid
+  POSTGRES_HOST_AUTH_METHOD: trust
+
 stages:
   - install
   - build+test
