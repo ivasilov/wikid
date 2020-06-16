@@ -17,7 +17,7 @@
     "strictPropertyInitialization": false,
     "esModuleInterop": true,
     "removeComments": true,
-    "typeRoots": ["../typings"]
+    "typeRoots": ["../typings", "../node_modules/@types"]
   },
   "exclude": ["node_modules", "build"]
 }
