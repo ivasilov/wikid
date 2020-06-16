@@ -22,7 +22,7 @@ export const Bookmark = (props: Props) => {
   if (loading) {
     return (
       <div className="flex bp3-skeleton">
-        <img className="w-favicon pr-5" />
+        <img className="w-favicon pr-5" alt="bookmark favicon" />
         <div>
           <div className="font-bold">Skeleton text bookmark name</div>
           <div className="font-normal">Skeleton text url</div>
@@ -36,7 +36,11 @@ export const Bookmark = (props: Props) => {
 
     return (
       <div className="flex pb-6">
-        <img className="w-favicon mr-5" src={`https://s2.googleusercontent.com/s2/favicons?domain=${bookmark.url}`} />
+        <img
+          className="w-favicon mr-5"
+          alt="bookmark favicon"
+          src={`https://s2.googleusercontent.com/s2/favicons?domain=${bookmark.url}`}
+        />
         <div>
           <div className="font-bold">
             <a href={bookmark.url}>{bookmark.name}</a>
