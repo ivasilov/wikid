@@ -38,9 +38,15 @@
     "prettier": "^1.18.2",
     "typescript": "3.7.2"
   },
-  "workspaces": [
-    "backend",
-    "frontend"
-  ],
+  "workspaces": {
+    "packages": [
+      "backend",
+      "frontend"
+    ],
+    "nohoist": [
+      "**/typeorm/**",
+      "**/typeorm"
+    ]
+  },
   "private": true
 }
