@@ -33,12 +33,7 @@ build:
 test:backend:
   stage: build+test
   script:
-    - yarn workspace backend run test:e2e
-
-test:backend:e2e:
-  stage: build+test
-  script:
-    - yarn workspace backend run test:e2e
+    - yarn workspace backend run test
 
 test:frontend:
   stage: build+test
