@@ -29,7 +29,7 @@ export const GraphQLClient = Service(
             };
           }),
         )
-        .concat(new BatchHttpLink({ uri: 'http://localhost:4000/api' })),
+        .concat(new BatchHttpLink({ uri: '/api' })),
       cache: new InMemoryCache(),
     }),
 );
