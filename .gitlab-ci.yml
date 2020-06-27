@@ -29,7 +29,7 @@ install:
 build:
   stage: build+test
   script:
-    - yarn build
+    - yarn docker:build && docker push registry.gitlab.com/ivasilov/wikid
 
 test:backend:
   stage: build+test
