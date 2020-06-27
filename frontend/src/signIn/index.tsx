@@ -2,8 +2,6 @@ import * as React from 'react';
 import { Card, InputGroup, Button, FormGroup, Callout } from '@blueprintjs/core';
 import useFetch from 'use-http';
 
-import './index.scss';
-
 export const SignIn = () => {
   let emailInput: any;
   let passwordInput: any;
@@ -25,10 +23,10 @@ export const SignIn = () => {
   }
 
   return (
-    <div className="container">
-      <div className="row align-items-center justify-content-center h-100vh">
-        <Card className="col-4 m-200px" elevation={2}>
-          <div className="my-2">
+    <div className="container mx-auto h-100vh flex">
+      <div className="self-center mx-auto">
+        <Card elevation={2}>
+          <div>
             <form onSubmit={e => submit(e)}>
               <FormGroup label="Email" labelFor="email-input" intent={error ? 'danger' : undefined}>
                 <InputGroup
