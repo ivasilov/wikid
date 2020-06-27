@@ -10,7 +10,6 @@ import { AuthModule } from '../domains/auth';
 import { UsersModule } from '../domains/users';
 
 const frontendPath = join(__dirname, '..', '..', '..', 'frontend', 'build');
-console.log(frontendPath);
 
 @Module({
   imports: [
