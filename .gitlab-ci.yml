@@ -27,9 +27,16 @@ install:
       - ./*/node_modules/
 
 build:
+  image: docker:19.03.11
   stage: build+test
+  services:
+    - docker:19.03.11-dind
+  variables:
+    IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
   script:
-    - yarn docker:build && docker push registry.gitlab.com/ivasilov/wikid
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t $IMAGE_TAG .
+    - docker push $IMAGE_TAG
 
 test:backend:
   stage: build+test
