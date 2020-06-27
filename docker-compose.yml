@@ -1,10 +1,10 @@
 version: '3.4'
 services:
-  deluge:
+  wikid:
     container_name: wikid
-    image: ivasilov/wikid:latest
+    image: registry.gitlab.com/ivasilov/wikid
     restart: unless-stopped
-    network_mode: host # run on the vpn network
+    network_mode: host
     environment:
       - TYPEORM_CONNECTION=postgres
       - TYPEORM_HOST=localhost
@@ -16,3 +16,19 @@ services:
       - TYPEORM_ENTITIES=backend/build/**/entity.js
       - TYPEORM_MIGRATIONS_DIR=backend/build/**/migrations/*.js
       - TYPEORM_MIGRATIONS_TABLE_NAME=migrations
+
+  postgres:
+    container_name: postgres
+    image: postgres:11
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      - POSTGRES_USER=wikid
+      - POSTGRES_PASSWORD=wikid
+      - POSTGRES_DB=wikidb
+      - POSTGRES_PORT=5433
+    volumes:
+      - database-data:/var/lib/postgresql/data/ # persist data even if container shuts down
+
+volumes:
+  database-data:
