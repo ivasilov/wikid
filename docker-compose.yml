@@ -1,0 +1,18 @@
+version: '3.4'
+services:
+  deluge:
+    container_name: wikid
+    image: ivasilov/wikid:latest
+    restart: unless-stopped
+    network_mode: host # run on the vpn network
+    environment:
+      - TYPEORM_CONNECTION=postgres
+      - TYPEORM_HOST=localhost
+      - TYPEORM_PORT=5432
+      - TYPEORM_USERNAME=wikid
+      - TYPEORM_PASSWORD=wikid
+      - TYPEORM_DATABASE=wikidb
+      - TYPEORM_LOGGING=true
+      - TYPEORM_ENTITIES=backend/build/**/entity.js
+      - TYPEORM_MIGRATIONS_DIR=backend/build/**/migrations/*.js
+      - TYPEORM_MIGRATIONS_TABLE_NAME=migrations
