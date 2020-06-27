@@ -9,6 +9,9 @@ import { PagesModule } from '../domains/pages';
 import { AuthModule } from '../domains/auth';
 import { UsersModule } from '../domains/users';
 
+const frontendPath = join(__dirname, '..', '..', '..', 'frontend', 'build');
+console.log(frontendPath);
+
 @Module({
   imports: [
     GraphQLModule.forRoot({
@@ -21,9 +24,9 @@ import { UsersModule } from '../domains/users';
     PagesModule,
     AuthModule,
     UsersModule,
-    // ServeStaticModule.forRoot({
-    //   rootPath: join(__dirname, '..', 'client'),
-    // }),
+    ServeStaticModule.forRoot({
+      rootPath: frontendPath,
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
