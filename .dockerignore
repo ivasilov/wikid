@@ -1,10 +1,11 @@
 Dockerfile
 node_modules
 */node_modules
-*/buil
+*/build
 .gitignore
 .giattributes
 .prettierignore
 .prettierrc
+ormconfig.yml
 README.md
 extension
