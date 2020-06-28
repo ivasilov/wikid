@@ -2,7 +2,7 @@ version: '3.4'
 services:
   wikid:
     container_name: wikid
-    image: registry.gitlab.com/ivasilov/wikid
+    image: registry.gitlab.com/ivasilov/wikid:master
     restart: unless-stopped
     network_mode: host
     environment:
@@ -14,7 +14,8 @@ services:
       - TYPEORM_DATABASE=wikidb
       - TYPEORM_LOGGING=true
       - TYPEORM_ENTITIES=backend/build/**/entity.js
-      - TYPEORM_MIGRATIONS_DIR=backend/build/**/migrations/*.js
+      - TYPEORM_MIGRATIONS_RUN=true
+      - TYPEORM_MIGRATIONS=backend/build/**/migrations/*.js
       - TYPEORM_MIGRATIONS_TABLE_NAME=migrations
 
   postgres:
@@ -26,9 +27,20 @@ services:
       - POSTGRES_USER=wikid
       - POSTGRES_PASSWORD=wikid
       - POSTGRES_DB=wikidb
-      - POSTGRES_PORT=5433
+      - POSTGRES_PORT=5432
     volumes:
       - database-data:/var/lib/postgresql/data/ # persist data even if container shuts down
+
+  watchtower:
+    container_name: watchtower
+    image: containrrr/watchtower
+    restart: unless-stopped
+    environment:
+      - WATCHTOWER_CLEANUP=true # delete old images after restart
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /root/.docker/config.json:/config.json
+    command: --cleanup
 
 volumes:
   database-data:
