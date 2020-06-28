@@ -40,6 +40,7 @@ export const SignIn = () => {
                 <InputGroup
                   id="password-input"
                   large
+                  type="password"
                   inputRef={node => (passwordInput = node)}
                   intent={error ? 'danger' : undefined}
                 />
