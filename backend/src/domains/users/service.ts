@@ -15,7 +15,6 @@ export class UsersService {
   }
 
   findOne(user: Partial<UserEntity>) {
-    console.log(user);
     return this.usersRepository.findOne(user);
   }
 

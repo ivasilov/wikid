@@ -10,7 +10,7 @@ export const SignIn = () => {
   const submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (emailInput && passwordInput) {
-      post({ username: emailInput.value, password: passwordInput.value });
+      post({ email: emailInput.value, password: passwordInput.value });
     }
   };
 

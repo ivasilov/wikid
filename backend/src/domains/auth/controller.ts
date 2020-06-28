@@ -5,10 +5,7 @@ import { AuthGuard } from '@nestjs/passport';
 
 @Controller()
 export class AuthController {
-  constructor(
-    private readonly authService: AuthService,
-    private readonly usersService: UsersService,
-  ) {}
+  constructor(private readonly authService: AuthService, private readonly usersService: UsersService) {}
 
   // @Post('register')
   // public async register(@Response() res, @Body() createUserDto: CreateUserDto) {
@@ -21,22 +18,19 @@ export class AuthController {
 
   @Post('login')
   @UseGuards(AuthGuard('local'))
-  public async login(@Body() body: { username: string; password: string }) {
-    return await this.usersService
-      .findOne({ email: body.username })
-      .then(user => {
-        console.log('cont', user);
-        if (user) {
-          return this.authService.login(user);
-        }
-        // if (!user) {
-        //   res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-        //     message: 'User Not Found',
-        //   });
-        // } else {
-        //   const token = this.authService.login(user);
-        //   return res.status(HttpStatus.OK).json(token);
-        // }
-      });
+  public async login(@Body() body: { email: string; password: string }) {
+    return await this.usersService.findOne({ email: body.email }).then(user => {
+      if (user) {
+        return this.authService.login(user);
+      }
+      // if (!user) {
+      //   res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      //     message: 'User Not Found',
+      //   });
+      // } else {
+      //   const token = this.authService.login(user);
+      //   return res.status(HttpStatus.OK).json(token);
+      // }
+    });
   }
 }

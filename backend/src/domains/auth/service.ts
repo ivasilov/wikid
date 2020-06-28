@@ -19,10 +19,7 @@ export interface IToken {
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private usersService: UsersService,
-    private jwtService: JwtService,
-  ) {}
+  constructor(private usersService: UsersService, private jwtService: JwtService) {}
 
   // async register(user: IUser) {
   //   let status: RegistrationStatus = {
@@ -47,7 +44,6 @@ export class AuthService {
   // }
 
   async validateUser(email: string, pass: string): Promise<any> {
-    console.log('auth validate');
     const user = await this.usersService.findOne({ email });
     if (user && user.password === pass) {
       const { password, ...result } = user;
@@ -56,9 +52,8 @@ export class AuthService {
     return null;
   }
 
-  async login(user: any) {
-    console.log('auth login', user);
-    const payload = { username: user.username, sub: user.userId };
+  async login(user: { id: string; email: string }) {
+    const payload = { email: user.email, id: user.id };
     return {
       accessToken: this.jwtService.sign(payload),
     };
