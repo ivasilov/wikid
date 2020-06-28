@@ -5,3 +5,4 @@ items:
     url: '{{internet.url}}'
     pages:
       - '@page*'
+    user: '@user1'

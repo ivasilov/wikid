@@ -4,3 +4,4 @@ items:
     name: '{{lorem.words}}'
     description: '{{lorem.sentence}}'
     content: '{{lorem.sentences}}'
+    user: '@user1'

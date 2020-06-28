@@ -6,8 +6,10 @@ import {
   JoinTable,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
 } from 'typeorm';
 import { PageEntity } from '../pages/entity';
+import { UserEntity } from '../users/entity';
 
 @Entity('bookmarks')
 export abstract class BookmarkEntity {
@@ -19,6 +21,12 @@ export abstract class BookmarkEntity {
 
   @Column()
   name: string;
+
+  @ManyToOne(
+    type => UserEntity,
+    user => user.bookmarks,
+  )
+  user: UserEntity;
 
   @JoinTable()
   @ManyToMany(

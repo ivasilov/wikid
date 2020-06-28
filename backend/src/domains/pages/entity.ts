@@ -5,8 +5,10 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
 } from 'typeorm';
 import { BookmarkEntity } from '../bookmarks/entity';
+import { UserEntity } from '../users/entity';
 
 @Entity('pages')
 export abstract class PageEntity {
@@ -27,6 +29,12 @@ export abstract class PageEntity {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @ManyToOne(
+    type => UserEntity,
+    user => user.pages,
+  )
+  user: UserEntity;
 
   @ManyToMany(
     type => BookmarkEntity,

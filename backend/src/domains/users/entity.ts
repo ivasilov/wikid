@@ -1,4 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { BookmarkEntity } from '../bookmarks/entity';
+import { PageEntity } from '../pages/entity';
 
 @Entity('users')
 export abstract class UserEntity {
@@ -10,4 +12,16 @@ export abstract class UserEntity {
 
   @Column()
   password: string;
+
+  @OneToMany(
+    type => PageEntity,
+    page => page.user,
+  )
+  pages: PageEntity[];
+
+  @OneToMany(
+    type => BookmarkEntity,
+    bookmark => bookmark.user,
+  )
+  bookmarks: BookmarkEntity[];
 }
