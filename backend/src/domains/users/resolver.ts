@@ -21,19 +21,18 @@ export class UsersResolver {
   @UseGuards(GqlAuthGuard)
   @Query(returns => UserModel)
   currentUser(@CurrentUser() user: UserEntity) {
-    console.log('currentUser', user);
     return this.usersService.findById(user.id);
   }
 
   @UseGuards(GqlAuthGuard)
   @ResolveField(returns => [BookmarkModel])
-  bookmarks() {
-    return this.bookmarksService.getAllBookmarks();
+  bookmarks(@CurrentUser() user: UserEntity) {
+    return this.bookmarksService.getBookmarksByUserId(user.id);
   }
 
   @UseGuards(GqlAuthGuard)
   @ResolveField(returns => [PageModel])
-  pages() {
-    return this.pagesService.getAllPages();
+  pages(@CurrentUser() user: UserEntity) {
+    return this.pagesService.getPagesByUserId(user.id);
   }
 }

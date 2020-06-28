@@ -24,8 +24,8 @@ export class BookmarksService {
       .loadMany() as Promise<PageEntity[]>;
   }
 
-  getAllBookmarks = () => {
-    return this.bookmarkRepository.find();
+  getBookmarksByUserId = (id: string) => {
+    return this.bookmarkRepository.find({ where: { user: id } });
   };
 
   create = async (b: { url: string; name: string; pageIds: string[] }) => {

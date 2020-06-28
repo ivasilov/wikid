@@ -54,7 +54,7 @@ export class PagesService {
     return this.pagesRepository.save(page).then(page => this.pagesRepository.findOneOrFail(page.id));
   };
 
-  getAllPages = () => {
-    return this.pagesRepository.find();
+  getPagesByUserId = (id: string) => {
+    return this.pagesRepository.find({ where: { user: id } });
   };
 }
