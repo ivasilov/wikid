@@ -20,7 +20,6 @@ COPY --from=builder /usr/src/app/yarn.lock ./
 # copy the needed files from the backend
 COPY --from=builder /usr/src/app/backend/package.json ./backend/
 COPY --from=builder /usr/src/app/backend/schema.graphql ./backend/
-COPY --from=builder /usr/src/app/backend/ormconfig.json ./backend/
 COPY --from=builder /usr/src/app/backend/build/ ./backend/build/
 
 # copy the needed files from the frontend

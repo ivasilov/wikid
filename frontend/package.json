@@ -52,7 +52,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --passWithNoTests",
     "clean": "rimraf node_modules && rimraf build/",
     "eject": "react-scripts eject",
     "build:tailwind": "tailwindcss build src/assets/tailwind.css -o src/tailwind.generated.css",
