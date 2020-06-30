@@ -5,7 +5,7 @@ import useFetch from 'use-http';
 export const SignIn = () => {
   let emailInput: any;
   let passwordInput: any;
-  const { loading, error, post, response } = useFetch('/login');
+  const { loading, error, post, response } = useFetch('/login', { cachePolicy: 'no-cache' } as any);
 
   const submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
