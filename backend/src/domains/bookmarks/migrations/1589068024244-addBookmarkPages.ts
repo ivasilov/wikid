@@ -35,14 +35,8 @@ export class addBookmarkPages1589068024244 implements MigrationInterface {
       `ALTER TABLE "bookmarks_pages_pages" DROP CONSTRAINT "FK_e75200ccfcce24ed068ccfd3d7d"`,
       undefined,
     );
-    await queryRunner.query(
-      `DROP INDEX "IDX_a2c12613aeaf23640d6783eeff"`,
-      undefined,
-    );
-    await queryRunner.query(
-      `DROP INDEX "IDX_e75200ccfcce24ed068ccfd3d7"`,
-      undefined,
-    );
+    await queryRunner.query(`DROP INDEX "IDX_a2c12613aeaf23640d6783eeff"`, undefined);
+    await queryRunner.query(`DROP INDEX "IDX_e75200ccfcce24ed068ccfd3d7"`, undefined);
     await queryRunner.query(`DROP TABLE "bookmarks_pages_pages"`, undefined);
   }
 }
