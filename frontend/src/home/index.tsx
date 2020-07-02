@@ -4,6 +4,7 @@ import { Page } from './page';
 import { RouteComponentProps } from 'react-router';
 import { Switch, Route } from 'react-router-dom';
 import { Sidebar } from './sidebar';
+import { NewBookmark } from './new-bookmark';
 
 export const Home = () => {
   return (
@@ -13,6 +14,10 @@ export const Home = () => {
       <div className="w-main col-span-10">
         <div className="pt-2 pb-2 pr-6 flex justify-end">search, options, profile</div>
         <Switch>
+          <Route
+            path="/new-bookmark/:url?"
+            component={(props: RouteComponentProps<{ url: string }>) => <NewBookmark {...props} />}
+          />
           <Route
             path="/page/:id/edit"
             component={(props: RouteComponentProps<{ id: string }>) => <Page {...props} isEditing={true} />}

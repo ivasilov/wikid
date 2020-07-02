@@ -19,10 +19,15 @@ export type gqlBookmark = {
   pages: Array<gqlPage>;
 };
 
+export type gqlBookmarkNullablePageInput = {
+  id?: Maybe<Scalars['ID']>;
+  name: Scalars['String'];
+};
+
 export type gqlCreateBookmarkInput = {
   url: Scalars['String'];
   name: Scalars['String'];
-  pageIds?: Maybe<Array<Scalars['ID']>>;
+  pageIds?: Maybe<Array<gqlBookmarkNullablePageInput>>;
 };
 
 export type gqlCreatePageInput = {
@@ -94,12 +99,7 @@ export type gqlUpdateBookmarkInput = {
   id: Scalars['ID'];
   url?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
-  pageIds?: Maybe<Array<gqlUpdateBookmarkNullablePage>>;
-};
-
-export type gqlUpdateBookmarkNullablePage = {
-  id?: Maybe<Scalars['ID']>;
-  name: Scalars['String'];
+  pageIds?: Maybe<Array<gqlBookmarkNullablePageInput>>;
 };
 
 export type gqlUpdatePageInput = {

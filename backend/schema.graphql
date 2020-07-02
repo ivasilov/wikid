@@ -9,10 +9,15 @@ type Bookmark {
   pages: [Page!]!
 }
 
+input BookmarkNullablePageInput {
+  id: ID
+  name: String!
+}
+
 input CreateBookmarkInput {
   url: String!
   name: String!
-  pageIds: [ID!]
+  pageIds: [BookmarkNullablePageInput!]
 }
 
 input CreatePageInput {
@@ -49,12 +54,7 @@ input UpdateBookmarkInput {
   id: ID!
   url: String
   name: String
-  pageIds: [UpdateBookmarkNullablePage!]
-}
-
-input UpdateBookmarkNullablePage {
-  id: ID
-  name: String!
+  pageIds: [BookmarkNullablePageInput!]
 }
 
 input UpdatePageInput {

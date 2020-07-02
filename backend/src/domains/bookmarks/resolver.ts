@@ -4,6 +4,9 @@ import { BookmarkEntity } from './entity';
 import { BookmarkModel } from './model';
 import { PagesService } from '../pages/service';
 import { PageModel } from '../pages/model';
+import { CurrentUser } from '../auth/currentUser';
+import { GqlAuthGuard } from '../auth/gql.guard';
+import { UseGuards } from '@nestjs/common';
 
 @InputType()
 class CreateBookmarkInput {
@@ -13,8 +16,8 @@ class CreateBookmarkInput {
   @Field()
   name: string;
 
-  @Field(type => [ID], { nullable: true })
-  pageIds: string[];
+  @Field(type => [BookmarkNullablePageInput], { nullable: true })
+  pageIds: { id: string; name: string }[];
 }
 
 @InputType()
@@ -28,12 +31,12 @@ class UpdateBookmarkInput {
   @Field({ nullable: true })
   name: string;
 
-  @Field(type => [UpdateBookmarkNullablePage], { nullable: true })
-  pageIds: string[];
+  @Field(type => [BookmarkNullablePageInput], { nullable: true })
+  pageIds: { id: string; name: string }[];
 }
 
 @InputType()
-class UpdateBookmarkNullablePage {
+class BookmarkNullablePageInput {
   @Field(type => ID, { nullable: true })
   id: string;
 
@@ -41,18 +44,19 @@ class UpdateBookmarkNullablePage {
   name: string;
 }
 
+@UseGuards(GqlAuthGuard)
 @Resolver(BookmarkModel)
 export class BookmarksResolver {
   constructor(private bookmarksService: BookmarksService, private pagesService: PagesService) {}
 
   @Mutation(returns => BookmarkModel)
-  createBookmark(@Args('params') params: CreateBookmarkInput) {
-    return this.bookmarksService.create(params);
+  createBookmark(@CurrentUser() user: { id: string }, @Args('params') params: CreateBookmarkInput) {
+    return this.bookmarksService.create(params, user.id);
   }
 
   @Mutation(returns => BookmarkModel)
-  updateBookmark(@Args('params') params: UpdateBookmarkInput) {
-    return this.bookmarksService.update(params);
+  updateBookmark(@CurrentUser() user: { id: string }, @Args('params') params: UpdateBookmarkInput) {
+    return this.bookmarksService.update(params, user.id);
   }
 
   @Mutation(returns => ID)
