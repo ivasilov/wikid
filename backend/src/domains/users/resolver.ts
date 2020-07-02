@@ -10,6 +10,7 @@ import { BookmarksService } from '../bookmarks/service';
 import { PageModel } from '../pages/model';
 import { PagesService } from '../pages/service';
 
+@UseGuards(GqlAuthGuard)
 @Resolver(UserModel)
 export class UsersResolver {
   constructor(
@@ -18,19 +19,16 @@ export class UsersResolver {
     private pagesService: PagesService,
   ) {}
 
-  @UseGuards(GqlAuthGuard)
   @Query(returns => UserModel)
-  currentUser(@CurrentUser() user: UserEntity) {
+  currentUser(@CurrentUser() user: { id: string }) {
     return this.usersService.findById(user.id);
   }
 
-  @UseGuards(GqlAuthGuard)
   @ResolveField(returns => [BookmarkModel])
   bookmarks(@CurrentUser() user: UserEntity) {
     return this.bookmarksService.getBookmarksByUserId(user.id);
   }
 
-  @UseGuards(GqlAuthGuard)
   @ResolveField(returns => [PageModel])
   pages(@CurrentUser() user: UserEntity) {
     return this.pagesService.getPagesByUserId(user.id);

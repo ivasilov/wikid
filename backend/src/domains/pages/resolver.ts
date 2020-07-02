@@ -3,6 +3,8 @@ import { PagesService } from '../pages/service';
 import { PageModel } from './model';
 import { BookmarkModel } from '../bookmarks/model';
 import { PageEntity } from './entity';
+import { UseGuards } from '@nestjs/common';
+import { GqlAuthGuard } from '../auth/gql.guard';
 
 @InputType()
 export class CreatePageInput {
@@ -34,7 +36,8 @@ class UpdatePageInput {
   content: string;
 }
 
-@Resolver((of: void) => PageModel)
+@UseGuards(GqlAuthGuard)
+@Resolver(PageModel)
 export class PagesResolver {
   constructor(private pagesService: PagesService) {}
 
