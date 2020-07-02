@@ -47,3 +47,8 @@ test:frontend:
   stage: build+test
   script:
     - yarn workspace frontend run test
+
+lint:prettier:
+  stage: build+test
+  script:
+    - yarn lint:prettier
