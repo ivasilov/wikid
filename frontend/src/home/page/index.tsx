@@ -6,6 +6,7 @@ import { SinglePageError } from './error';
 import { usePageQuery } from '../../models';
 import { EditingPage } from './editing-page';
 import { ReadOnlyPage } from './read-only-page';
+import { Loading } from '../../loading';
 
 interface Props extends RouteComponentProps<{ id: string }> {
   isEditing: boolean;
@@ -32,7 +33,7 @@ const InnerPage = observer((props: Props) => {
   }
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (data && data.page) {

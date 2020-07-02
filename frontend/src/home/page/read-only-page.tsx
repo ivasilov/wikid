@@ -5,16 +5,7 @@ import { Bookmark } from './bookmark';
 import { Tabs, Tab, Button } from '@blueprintjs/core';
 import ReactMarkdown from 'react-markdown';
 import { Heading } from './heading';
-
-const Bookmarks = observer((props: { bookmarks: { id: string }[] }) => {
-  return (
-    <>
-      {props.bookmarks.map(b => (
-        <Bookmark key={b.id} id={b.id} />
-      ))}
-    </>
-  );
-});
+import { Bookmarks } from './bookmarks';
 
 const Notes = observer((props: { content: string }) => {
   return <ReactMarkdown className="singlepage-content-text" source={props.content} />;

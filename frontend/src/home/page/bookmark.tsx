@@ -1,3 +1,4 @@
+import './bookmark.scss';
 import * as React from 'react';
 import { useBookmarkQuery } from '../../models';
 import { Button } from '@blueprintjs/core';
