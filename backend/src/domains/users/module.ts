@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { UsersService } from './service';
 import { DatabaseModule } from '../../database/module';
 import { userProviders } from './provider';
@@ -7,7 +7,7 @@ import { BookmarksModule } from '../bookmarks';
 import { PagesModule } from '../pages';
 
 @Module({
-  imports: [DatabaseModule, BookmarksModule, PagesModule],
+  imports: [DatabaseModule, forwardRef(() => BookmarksModule), forwardRef(() => PagesModule)],
   providers: [...userProviders, UsersService, UsersResolver],
   exports: [UsersService],
 })

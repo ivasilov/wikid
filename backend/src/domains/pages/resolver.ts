@@ -5,6 +5,7 @@ import { BookmarkModel } from '../bookmarks/model';
 import { PageEntity } from './entity';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from '../auth/gql.guard';
+import { CurrentUser } from '../auth/currentUser';
 
 @InputType()
 export class CreatePageInput {
@@ -42,13 +43,13 @@ export class PagesResolver {
   constructor(private pagesService: PagesService) {}
 
   @Mutation(returns => PageModel)
-  createPage(@Args('params') params: CreatePageInput) {
-    return this.pagesService.create(params);
+  createPage(@CurrentUser() user: { id: string }, @Args('params') params: CreatePageInput) {
+    return this.pagesService.create(params, user.id);
   }
 
   @Mutation(returns => PageModel)
-  updatePage(@Args('params') params: UpdatePageInput) {
-    return this.pagesService.update(params);
+  updatePage(@CurrentUser() user: { id: string }, @Args('params') params: UpdatePageInput) {
+    return this.pagesService.update(params, user.id);
   }
 
   @Mutation(returns => ID)

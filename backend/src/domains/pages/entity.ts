@@ -33,6 +33,7 @@ export abstract class PageEntity {
   @ManyToOne(
     type => UserEntity,
     user => user.pages,
+    { nullable: false },
   )
   user: UserEntity;
 

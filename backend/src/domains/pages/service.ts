@@ -3,10 +3,14 @@ import { BookmarkEntity } from '../bookmarks/entity';
 import { PageEntity } from './entity';
 import { Repository } from 'typeorm';
 import { PAGES_REPOSITORY } from '../../constants';
+import { UsersService } from '../users/service';
 
 @Injectable()
 export class PagesService {
-  constructor(@Inject(PAGES_REPOSITORY) private pagesRepository: Repository<PageEntity>) {}
+  constructor(
+    @Inject(PAGES_REPOSITORY) private pagesRepository: Repository<PageEntity>,
+    private usersService: UsersService,
+  ) {}
 
   findByIds = async (ids: string[]) => {
     const pages = await this.pagesRepository.findByIds(ids);
@@ -25,7 +29,7 @@ export class PagesService {
       .loadMany() as Promise<BookmarkEntity[]>;
   }
 
-  create = (params: { name: string; description: string; content: string }) => {
+  create = async (params: { name: string; description: string; content: string }, userId: string) => {
     const page = {} as PageEntity;
     page.name = params.name;
     if (params.description) {
@@ -34,11 +38,12 @@ export class PagesService {
     if (params.content) {
       page.content = params.content;
     }
+    page.user = await this.usersService.findById(userId);
 
     return this.pagesRepository.save(page);
   };
 
-  update = (params: { id: string; name: string; description: string; content: string }) => {
+  update = async (params: { id: string; name: string; description: string; content: string }, userId: string) => {
     const page = {} as PageEntity;
     page.id = params.id;
     if (params.name) {
@@ -50,6 +55,8 @@ export class PagesService {
     if (params.content) {
       page.content = params.content;
     }
+
+    page.user = await this.usersService.findById(userId);
 
     return this.pagesRepository.save(page).then(page => this.pagesRepository.findOneOrFail(page.id));
   };

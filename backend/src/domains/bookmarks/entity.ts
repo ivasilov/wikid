@@ -25,6 +25,7 @@ export abstract class BookmarkEntity {
   @ManyToOne(
     type => UserEntity,
     user => user.bookmarks,
+    { nullable: false },
   )
   user: UserEntity;
 
