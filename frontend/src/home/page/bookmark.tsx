@@ -22,11 +22,11 @@ export const Bookmark = (props: Props) => {
 
   if (loading) {
     return (
-      <div className="flex bp3-skeleton">
-        <img className="w-favicon pr-5" alt="bookmark favicon" />
+      <div className="w-bookmark-loading flex pb-6">
+        <img className="w-favicon mr-5 bp3-skeleton" alt="bookmark favicon" />
         <div>
-          <div className="font-bold">Skeleton text bookmark name</div>
-          <div className="font-normal">Skeleton text url</div>
+          <div className="w-bookmark-name font-bold bp3-skeleton">Skeleton text bookmark name</div>
+          <span className="w-bookmark-url font-normal bp3-skeleton">Skeleton text url</span>
         </div>
       </div>
     );
@@ -71,7 +71,7 @@ export const Bookmark = (props: Props) => {
               }
             />
           </div>
-          <div className="font-normal">{new URL(bookmark.url).hostname}</div>
+          <span className="font-normal">{new URL(bookmark.url).hostname}</span>
         </div>
         {deleteBookmarkDialogShown && bookmark ? (
           <DeleteBookmarkDialog

@@ -1,14 +1,14 @@
 import './index.scss';
 import * as React from 'react';
 import { useCurrentUserBookmarkIdsQuery } from '../../models';
-import { Bookmark } from '../page/bookmark';
 import { Bookmarks } from '../page/bookmarks';
+import { Loading } from '../../loading';
 
 export const AllBookmarks = () => {
-  const { data, loading, error } = useCurrentUserBookmarkIdsQuery();
+  const { data, loading } = useCurrentUserBookmarkIdsQuery();
 
   if (loading) {
-    return <div>Loading</div>;
+    return <Loading />;
   }
 
   if (data?.currentUser.bookmarks) {

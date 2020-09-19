@@ -1,14 +1,13 @@
 import './index.scss';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
-import { Dialog, Button, Classes, InputGroup, MenuItem, Spinner, FormGroup } from '@blueprintjs/core';
+import { Button, InputGroup, MenuItem, FormGroup } from '@blueprintjs/core';
 import { MultiSelect, ItemPredicate, IItemRendererProps } from '@blueprintjs/select';
 import { action, observable, computed } from 'mobx';
 import { uniqBy } from 'lodash';
 import Container from 'typedi';
 import { fromPromise } from 'mobx-utils';
 import {
-  useUpdateBookmarkMutation,
   gqlGetAllPagesQuery,
   gqlGetAllPagesQueryVariables,
   GetAllPagesDocument,
@@ -130,7 +129,7 @@ const renderNewTag = (query: string, active: boolean, handleClick: React.MouseEv
 
 export const NewBookmark = observer((props: Props) => {
   const [state] = React.useState(() => new NewBookmarkState(props));
-  const [save, { loading }] = useCreateBookmarkMutation({
+  const [save] = useCreateBookmarkMutation({
     variables: {
       params: {
         name: state.name,

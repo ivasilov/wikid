@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import { Link } from 'react-router-dom';
-import { Bookmark } from './bookmark';
 import { Tabs, Tab, Button } from '@blueprintjs/core';
 import ReactMarkdown from 'react-markdown';
 import { Heading } from './heading';
