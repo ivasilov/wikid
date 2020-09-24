@@ -82,13 +82,23 @@ export type gqlPage = {
 
 export type gqlQuery = {
   __typename?: 'Query';
+  currentUserBookmarks: Array<gqlPage>;
   bookmark: gqlBookmark;
+  currentUserPages: Array<gqlPage>;
   page: gqlPage;
   currentUser: gqlUser;
 };
 
+export type gqlQueryCurrentUserBookmarksArgs = {
+  cursor?: Maybe<Scalars['String']>;
+};
+
 export type gqlQueryBookmarkArgs = {
   id: Scalars['ID'];
+};
+
+export type gqlQueryCurrentUserPagesArgs = {
+  cursor?: Maybe<Scalars['String']>;
 };
 
 export type gqlQueryPageArgs = {
@@ -113,8 +123,6 @@ export type gqlUser = {
   __typename?: 'User';
   id: Scalars['ID'];
   email: Scalars['String'];
-  pages: Array<gqlPage>;
-  bookmarks: Array<gqlBookmark>;
 };
 
 export type gqlBookmarkQueryVariables = {
@@ -152,9 +160,11 @@ export type gqlCurrentUserQuery = { __typename?: 'Query' } & {
 export type gqlCurrentUserBookmarkIdsQueryVariables = {};
 
 export type gqlCurrentUserBookmarkIdsQuery = { __typename?: 'Query' } & {
-  currentUser: { __typename?: 'User' } & Pick<gqlUser, 'id'> & {
-      bookmarks: Array<{ __typename?: 'Bookmark' } & Pick<gqlBookmark, 'id'>>;
-    };
+  currentUserBookmarks: Array<
+    { __typename?: 'Page' } & Pick<gqlPage, 'id'> & {
+        bookmarks: Array<{ __typename?: 'Bookmark' } & Pick<gqlBookmark, 'id'>>;
+      }
+  >;
 };
 
 export type gqlDeleteBookmarkMutationVariables = {
@@ -163,16 +173,16 @@ export type gqlDeleteBookmarkMutationVariables = {
 
 export type gqlDeleteBookmarkMutation = { __typename?: 'Mutation' } & Pick<gqlMutation, 'deleteBookmark'>;
 
-export type gqlGetAllPagesQueryVariables = {};
+export type gqlGetAllPagesQueryVariables = {
+  cursor?: Maybe<Scalars['String']>;
+};
 
 export type gqlGetAllPagesQuery = { __typename?: 'Query' } & {
-  currentUser: { __typename?: 'User' } & Pick<gqlUser, 'id'> & {
-      pages: Array<
-        { __typename?: 'Page' } & Pick<gqlPage, 'id' | 'name'> & {
-            bookmarks: Array<{ __typename?: 'Bookmark' } & Pick<gqlBookmark, 'id'>>;
-          }
-      >;
-    };
+  currentUserPages: Array<
+    { __typename?: 'Page' } & Pick<gqlPage, 'id' | 'name'> & {
+        bookmarks: Array<{ __typename?: 'Bookmark' } & Pick<gqlBookmark, 'id'>>;
+      }
+  >;
 };
 
 export type gqlPageQueryVariables = {
@@ -368,7 +378,7 @@ export type CurrentUserLazyQueryHookResult = ReturnType<typeof useCurrentUserLaz
 export type CurrentUserQueryResult = ApolloReactCommon.QueryResult<gqlCurrentUserQuery, gqlCurrentUserQueryVariables>;
 export const CurrentUserBookmarkIdsDocument = gql`
   query currentUserBookmarkIds {
-    currentUser {
+    currentUserBookmarks {
       id
       bookmarks {
         id
@@ -458,15 +468,12 @@ export type DeleteBookmarkMutationOptions = ApolloReactCommon.BaseMutationOption
   gqlDeleteBookmarkMutationVariables
 >;
 export const GetAllPagesDocument = gql`
-  query getAllPages {
-    currentUser {
+  query getAllPages($cursor: String) {
+    currentUserPages(cursor: $cursor) {
       id
-      pages {
+      name
+      bookmarks {
         id
-        name
-        bookmarks {
-          id
-        }
       }
     }
   }
@@ -484,6 +491,7 @@ export const GetAllPagesDocument = gql`
  * @example
  * const { data, loading, error } = useGetAllPagesQuery({
  *   variables: {
+ *      cursor: // value for 'cursor'
  *   },
  * });
  */

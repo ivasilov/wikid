@@ -11,8 +11,8 @@ export const AllBookmarks = () => {
     return <Loading />;
   }
 
-  if (data?.currentUser.bookmarks) {
-    return <Bookmarks bookmarks={data?.currentUser.bookmarks} className="w-all-bookmarks mx-auto mt-8" />;
+  if (data?.currentUserBookmarks) {
+    return <Bookmarks bookmarks={data.currentUserBookmarks} className="w-all-bookmarks mx-auto mt-8" />;
   }
 
   return <div>Something bad happened.</div>;

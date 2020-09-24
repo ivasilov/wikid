@@ -18,7 +18,7 @@ export const PageCategories = () => {
   console.log(data);
 
   if (data) {
-    const grouped = groupBy(data.currentUser.pages, p => p.name[0]);
+    const grouped = groupBy(data.currentUserPages, p => p.name[0]);
     const sorted = sortBy(keys(grouped), i => i);
 
     return (

@@ -1,12 +1,9 @@
-query getAllPages {
-  currentUser {
+query getAllPages($cursor: String) {
+  currentUserPages(cursor: $cursor) {
     id
-    pages {
+    name
+    bookmarks {
       id
-      name
-      bookmarks {
-        id
-      }
     }
   }
 }

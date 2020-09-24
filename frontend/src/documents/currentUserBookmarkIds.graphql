@@ -1,5 +1,5 @@
 query currentUserBookmarkIds {
-  currentUser {
+  currentUserBookmarks {
     id
     bookmarks {
       id

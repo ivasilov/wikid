@@ -75,7 +75,7 @@ class EditBookmarkDialogState {
     const client = Container.get(GraphQLClient);
     const pages = client
       .query<gqlGetAllPagesQuery, gqlGetAllPagesQueryVariables>({ query: GetAllPagesDocument })
-      .then(v => v.data.currentUser?.pages)
+      .then(v => v.data.currentUserPages)
       .then(pages => {
         return pages.filter(bp => !this.pages.find(p => p.id === bp.id));
       });

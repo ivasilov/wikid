@@ -19,18 +19,18 @@ export const DeleteBookmarkDialog = observer((props: Props) => {
       const bs = cache.readQuery({
         query: CurrentUserBookmarkIdsDocument,
       }) as gqlCurrentUserBookmarkIdsQuery;
-      const filtered = bs.currentUser?.bookmarks.filter(b => b.id !== data?.deleteBookmark);
 
-      cache.writeQuery({
-        query: CurrentUserBookmarkIdsDocument,
-        data: {
-          currentUser: {
-            __typename: bs.currentUser?.__typename,
-            id: bs.currentUser?.id,
-            bookmarks: filtered,
-          },
-        },
-      });
+      // const filtered = bs.currentUserBookmarks.filter(b => b.id !== data?.deleteBookmark);
+      // cache.writeQuery({
+      //   query: CurrentUserBookmarkIdsDocument,
+      //   data: {
+      //     currentUser: {
+      //       __typename: bs.currentUser?.__typename,
+      //       id: bs.currentUser?.id,
+      //       bookmarks: filtered,
+      //     },
+      //   },
+      // });
     },
     onCompleted: () => props.onClose(),
   });
