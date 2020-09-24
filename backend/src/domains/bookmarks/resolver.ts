@@ -64,6 +64,14 @@ export class BookmarksResolver {
     return id;
   }
 
+  @Query(returns => [PageModel], { name: 'currentUserBookmarks' })
+  currentUserBookmarks(
+    @CurrentUser() user: { id: string },
+    @Args('cursor', { nullable: true }) cursor?: string,
+  ): Promise<BookmarkModel[]> {
+    return this.bookmarksService.getBookmarksByUserId(user.id);
+  }
+
   @Query(returns => BookmarkModel, { name: 'bookmark' })
   bookmark(@Args('id', { type: () => ID }) id: string): Promise<BookmarkModel> {
     return this.bookmarksService.findOneById(id);

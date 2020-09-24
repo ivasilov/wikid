@@ -45,7 +45,9 @@ type Page {
 }
 
 type Query {
+  currentUserBookmarks(cursor: String): [Page!]!
   bookmark(id: ID!): Bookmark!
+  currentUserPages(cursor: String): [Page!]!
   page(id: ID!): Page!
   currentUser: User!
 }
@@ -67,6 +69,4 @@ input UpdatePageInput {
 type User {
   id: ID!
   email: String!
-  pages: [Page!]!
-  bookmarks: [Bookmark!]!
 }

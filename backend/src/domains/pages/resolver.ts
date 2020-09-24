@@ -57,6 +57,14 @@ export class PagesResolver {
     return id;
   }
 
+  @Query(returns => [PageModel], { name: 'currentUserPages' })
+  currentUserPages(
+    @CurrentUser() user: { id: string },
+    @Args('cursor', { nullable: true }) cursor?: string,
+  ): Promise<PageModel[]> {
+    return this.pagesService.getPagesByUserId(user.id);
+  }
+
   @Query(returns => PageModel, { name: 'page' })
   page(@Args('id', { type: () => ID }) id: string): Promise<PageModel> {
     return this.pagesService.findByIds([id]).then(pages => pages[0]);
