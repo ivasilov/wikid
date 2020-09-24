@@ -7,7 +7,7 @@ import { PagesModule } from '../pages';
 import { UsersModule } from '../users';
 
 @Module({
-  imports: [DatabaseModule, forwardRef(() => PagesModule), forwardRef(() => UsersModule)],
+  imports: [DatabaseModule, forwardRef(() => PagesModule), UsersModule],
   providers: [...bookmarkProviders, BookmarksService, BookmarksResolver],
   exports: [BookmarksService],
 })
