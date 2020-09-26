@@ -1,0 +1,9 @@
+fragment ReadOnlyPageFragment on Page {
+  id
+  name
+  description
+  content
+  bookmarks {
+    ...BookmarksFragment
+  }
+}

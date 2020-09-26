@@ -1,0 +1,8 @@
+query allBookmarks($cursor: String) {
+  currentUserBookmarks(cursor: $cursor) {
+    cursor
+    bookmarks {
+      ...BookmarksFragment
+    }
+  }
+}

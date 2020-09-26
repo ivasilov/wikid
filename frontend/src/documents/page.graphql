@@ -1,13 +1,5 @@
 query page($id: ID!) {
   page(id: $id) {
-    id
-    name
-    description
-    content
-    bookmarks {
-      id
-      url
-      name
-    }
+    ...ReadOnlyPageFragment
   }
 }

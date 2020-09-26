@@ -5,7 +5,7 @@ import { RouteComponentProps, Redirect } from 'react-router';
 import { Switch, Route } from 'react-router-dom';
 import { Sidebar } from './sidebar';
 import { NewBookmark } from './new-bookmark';
-import { AllBookmarks } from './bookmarks';
+import { AllBookmarks } from './allBookmarks';
 
 export const Home = () => {
   return (

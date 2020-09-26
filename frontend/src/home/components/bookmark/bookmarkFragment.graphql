@@ -1,0 +1,9 @@
+fragment BookmarkFragment on Bookmark {
+  id
+  url
+  name
+  pages {
+    id
+    name
+  }
+}
