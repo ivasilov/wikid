@@ -1,5 +1,6 @@
 import { Injectable, Inject, Scope, ExecutionContext, forwardRef } from '@nestjs/common';
 import { Repository } from 'typeorm';
+import { buildPaginator } from 'typeorm-cursor-pagination';
 import { BOOKMARKS_REPOSITORY } from '../../constants';
 import { BookmarkEntity } from './entity';
 import { PagesService } from '../pages/service';
@@ -26,8 +27,22 @@ export class BookmarksService {
       .loadMany() as Promise<PageEntity[]>;
   }
 
-  getBookmarksByUserId = (id: string) => {
-    return this.bookmarkRepository.find({ where: { user: id } });
+  getBookmarksByUserId = async (id: string, nextCursor?: string) => {
+    const queryBuilder = this.bookmarkRepository.createQueryBuilder('bookmarks').where({ user: id });
+
+    const paginator = buildPaginator({
+      entity: BookmarkEntity,
+      alias: 'bookmarks',
+      query: {
+        limit: 10,
+        order: 'ASC',
+        afterCursor: nextCursor,
+      },
+    });
+
+    // Pass queryBuilder as parameter to get paginate result.
+    const { data, cursor } = await paginator.paginate(queryBuilder);
+    return { bookmarks: data, cursor: cursor.afterCursor };
   };
 
   create = async (b: { url: string; name: string; pageIds: { id: string; name: string }[] }, userId: string) => {

@@ -44,8 +44,13 @@ type Page {
   bookmarks: [Bookmark!]!
 }
 
+type paginatedBookmarks {
+  cursor: String
+  bookmarks: [Bookmark!]!
+}
+
 type Query {
-  currentUserBookmarks(cursor: String): [Page!]!
+  currentUserBookmarks(cursor: String): paginatedBookmarks!
   bookmark(id: ID!): Bookmark!
   currentUserPages(cursor: String): [Page!]!
   page(id: ID!): Page!

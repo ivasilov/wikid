@@ -46,6 +46,7 @@
     "reflect-metadata": "^0.1.12",
     "rxjs": "^6.0.0",
     "typeorm": "^0.2.24",
+    "typeorm-cursor-pagination": "^0.4.1",
     "typeorm-static": "^1.1.1"
   },
   "devDependencies": {

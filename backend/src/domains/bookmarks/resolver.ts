@@ -1,5 +1,16 @@
 import { BookmarksService } from './service';
-import { Resolver, Query, ResolveField, Parent, Args, ID, Mutation, InputType, Field } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  ResolveField,
+  Parent,
+  Args,
+  ID,
+  Mutation,
+  InputType,
+  Field,
+  ObjectType,
+} from '@nestjs/graphql';
 import { BookmarkEntity } from './entity';
 import { BookmarkModel } from './model';
 import { PagesService } from '../pages/service';
@@ -44,6 +55,15 @@ class BookmarkNullablePageInput {
   name: string;
 }
 
+@ObjectType('paginatedBookmarks', { isAbstract: true })
+abstract class PaginatedBookmarksModel {
+  @Field(type => String, { nullable: true })
+  cursor: string;
+
+  @Field(type => [BookmarkModel])
+  bookmarks: BookmarkModel[];
+}
+
 @UseGuards(GqlAuthGuard)
 @Resolver(BookmarkModel)
 export class BookmarksResolver {
@@ -64,12 +84,9 @@ export class BookmarksResolver {
     return id;
   }
 
-  @Query(returns => [PageModel], { name: 'currentUserBookmarks' })
-  currentUserBookmarks(
-    @CurrentUser() user: { id: string },
-    @Args('cursor', { nullable: true }) cursor?: string,
-  ): Promise<BookmarkModel[]> {
-    return this.bookmarksService.getBookmarksByUserId(user.id);
+  @Query(returns => PaginatedBookmarksModel, { name: 'currentUserBookmarks' })
+  currentUserBookmarks(@CurrentUser() user: { id: string }, @Args('cursor', { nullable: true }) cursor?: string) {
+    return this.bookmarksService.getBookmarksByUserId(user.id, cursor);
   }
 
   @Query(returns => BookmarkModel, { name: 'bookmark' })
