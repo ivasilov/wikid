@@ -1,4 +1,4 @@
-import { Resolver, Query, ResolveField, Parent, Args, Mutation, InputType, Field, ID } from '@nestjs/graphql';
+import { Resolver, Query, ResolveField, Parent, Args, Mutation, InputType, Field, ID, Int } from '@nestjs/graphql';
 import { PagesService } from '../pages/service';
 import { PageModel } from './model';
 import { BookmarkModel } from '../bookmarks/model';
@@ -74,5 +74,11 @@ export class PagesResolver {
   bookmarks(@Parent() page: PageEntity) {
     const { id } = page;
     return this.pagesService.getBookmarksByPageId({ id });
+  }
+
+  @ResolveField(returns => Int)
+  bookmarksCount(@Parent() page: PageEntity) {
+    const { id } = page;
+    return this.pagesService.getBookmarksCountByPageId(id);
   }
 }

@@ -1,4 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
+import { isNumber } from 'lodash';
 import { BookmarkEntity } from '../bookmarks/entity';
 import { PageEntity } from './entity';
 import { Repository } from 'typeorm';
@@ -63,5 +64,19 @@ export class PagesService {
 
   getPagesByUserId = (id: string) => {
     return this.pagesRepository.find({ where: { user: id } });
+  };
+
+  getBookmarksCountByPageId = async (id: string) => {
+    const result = await this.pagesRepository
+      .createQueryBuilder('page')
+      .leftJoinAndSelect('page.bookmarks', 'bookmarks')
+      .where({ id: id })
+      .select('COUNT(bookmarks.id)', 'count')
+      .getRawOne();
+    if (result && result.count && isNumber(+result.count)) {
+      return +result.count;
+    } else {
+      return 0;
+    }
   };
 }

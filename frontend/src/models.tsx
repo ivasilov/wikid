@@ -78,6 +78,7 @@ export type gqlPage = {
   description: Scalars['String'];
   content: Scalars['String'];
   bookmarks: Array<gqlBookmark>;
+  bookmarksCount: Scalars['Int'];
 };
 
 export type gqlPaginatedBookmarks = {
@@ -197,16 +198,6 @@ export type gqlPageQuery = { __typename?: 'Query' } & {
   page: { __typename?: 'Page' } & gqlReadOnlyPageFragmentFragment;
 };
 
-export type gqlUpdateBookmarkMutationVariables = {
-  params: gqlUpdateBookmarkInput;
-};
-
-export type gqlUpdateBookmarkMutation = { __typename?: 'Mutation' } & {
-  updateBookmark: { __typename?: 'Bookmark' } & Pick<gqlBookmark, 'id' | 'url' | 'name'> & {
-      pages: Array<{ __typename?: 'Page' } & Pick<gqlPage, 'id' | 'name' | 'description' | 'content'>>;
-    };
-};
-
 export type gqlUpdatePageMutationVariables = {
   params: gqlUpdatePageInput;
 };
@@ -225,11 +216,29 @@ export type gqlAllBookmarksQuery = { __typename?: 'Query' } & {
     };
 };
 
-export type gqlBookmarkFragmentFragment = { __typename?: 'Bookmark' } & Pick<gqlBookmark, 'id' | 'url' | 'name'> & {
-    pages: Array<{ __typename?: 'Page' } & Pick<gqlPage, 'id' | 'name'>>;
-  };
+export type gqlBookmarkFragmentFragment = { __typename?: 'Bookmark' } & Pick<gqlBookmark, 'id' | 'url' | 'name'>;
 
 export type gqlBookmarksFragmentFragment = { __typename?: 'Bookmark' } & gqlBookmarkFragmentFragment;
+
+export type gqlGetBookmarkQueryVariables = {
+  id: Scalars['ID'];
+};
+
+export type gqlGetBookmarkQuery = { __typename?: 'Query' } & {
+  bookmark: { __typename?: 'Bookmark' } & Pick<gqlBookmark, 'id' | 'url' | 'name'> & {
+      pages: Array<{ __typename?: 'Page' } & Pick<gqlPage, 'id' | 'name' | 'description' | 'content'>>;
+    };
+};
+
+export type gqlUpdateBookmarkMutationVariables = {
+  params: gqlUpdateBookmarkInput;
+};
+
+export type gqlUpdateBookmarkMutation = { __typename?: 'Mutation' } & {
+  updateBookmark: { __typename?: 'Bookmark' } & Pick<gqlBookmark, 'id' | 'url' | 'name'> & {
+      pages: Array<{ __typename?: 'Page' } & Pick<gqlPage, 'id' | 'name' | 'description' | 'content'>>;
+    };
+};
 
 export type gqlReadOnlyPageFragmentFragment = { __typename?: 'Page' } & Pick<
   gqlPage,
@@ -241,10 +250,6 @@ export const BookmarkFragmentFragmentDoc = gql`
     id
     url
     name
-    pages {
-      id
-      name
-    }
   }
 `;
 export const BookmarksFragmentFragmentDoc = gql`
@@ -599,53 +604,6 @@ export function usePageLazyQuery(
 export type PageQueryHookResult = ReturnType<typeof usePageQuery>;
 export type PageLazyQueryHookResult = ReturnType<typeof usePageLazyQuery>;
 export type PageQueryResult = ApolloReactCommon.QueryResult<gqlPageQuery, gqlPageQueryVariables>;
-export const UpdateBookmarkDocument = gql`
-  mutation updateBookmark($params: UpdateBookmarkInput!) {
-    updateBookmark(params: $params) {
-      id
-      url
-      name
-      pages {
-        id
-        name
-        description
-        content
-      }
-    }
-  }
-`;
-
-/**
- * __useUpdateBookmarkMutation__
- *
- * To run a mutation, you first call `useUpdateBookmarkMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateBookmarkMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateBookmarkMutation, { data, loading, error }] = useUpdateBookmarkMutation({
- *   variables: {
- *      params: // value for 'params'
- *   },
- * });
- */
-export function useUpdateBookmarkMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<gqlUpdateBookmarkMutation, gqlUpdateBookmarkMutationVariables>,
-) {
-  return ApolloReactHooks.useMutation<gqlUpdateBookmarkMutation, gqlUpdateBookmarkMutationVariables>(
-    UpdateBookmarkDocument,
-    baseOptions,
-  );
-}
-export type UpdateBookmarkMutationHookResult = ReturnType<typeof useUpdateBookmarkMutation>;
-export type UpdateBookmarkMutationResult = ApolloReactCommon.MutationResult<gqlUpdateBookmarkMutation>;
-export type UpdateBookmarkMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  gqlUpdateBookmarkMutation,
-  gqlUpdateBookmarkMutationVariables
->;
 export const UpdatePageDocument = gql`
   mutation updatePage($params: UpdatePageInput!) {
     updatePage(params: $params) {
@@ -737,4 +695,99 @@ export type AllBookmarksLazyQueryHookResult = ReturnType<typeof useAllBookmarksL
 export type AllBookmarksQueryResult = ApolloReactCommon.QueryResult<
   gqlAllBookmarksQuery,
   gqlAllBookmarksQueryVariables
+>;
+export const GetBookmarkDocument = gql`
+  query getBookmark($id: ID!) {
+    bookmark(id: $id) {
+      id
+      url
+      name
+      pages {
+        id
+        name
+        description
+        content
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetBookmarkQuery__
+ *
+ * To run a query within a React component, call `useGetBookmarkQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetBookmarkQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetBookmarkQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetBookmarkQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<gqlGetBookmarkQuery, gqlGetBookmarkQueryVariables>,
+) {
+  return ApolloReactHooks.useQuery<gqlGetBookmarkQuery, gqlGetBookmarkQueryVariables>(GetBookmarkDocument, baseOptions);
+}
+export function useGetBookmarkLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<gqlGetBookmarkQuery, gqlGetBookmarkQueryVariables>,
+) {
+  return ApolloReactHooks.useLazyQuery<gqlGetBookmarkQuery, gqlGetBookmarkQueryVariables>(
+    GetBookmarkDocument,
+    baseOptions,
+  );
+}
+export type GetBookmarkQueryHookResult = ReturnType<typeof useGetBookmarkQuery>;
+export type GetBookmarkLazyQueryHookResult = ReturnType<typeof useGetBookmarkLazyQuery>;
+export type GetBookmarkQueryResult = ApolloReactCommon.QueryResult<gqlGetBookmarkQuery, gqlGetBookmarkQueryVariables>;
+export const UpdateBookmarkDocument = gql`
+  mutation updateBookmark($params: UpdateBookmarkInput!) {
+    updateBookmark(params: $params) {
+      id
+      url
+      name
+      pages {
+        id
+        name
+        description
+        content
+      }
+    }
+  }
+`;
+
+/**
+ * __useUpdateBookmarkMutation__
+ *
+ * To run a mutation, you first call `useUpdateBookmarkMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateBookmarkMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateBookmarkMutation, { data, loading, error }] = useUpdateBookmarkMutation({
+ *   variables: {
+ *      params: // value for 'params'
+ *   },
+ * });
+ */
+export function useUpdateBookmarkMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<gqlUpdateBookmarkMutation, gqlUpdateBookmarkMutationVariables>,
+) {
+  return ApolloReactHooks.useMutation<gqlUpdateBookmarkMutation, gqlUpdateBookmarkMutationVariables>(
+    UpdateBookmarkDocument,
+    baseOptions,
+  );
+}
+export type UpdateBookmarkMutationHookResult = ReturnType<typeof useUpdateBookmarkMutation>;
+export type UpdateBookmarkMutationResult = ApolloReactCommon.MutationResult<gqlUpdateBookmarkMutation>;
+export type UpdateBookmarkMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  gqlUpdateBookmarkMutation,
+  gqlUpdateBookmarkMutationVariables
 >;
