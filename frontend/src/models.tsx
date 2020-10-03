@@ -16,6 +16,7 @@ export type gqlBookmark = {
   id: Scalars['ID'];
   url: Scalars['String'];
   name: Scalars['String'];
+  read: Scalars['Boolean'];
   pages: Array<gqlPage>;
 };
 
@@ -90,6 +91,7 @@ export type gqlPaginatedBookmarks = {
 export type gqlQuery = {
   __typename?: 'Query';
   currentUserBookmarks: gqlPaginatedBookmarks;
+  currentUserUnreadBookmarks: gqlPaginatedBookmarks;
   bookmark: gqlBookmark;
   currentUserPages: Array<gqlPage>;
   page: gqlPage;
@@ -97,6 +99,10 @@ export type gqlQuery = {
 };
 
 export type gqlQueryCurrentUserBookmarksArgs = {
+  cursor?: Maybe<Scalars['String']>;
+};
+
+export type gqlQueryCurrentUserUnreadBookmarksArgs = {
   cursor?: Maybe<Scalars['String']>;
 };
 
@@ -116,6 +122,7 @@ export type gqlUpdateBookmarkInput = {
   id: Scalars['ID'];
   url?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
+  read?: Maybe<Scalars['Boolean']>;
   pageIds?: Maybe<Array<gqlBookmarkNullablePageInput>>;
 };
 
@@ -221,7 +228,7 @@ export type gqlGetBookmarkQueryVariables = {
 };
 
 export type gqlGetBookmarkQuery = { __typename?: 'Query' } & {
-  bookmark: { __typename?: 'Bookmark' } & Pick<gqlBookmark, 'id' | 'url' | 'name'> & {
+  bookmark: { __typename?: 'Bookmark' } & Pick<gqlBookmark, 'id' | 'url' | 'name' | 'read'> & {
       pages: Array<{ __typename?: 'Page' } & Pick<gqlPage, 'id' | 'name' | 'description' | 'content'>>;
     };
 };
@@ -231,7 +238,7 @@ export type gqlUpdateBookmarkMutationVariables = {
 };
 
 export type gqlUpdateBookmarkMutation = { __typename?: 'Mutation' } & {
-  updateBookmark: { __typename?: 'Bookmark' } & Pick<gqlBookmark, 'id' | 'url' | 'name'> & {
+  updateBookmark: { __typename?: 'Bookmark' } & Pick<gqlBookmark, 'id' | 'url' | 'name' | 'read'> & {
       pages: Array<{ __typename?: 'Page' } & Pick<gqlPage, 'id' | 'name' | 'description' | 'content'>>;
     };
 };
@@ -240,6 +247,16 @@ export type gqlReadOnlyPageFragmentFragment = { __typename?: 'Page' } & Pick<
   gqlPage,
   'id' | 'name' | 'description' | 'content'
 > & { bookmarks: Array<{ __typename?: 'Bookmark' } & gqlBookmarksFragmentFragment> };
+
+export type gqlUnreadBookmarksQueryVariables = {
+  cursor?: Maybe<Scalars['String']>;
+};
+
+export type gqlUnreadBookmarksQuery = { __typename?: 'Query' } & {
+  currentUserUnreadBookmarks: { __typename?: 'paginatedBookmarks' } & Pick<gqlPaginatedBookmarks, 'cursor'> & {
+      bookmarks: Array<{ __typename?: 'Bookmark' } & gqlBookmarksFragmentFragment>;
+    };
+};
 
 export const BookmarkFragmentFragmentDoc = gql`
   fragment BookmarkFragment on Bookmark {
@@ -696,6 +713,7 @@ export const GetBookmarkDocument = gql`
       id
       url
       name
+      read
       pages {
         id
         name
@@ -744,6 +762,7 @@ export const UpdateBookmarkDocument = gql`
       id
       url
       name
+      read
       pages {
         id
         name
@@ -784,4 +803,54 @@ export type UpdateBookmarkMutationResult = ApolloReactCommon.MutationResult<gqlU
 export type UpdateBookmarkMutationOptions = ApolloReactCommon.BaseMutationOptions<
   gqlUpdateBookmarkMutation,
   gqlUpdateBookmarkMutationVariables
+>;
+export const UnreadBookmarksDocument = gql`
+  query unreadBookmarks($cursor: String) {
+    currentUserUnreadBookmarks(cursor: $cursor) {
+      cursor
+      bookmarks {
+        ...BookmarksFragment
+      }
+    }
+  }
+  ${BookmarksFragmentFragmentDoc}
+`;
+
+/**
+ * __useUnreadBookmarksQuery__
+ *
+ * To run a query within a React component, call `useUnreadBookmarksQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUnreadBookmarksQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUnreadBookmarksQuery({
+ *   variables: {
+ *      cursor: // value for 'cursor'
+ *   },
+ * });
+ */
+export function useUnreadBookmarksQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<gqlUnreadBookmarksQuery, gqlUnreadBookmarksQueryVariables>,
+) {
+  return ApolloReactHooks.useQuery<gqlUnreadBookmarksQuery, gqlUnreadBookmarksQueryVariables>(
+    UnreadBookmarksDocument,
+    baseOptions,
+  );
+}
+export function useUnreadBookmarksLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<gqlUnreadBookmarksQuery, gqlUnreadBookmarksQueryVariables>,
+) {
+  return ApolloReactHooks.useLazyQuery<gqlUnreadBookmarksQuery, gqlUnreadBookmarksQueryVariables>(
+    UnreadBookmarksDocument,
+    baseOptions,
+  );
+}
+export type UnreadBookmarksQueryHookResult = ReturnType<typeof useUnreadBookmarksQuery>;
+export type UnreadBookmarksLazyQueryHookResult = ReturnType<typeof useUnreadBookmarksLazyQuery>;
+export type UnreadBookmarksQueryResult = ApolloReactCommon.QueryResult<
+  gqlUnreadBookmarksQuery,
+  gqlUnreadBookmarksQueryVariables
 >;

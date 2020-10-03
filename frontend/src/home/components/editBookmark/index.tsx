@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { Dialog, Button, Classes, InputGroup, MenuItem, Spinner, FormGroup } from '@blueprintjs/core';
+import { Dialog, Button, Classes, InputGroup, MenuItem, Spinner, FormGroup, Switch } from '@blueprintjs/core';
 import { MultiSelect, ItemPredicate, IItemRendererProps } from '@blueprintjs/select';
 import { action, observable, computed, runInAction } from 'mobx';
 import { uniqBy } from 'lodash';
@@ -35,6 +35,7 @@ class EditBookmarkDialogState {
 
   @observable pages: IdName[] = [];
   @observable loading: boolean = false;
+  @observable read: boolean = false;
 
   constructor(p: Props) {
     this.props = p;
@@ -53,6 +54,11 @@ class EditBookmarkDialogState {
   @action
   changeUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.url = e.currentTarget.value;
+  };
+
+  @action
+  changeReadFlag = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.read = !this.read;
   };
 
   @action
@@ -106,6 +112,7 @@ class EditBookmarkDialogState {
 
           this.name = bookmark.name;
           this.url = bookmark.url;
+          this.read = bookmark.read;
           this.changePages(bookmark.pages);
         }),
       )
@@ -129,6 +136,7 @@ class EditBookmarkDialogState {
             id: this.props.bookmark.id,
             name: this.name,
             url: this.url,
+            read: this.read,
             pageIds: this.pages,
           },
         },
@@ -206,6 +214,7 @@ export const EditBookmarkDialog = observer((props: Props) => {
             <FormGroup label="Url of the bookmark">
               <InputGroup leftIcon="filter" onChange={state.changeUrl} value={state.url} />
             </FormGroup>
+            <Switch checked={state.read} label="Read" onChange={state.changeReadFlag} />
             <FormGroup label="Pages which have this bookmark">
               {state.availablePages.case({
                 pending: () => <div>Loading</div>,

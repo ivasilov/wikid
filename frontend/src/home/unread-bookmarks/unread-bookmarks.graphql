@@ -1,0 +1,8 @@
+query unreadBookmarks($cursor: String) {
+  currentUserUnreadBookmarks(cursor: $cursor) {
+    cursor
+    bookmarks {
+      ...BookmarksFragment
+    }
+  }
+}

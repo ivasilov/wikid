@@ -41,4 +41,7 @@ export abstract class BookmarkEntity {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @Column()
+  read: boolean;
 }

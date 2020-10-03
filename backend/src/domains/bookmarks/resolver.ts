@@ -42,6 +42,9 @@ class UpdateBookmarkInput {
   @Field({ nullable: true })
   name: string;
 
+  @Field({ nullable: true })
+  read: boolean;
+
   @Field(type => [BookmarkNullablePageInput], { nullable: true })
   pageIds: { id: string; name: string }[];
 }
@@ -86,7 +89,12 @@ export class BookmarksResolver {
 
   @Query(returns => PaginatedBookmarksModel, { name: 'currentUserBookmarks' })
   currentUserBookmarks(@CurrentUser() user: { id: string }, @Args('cursor', { nullable: true }) cursor?: string) {
-    return this.bookmarksService.getBookmarksByUserId(user.id, cursor);
+    return this.bookmarksService.getBookmarksByUserId(user.id, false, cursor);
+  }
+
+  @Query(returns => PaginatedBookmarksModel, { name: 'currentUserUnreadBookmarks' })
+  currentUserUnreadBookmarks(@CurrentUser() user: { id: string }, @Args('cursor', { nullable: true }) cursor?: string) {
+    return this.bookmarksService.getBookmarksByUserId(user.id, true, cursor);
   }
 
   @Query(returns => BookmarkModel, { name: 'bookmark' })

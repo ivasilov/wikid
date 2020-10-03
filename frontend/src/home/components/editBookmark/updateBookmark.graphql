@@ -3,6 +3,7 @@ mutation updateBookmark($params: UpdateBookmarkInput!) {
     id
     url
     name
+    read
     pages {
       id
       name

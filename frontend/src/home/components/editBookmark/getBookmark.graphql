@@ -3,6 +3,7 @@ query getBookmark($id: ID!) {
     id
     url
     name
+    read
     pages {
       id
       name

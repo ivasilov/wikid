@@ -6,6 +6,7 @@ import { Switch, Route } from 'react-router-dom';
 import { Sidebar } from './sidebar';
 import { NewBookmark } from './new-bookmark';
 import { AllBookmarks } from './allBookmarks';
+import { UnreadBookmarks } from './unread-bookmarks';
 
 export const Home = () => {
   return (
@@ -27,6 +28,7 @@ export const Home = () => {
             component={(props: RouteComponentProps<{ id: string }>) => <Page {...props} isEditing={false} />}
           />
 
+          <Route path="/bookmarks/unread" component={UnreadBookmarks} />
           <Route path="/bookmarks" component={AllBookmarks} />
           <Redirect from="/" to="bookmarks" />
           {/* <Route path="/profile" component={Profile} /> */}

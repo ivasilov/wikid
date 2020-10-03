@@ -12,6 +12,9 @@ export class BookmarkModel {
   @Field()
   name: string;
 
+  @Field()
+  read: boolean;
+
   @Field(type => [PageModel])
   pages: PageModel[];
 }

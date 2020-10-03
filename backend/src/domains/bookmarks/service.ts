@@ -27,8 +27,14 @@ export class BookmarksService {
       .loadMany() as Promise<PageEntity[]>;
   }
 
-  getBookmarksByUserId = async (id: string, nextCursor?: string) => {
-    const queryBuilder = this.bookmarkRepository.createQueryBuilder('bookmarks').where({ user: id });
+  getBookmarksByUserId = async (id: string, showOnlyUnread: boolean, nextCursor?: string) => {
+    const criteria = { user: id } as any;
+    // if the flag is true, filter out all read bookmarks
+    if (showOnlyUnread) {
+      criteria.read = false;
+    }
+
+    const queryBuilder = this.bookmarkRepository.createQueryBuilder('bookmarks').where(criteria);
 
     const paginator = buildPaginator({
       entity: BookmarkEntity,
@@ -72,12 +78,13 @@ export class BookmarksService {
   };
 
   update = async (
-    b: { id: string; url: string; name: string; pageIds: { id: string; name: string }[] },
+    b: { id: string; url: string; name: string; read: boolean; pageIds: { id: string; name: string }[] },
     userId: string,
   ) => {
     const found = (await this.bookmarkRepository.findOneOrFail({ id: b.id })) as any;
     found.url = b.url ?? found.url;
     found.name = b.name ?? found.name;
+    found.read = b.read ?? found.read;
     if (b.pageIds) {
       // find the existing pages
       const pIds = b.pageIds.map(p => p.id);

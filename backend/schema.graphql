@@ -6,6 +6,7 @@ type Bookmark {
   id: ID!
   url: String!
   name: String!
+  read: Boolean!
   pages: [Page!]!
 }
 
@@ -52,6 +53,7 @@ type paginatedBookmarks {
 
 type Query {
   currentUserBookmarks(cursor: String): paginatedBookmarks!
+  currentUserUnreadBookmarks(cursor: String): paginatedBookmarks!
   bookmark(id: ID!): Bookmark!
   currentUserPages(cursor: String): [Page!]!
   page(id: ID!): Page!
@@ -62,6 +64,7 @@ input UpdateBookmarkInput {
   id: ID!
   url: String
   name: String
+  read: Boolean
   pageIds: [BookmarkNullablePageInput!]
 }
 
