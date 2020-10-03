@@ -15,8 +15,6 @@ export const PageCategories = () => {
     return <PageCategoriesLoader />;
   }
 
-  console.log(data);
-
   if (data) {
     const grouped = groupBy(data.currentUserPages, p => p.name[0]);
     const sorted = sortBy(keys(grouped), i => i);
@@ -36,7 +34,7 @@ export const PageCategories = () => {
                       <div className="flex-auto">
                         <Link to={`/page/${item.id}`}>{item.name}</Link>
                       </div>
-                      <div className="pr-8">{item.bookmarks.length}</div>
+                      <div className="pr-8">{item.bookmarksCount}</div>
                     </div>
                   );
                 })}

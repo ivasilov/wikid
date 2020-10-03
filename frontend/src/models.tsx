@@ -183,11 +183,7 @@ export type gqlGetAllPagesQueryVariables = {
 };
 
 export type gqlGetAllPagesQuery = { __typename?: 'Query' } & {
-  currentUserPages: Array<
-    { __typename?: 'Page' } & Pick<gqlPage, 'id' | 'name'> & {
-        bookmarks: Array<{ __typename?: 'Bookmark' } & Pick<gqlBookmark, 'id'>>;
-      }
-  >;
+  currentUserPages: Array<{ __typename?: 'Page' } & Pick<gqlPage, 'id' | 'name' | 'bookmarksCount'>>;
 };
 
 export type gqlPageQueryVariables = {
@@ -529,9 +525,7 @@ export const GetAllPagesDocument = gql`
     currentUserPages(cursor: $cursor) {
       id
       name
-      bookmarks {
-        id
-      }
+      bookmarksCount
     }
   }
 `;

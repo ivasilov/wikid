@@ -2,8 +2,6 @@ query getAllPages($cursor: String) {
   currentUserPages(cursor: $cursor) {
     id
     name
-    bookmarks {
-      id
-    }
+    bookmarksCount
   }
 }
