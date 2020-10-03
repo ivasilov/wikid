@@ -4,7 +4,7 @@ import { Bookmarks } from '../components/bookmarks';
 import { Loading } from '../../loading';
 
 export const UnreadBookmarks = () => {
-  const { data, loading, fetchMore } = useUnreadBookmarksQuery();
+  const { data, loading, fetchMore } = useUnreadBookmarksQuery({ fetchPolicy: 'network-only' });
 
   if (loading) {
     return <Loading />;
