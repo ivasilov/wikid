@@ -30,16 +30,9 @@ export abstract class PageEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(
-    type => UserEntity,
-    user => user.pages,
-    { nullable: false },
-  )
+  @ManyToOne(type => UserEntity, user => user.pages, { nullable: false })
   user: UserEntity;
 
-  @ManyToMany(
-    type => BookmarkEntity,
-    bookmark => bookmark.pages,
-  )
+  @ManyToMany(type => BookmarkEntity, bookmark => bookmark.pages)
   bookmarks: BookmarkEntity[];
 }

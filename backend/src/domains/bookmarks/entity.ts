@@ -22,18 +22,11 @@ export abstract class BookmarkEntity {
   @Column()
   name: string;
 
-  @ManyToOne(
-    type => UserEntity,
-    user => user.bookmarks,
-    { nullable: false },
-  )
+  @ManyToOne(type => UserEntity, user => user.bookmarks, { nullable: false })
   user: UserEntity;
 
   @JoinTable()
-  @ManyToMany(
-    type => PageEntity,
-    page => page.bookmarks,
-  )
+  @ManyToMany(type => PageEntity, page => page.bookmarks)
   pages: PageEntity[];
 
   @CreateDateColumn()

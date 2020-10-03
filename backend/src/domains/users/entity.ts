@@ -13,15 +13,9 @@ export abstract class UserEntity {
   @Column()
   password: string;
 
-  @OneToMany(
-    type => PageEntity,
-    page => page.user,
-  )
+  @OneToMany(type => PageEntity, page => page.user)
   pages: PageEntity[];
 
-  @OneToMany(
-    type => BookmarkEntity,
-    bookmark => bookmark.user,
-  )
+  @OneToMany(type => BookmarkEntity, bookmark => bookmark.user)
   bookmarks: BookmarkEntity[];
 }
