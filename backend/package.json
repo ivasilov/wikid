@@ -22,7 +22,7 @@
     "clean": "run-p clean:*",
     "clean:build": "rimraf build/",
     "clean:modules": "rimraf node_modules",
-    "db:seed": "fixtures ./fixtures",
+    "db:seed": "yarn clean:build && yarn build && fixtures ./fixtures",
     "migration:generate": "typeorm migration:generate -d src/migrations -n ",
     "migration:run": "yarn clean:build && yarn build && typeorm migration:run"
   },
