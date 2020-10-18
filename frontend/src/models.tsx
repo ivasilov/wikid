@@ -1,6 +1,5 @@
-import gql from 'graphql-tag';
-import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactHooks from '@apollo/react-hooks';
+import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 /** All built-in and custom scalars, mapped to their actual values */
@@ -316,19 +315,17 @@ export const BookmarkDocument = /*#__PURE__*/ gql`
  *   },
  * });
  */
-export function useBookmarkQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<gqlBookmarkQuery, gqlBookmarkQueryVariables>,
-) {
-  return ApolloReactHooks.useQuery<gqlBookmarkQuery, gqlBookmarkQueryVariables>(BookmarkDocument, baseOptions);
+export function useBookmarkQuery(baseOptions?: Apollo.QueryHookOptions<gqlBookmarkQuery, gqlBookmarkQueryVariables>) {
+  return Apollo.useQuery<gqlBookmarkQuery, gqlBookmarkQueryVariables>(BookmarkDocument, baseOptions);
 }
 export function useBookmarkLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<gqlBookmarkQuery, gqlBookmarkQueryVariables>,
+  baseOptions?: Apollo.LazyQueryHookOptions<gqlBookmarkQuery, gqlBookmarkQueryVariables>,
 ) {
-  return ApolloReactHooks.useLazyQuery<gqlBookmarkQuery, gqlBookmarkQueryVariables>(BookmarkDocument, baseOptions);
+  return Apollo.useLazyQuery<gqlBookmarkQuery, gqlBookmarkQueryVariables>(BookmarkDocument, baseOptions);
 }
 export type BookmarkQueryHookResult = ReturnType<typeof useBookmarkQuery>;
 export type BookmarkLazyQueryHookResult = ReturnType<typeof useBookmarkLazyQuery>;
-export type BookmarkQueryResult = ApolloReactCommon.QueryResult<gqlBookmarkQuery, gqlBookmarkQueryVariables>;
+export type BookmarkQueryResult = Apollo.QueryResult<gqlBookmarkQuery, gqlBookmarkQueryVariables>;
 export const CreateBookmarkDocument = /*#__PURE__*/ gql`
   mutation createBookmark($params: CreateBookmarkInput!) {
     createBookmark(params: $params) {
@@ -355,16 +352,16 @@ export const CreateBookmarkDocument = /*#__PURE__*/ gql`
  * });
  */
 export function useCreateBookmarkMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<gqlCreateBookmarkMutation, gqlCreateBookmarkMutationVariables>,
+  baseOptions?: Apollo.MutationHookOptions<gqlCreateBookmarkMutation, gqlCreateBookmarkMutationVariables>,
 ) {
-  return ApolloReactHooks.useMutation<gqlCreateBookmarkMutation, gqlCreateBookmarkMutationVariables>(
+  return Apollo.useMutation<gqlCreateBookmarkMutation, gqlCreateBookmarkMutationVariables>(
     CreateBookmarkDocument,
     baseOptions,
   );
 }
 export type CreateBookmarkMutationHookResult = ReturnType<typeof useCreateBookmarkMutation>;
-export type CreateBookmarkMutationResult = ApolloReactCommon.MutationResult<gqlCreateBookmarkMutation>;
-export type CreateBookmarkMutationOptions = ApolloReactCommon.BaseMutationOptions<
+export type CreateBookmarkMutationResult = Apollo.MutationResult<gqlCreateBookmarkMutation>;
+export type CreateBookmarkMutationOptions = Apollo.BaseMutationOptions<
   gqlCreateBookmarkMutation,
   gqlCreateBookmarkMutationVariables
 >;
@@ -394,16 +391,13 @@ export const CreatePageDocument = /*#__PURE__*/ gql`
  * });
  */
 export function useCreatePageMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<gqlCreatePageMutation, gqlCreatePageMutationVariables>,
+  baseOptions?: Apollo.MutationHookOptions<gqlCreatePageMutation, gqlCreatePageMutationVariables>,
 ) {
-  return ApolloReactHooks.useMutation<gqlCreatePageMutation, gqlCreatePageMutationVariables>(
-    CreatePageDocument,
-    baseOptions,
-  );
+  return Apollo.useMutation<gqlCreatePageMutation, gqlCreatePageMutationVariables>(CreatePageDocument, baseOptions);
 }
 export type CreatePageMutationHookResult = ReturnType<typeof useCreatePageMutation>;
-export type CreatePageMutationResult = ApolloReactCommon.MutationResult<gqlCreatePageMutation>;
-export type CreatePageMutationOptions = ApolloReactCommon.BaseMutationOptions<
+export type CreatePageMutationResult = Apollo.MutationResult<gqlCreatePageMutation>;
+export type CreatePageMutationOptions = Apollo.BaseMutationOptions<
   gqlCreatePageMutation,
   gqlCreatePageMutationVariables
 >;
@@ -432,21 +426,18 @@ export const CurrentUserDocument = /*#__PURE__*/ gql`
  * });
  */
 export function useCurrentUserQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<gqlCurrentUserQuery, gqlCurrentUserQueryVariables>,
+  baseOptions?: Apollo.QueryHookOptions<gqlCurrentUserQuery, gqlCurrentUserQueryVariables>,
 ) {
-  return ApolloReactHooks.useQuery<gqlCurrentUserQuery, gqlCurrentUserQueryVariables>(CurrentUserDocument, baseOptions);
+  return Apollo.useQuery<gqlCurrentUserQuery, gqlCurrentUserQueryVariables>(CurrentUserDocument, baseOptions);
 }
 export function useCurrentUserLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<gqlCurrentUserQuery, gqlCurrentUserQueryVariables>,
+  baseOptions?: Apollo.LazyQueryHookOptions<gqlCurrentUserQuery, gqlCurrentUserQueryVariables>,
 ) {
-  return ApolloReactHooks.useLazyQuery<gqlCurrentUserQuery, gqlCurrentUserQueryVariables>(
-    CurrentUserDocument,
-    baseOptions,
-  );
+  return Apollo.useLazyQuery<gqlCurrentUserQuery, gqlCurrentUserQueryVariables>(CurrentUserDocument, baseOptions);
 }
 export type CurrentUserQueryHookResult = ReturnType<typeof useCurrentUserQuery>;
 export type CurrentUserLazyQueryHookResult = ReturnType<typeof useCurrentUserLazyQuery>;
-export type CurrentUserQueryResult = ApolloReactCommon.QueryResult<gqlCurrentUserQuery, gqlCurrentUserQueryVariables>;
+export type CurrentUserQueryResult = Apollo.QueryResult<gqlCurrentUserQuery, gqlCurrentUserQueryVariables>;
 export const CurrentUserBookmarkIdsDocument = /*#__PURE__*/ gql`
   query currentUserBookmarkIds {
     currentUserBookmarks {
@@ -474,30 +465,24 @@ export const CurrentUserBookmarkIdsDocument = /*#__PURE__*/ gql`
  * });
  */
 export function useCurrentUserBookmarkIdsQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<
-    gqlCurrentUserBookmarkIdsQuery,
-    gqlCurrentUserBookmarkIdsQueryVariables
-  >,
+  baseOptions?: Apollo.QueryHookOptions<gqlCurrentUserBookmarkIdsQuery, gqlCurrentUserBookmarkIdsQueryVariables>,
 ) {
-  return ApolloReactHooks.useQuery<gqlCurrentUserBookmarkIdsQuery, gqlCurrentUserBookmarkIdsQueryVariables>(
+  return Apollo.useQuery<gqlCurrentUserBookmarkIdsQuery, gqlCurrentUserBookmarkIdsQueryVariables>(
     CurrentUserBookmarkIdsDocument,
     baseOptions,
   );
 }
 export function useCurrentUserBookmarkIdsLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
-    gqlCurrentUserBookmarkIdsQuery,
-    gqlCurrentUserBookmarkIdsQueryVariables
-  >,
+  baseOptions?: Apollo.LazyQueryHookOptions<gqlCurrentUserBookmarkIdsQuery, gqlCurrentUserBookmarkIdsQueryVariables>,
 ) {
-  return ApolloReactHooks.useLazyQuery<gqlCurrentUserBookmarkIdsQuery, gqlCurrentUserBookmarkIdsQueryVariables>(
+  return Apollo.useLazyQuery<gqlCurrentUserBookmarkIdsQuery, gqlCurrentUserBookmarkIdsQueryVariables>(
     CurrentUserBookmarkIdsDocument,
     baseOptions,
   );
 }
 export type CurrentUserBookmarkIdsQueryHookResult = ReturnType<typeof useCurrentUserBookmarkIdsQuery>;
 export type CurrentUserBookmarkIdsLazyQueryHookResult = ReturnType<typeof useCurrentUserBookmarkIdsLazyQuery>;
-export type CurrentUserBookmarkIdsQueryResult = ApolloReactCommon.QueryResult<
+export type CurrentUserBookmarkIdsQueryResult = Apollo.QueryResult<
   gqlCurrentUserBookmarkIdsQuery,
   gqlCurrentUserBookmarkIdsQueryVariables
 >;
@@ -525,16 +510,16 @@ export const DeleteBookmarkDocument = /*#__PURE__*/ gql`
  * });
  */
 export function useDeleteBookmarkMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<gqlDeleteBookmarkMutation, gqlDeleteBookmarkMutationVariables>,
+  baseOptions?: Apollo.MutationHookOptions<gqlDeleteBookmarkMutation, gqlDeleteBookmarkMutationVariables>,
 ) {
-  return ApolloReactHooks.useMutation<gqlDeleteBookmarkMutation, gqlDeleteBookmarkMutationVariables>(
+  return Apollo.useMutation<gqlDeleteBookmarkMutation, gqlDeleteBookmarkMutationVariables>(
     DeleteBookmarkDocument,
     baseOptions,
   );
 }
 export type DeleteBookmarkMutationHookResult = ReturnType<typeof useDeleteBookmarkMutation>;
-export type DeleteBookmarkMutationResult = ApolloReactCommon.MutationResult<gqlDeleteBookmarkMutation>;
-export type DeleteBookmarkMutationOptions = ApolloReactCommon.BaseMutationOptions<
+export type DeleteBookmarkMutationResult = Apollo.MutationResult<gqlDeleteBookmarkMutation>;
+export type DeleteBookmarkMutationOptions = Apollo.BaseMutationOptions<
   gqlDeleteBookmarkMutation,
   gqlDeleteBookmarkMutationVariables
 >;
@@ -565,21 +550,18 @@ export const GetAllPagesDocument = /*#__PURE__*/ gql`
  * });
  */
 export function useGetAllPagesQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<gqlGetAllPagesQuery, gqlGetAllPagesQueryVariables>,
+  baseOptions?: Apollo.QueryHookOptions<gqlGetAllPagesQuery, gqlGetAllPagesQueryVariables>,
 ) {
-  return ApolloReactHooks.useQuery<gqlGetAllPagesQuery, gqlGetAllPagesQueryVariables>(GetAllPagesDocument, baseOptions);
+  return Apollo.useQuery<gqlGetAllPagesQuery, gqlGetAllPagesQueryVariables>(GetAllPagesDocument, baseOptions);
 }
 export function useGetAllPagesLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<gqlGetAllPagesQuery, gqlGetAllPagesQueryVariables>,
+  baseOptions?: Apollo.LazyQueryHookOptions<gqlGetAllPagesQuery, gqlGetAllPagesQueryVariables>,
 ) {
-  return ApolloReactHooks.useLazyQuery<gqlGetAllPagesQuery, gqlGetAllPagesQueryVariables>(
-    GetAllPagesDocument,
-    baseOptions,
-  );
+  return Apollo.useLazyQuery<gqlGetAllPagesQuery, gqlGetAllPagesQueryVariables>(GetAllPagesDocument, baseOptions);
 }
 export type GetAllPagesQueryHookResult = ReturnType<typeof useGetAllPagesQuery>;
 export type GetAllPagesLazyQueryHookResult = ReturnType<typeof useGetAllPagesLazyQuery>;
-export type GetAllPagesQueryResult = ApolloReactCommon.QueryResult<gqlGetAllPagesQuery, gqlGetAllPagesQueryVariables>;
+export type GetAllPagesQueryResult = Apollo.QueryResult<gqlGetAllPagesQuery, gqlGetAllPagesQueryVariables>;
 export const PageDocument = /*#__PURE__*/ gql`
   query page($id: ID!) {
     page(id: $id) {
@@ -605,17 +587,15 @@ export const PageDocument = /*#__PURE__*/ gql`
  *   },
  * });
  */
-export function usePageQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<gqlPageQuery, gqlPageQueryVariables>) {
-  return ApolloReactHooks.useQuery<gqlPageQuery, gqlPageQueryVariables>(PageDocument, baseOptions);
+export function usePageQuery(baseOptions?: Apollo.QueryHookOptions<gqlPageQuery, gqlPageQueryVariables>) {
+  return Apollo.useQuery<gqlPageQuery, gqlPageQueryVariables>(PageDocument, baseOptions);
 }
-export function usePageLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<gqlPageQuery, gqlPageQueryVariables>,
-) {
-  return ApolloReactHooks.useLazyQuery<gqlPageQuery, gqlPageQueryVariables>(PageDocument, baseOptions);
+export function usePageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<gqlPageQuery, gqlPageQueryVariables>) {
+  return Apollo.useLazyQuery<gqlPageQuery, gqlPageQueryVariables>(PageDocument, baseOptions);
 }
 export type PageQueryHookResult = ReturnType<typeof usePageQuery>;
 export type PageLazyQueryHookResult = ReturnType<typeof usePageLazyQuery>;
-export type PageQueryResult = ApolloReactCommon.QueryResult<gqlPageQuery, gqlPageQueryVariables>;
+export type PageQueryResult = Apollo.QueryResult<gqlPageQuery, gqlPageQueryVariables>;
 export const UpdatePageDocument = /*#__PURE__*/ gql`
   mutation updatePage($params: UpdatePageInput!) {
     updatePage(params: $params) {
@@ -645,16 +625,13 @@ export const UpdatePageDocument = /*#__PURE__*/ gql`
  * });
  */
 export function useUpdatePageMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<gqlUpdatePageMutation, gqlUpdatePageMutationVariables>,
+  baseOptions?: Apollo.MutationHookOptions<gqlUpdatePageMutation, gqlUpdatePageMutationVariables>,
 ) {
-  return ApolloReactHooks.useMutation<gqlUpdatePageMutation, gqlUpdatePageMutationVariables>(
-    UpdatePageDocument,
-    baseOptions,
-  );
+  return Apollo.useMutation<gqlUpdatePageMutation, gqlUpdatePageMutationVariables>(UpdatePageDocument, baseOptions);
 }
 export type UpdatePageMutationHookResult = ReturnType<typeof useUpdatePageMutation>;
-export type UpdatePageMutationResult = ApolloReactCommon.MutationResult<gqlUpdatePageMutation>;
-export type UpdatePageMutationOptions = ApolloReactCommon.BaseMutationOptions<
+export type UpdatePageMutationResult = Apollo.MutationResult<gqlUpdatePageMutation>;
+export type UpdatePageMutationOptions = Apollo.BaseMutationOptions<
   gqlUpdatePageMutation,
   gqlUpdatePageMutationVariables
 >;
@@ -687,27 +664,18 @@ export const AllBookmarksDocument = /*#__PURE__*/ gql`
  * });
  */
 export function useAllBookmarksQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<gqlAllBookmarksQuery, gqlAllBookmarksQueryVariables>,
+  baseOptions?: Apollo.QueryHookOptions<gqlAllBookmarksQuery, gqlAllBookmarksQueryVariables>,
 ) {
-  return ApolloReactHooks.useQuery<gqlAllBookmarksQuery, gqlAllBookmarksQueryVariables>(
-    AllBookmarksDocument,
-    baseOptions,
-  );
+  return Apollo.useQuery<gqlAllBookmarksQuery, gqlAllBookmarksQueryVariables>(AllBookmarksDocument, baseOptions);
 }
 export function useAllBookmarksLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<gqlAllBookmarksQuery, gqlAllBookmarksQueryVariables>,
+  baseOptions?: Apollo.LazyQueryHookOptions<gqlAllBookmarksQuery, gqlAllBookmarksQueryVariables>,
 ) {
-  return ApolloReactHooks.useLazyQuery<gqlAllBookmarksQuery, gqlAllBookmarksQueryVariables>(
-    AllBookmarksDocument,
-    baseOptions,
-  );
+  return Apollo.useLazyQuery<gqlAllBookmarksQuery, gqlAllBookmarksQueryVariables>(AllBookmarksDocument, baseOptions);
 }
 export type AllBookmarksQueryHookResult = ReturnType<typeof useAllBookmarksQuery>;
 export type AllBookmarksLazyQueryHookResult = ReturnType<typeof useAllBookmarksLazyQuery>;
-export type AllBookmarksQueryResult = ApolloReactCommon.QueryResult<
-  gqlAllBookmarksQuery,
-  gqlAllBookmarksQueryVariables
->;
+export type AllBookmarksQueryResult = Apollo.QueryResult<gqlAllBookmarksQuery, gqlAllBookmarksQueryVariables>;
 export const GetBookmarkDocument = /*#__PURE__*/ gql`
   query getBookmark($id: ID!) {
     bookmark(id: $id) {
@@ -742,21 +710,18 @@ export const GetBookmarkDocument = /*#__PURE__*/ gql`
  * });
  */
 export function useGetBookmarkQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<gqlGetBookmarkQuery, gqlGetBookmarkQueryVariables>,
+  baseOptions?: Apollo.QueryHookOptions<gqlGetBookmarkQuery, gqlGetBookmarkQueryVariables>,
 ) {
-  return ApolloReactHooks.useQuery<gqlGetBookmarkQuery, gqlGetBookmarkQueryVariables>(GetBookmarkDocument, baseOptions);
+  return Apollo.useQuery<gqlGetBookmarkQuery, gqlGetBookmarkQueryVariables>(GetBookmarkDocument, baseOptions);
 }
 export function useGetBookmarkLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<gqlGetBookmarkQuery, gqlGetBookmarkQueryVariables>,
+  baseOptions?: Apollo.LazyQueryHookOptions<gqlGetBookmarkQuery, gqlGetBookmarkQueryVariables>,
 ) {
-  return ApolloReactHooks.useLazyQuery<gqlGetBookmarkQuery, gqlGetBookmarkQueryVariables>(
-    GetBookmarkDocument,
-    baseOptions,
-  );
+  return Apollo.useLazyQuery<gqlGetBookmarkQuery, gqlGetBookmarkQueryVariables>(GetBookmarkDocument, baseOptions);
 }
 export type GetBookmarkQueryHookResult = ReturnType<typeof useGetBookmarkQuery>;
 export type GetBookmarkLazyQueryHookResult = ReturnType<typeof useGetBookmarkLazyQuery>;
-export type GetBookmarkQueryResult = ApolloReactCommon.QueryResult<gqlGetBookmarkQuery, gqlGetBookmarkQueryVariables>;
+export type GetBookmarkQueryResult = Apollo.QueryResult<gqlGetBookmarkQuery, gqlGetBookmarkQueryVariables>;
 export const UpdateBookmarkDocument = /*#__PURE__*/ gql`
   mutation updateBookmark($params: UpdateBookmarkInput!) {
     updateBookmark(params: $params) {
@@ -792,16 +757,16 @@ export const UpdateBookmarkDocument = /*#__PURE__*/ gql`
  * });
  */
 export function useUpdateBookmarkMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<gqlUpdateBookmarkMutation, gqlUpdateBookmarkMutationVariables>,
+  baseOptions?: Apollo.MutationHookOptions<gqlUpdateBookmarkMutation, gqlUpdateBookmarkMutationVariables>,
 ) {
-  return ApolloReactHooks.useMutation<gqlUpdateBookmarkMutation, gqlUpdateBookmarkMutationVariables>(
+  return Apollo.useMutation<gqlUpdateBookmarkMutation, gqlUpdateBookmarkMutationVariables>(
     UpdateBookmarkDocument,
     baseOptions,
   );
 }
 export type UpdateBookmarkMutationHookResult = ReturnType<typeof useUpdateBookmarkMutation>;
-export type UpdateBookmarkMutationResult = ApolloReactCommon.MutationResult<gqlUpdateBookmarkMutation>;
-export type UpdateBookmarkMutationOptions = ApolloReactCommon.BaseMutationOptions<
+export type UpdateBookmarkMutationResult = Apollo.MutationResult<gqlUpdateBookmarkMutation>;
+export type UpdateBookmarkMutationOptions = Apollo.BaseMutationOptions<
   gqlUpdateBookmarkMutation,
   gqlUpdateBookmarkMutationVariables
 >;
@@ -834,24 +799,21 @@ export const UnreadBookmarksDocument = /*#__PURE__*/ gql`
  * });
  */
 export function useUnreadBookmarksQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<gqlUnreadBookmarksQuery, gqlUnreadBookmarksQueryVariables>,
+  baseOptions?: Apollo.QueryHookOptions<gqlUnreadBookmarksQuery, gqlUnreadBookmarksQueryVariables>,
 ) {
-  return ApolloReactHooks.useQuery<gqlUnreadBookmarksQuery, gqlUnreadBookmarksQueryVariables>(
+  return Apollo.useQuery<gqlUnreadBookmarksQuery, gqlUnreadBookmarksQueryVariables>(
     UnreadBookmarksDocument,
     baseOptions,
   );
 }
 export function useUnreadBookmarksLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<gqlUnreadBookmarksQuery, gqlUnreadBookmarksQueryVariables>,
+  baseOptions?: Apollo.LazyQueryHookOptions<gqlUnreadBookmarksQuery, gqlUnreadBookmarksQueryVariables>,
 ) {
-  return ApolloReactHooks.useLazyQuery<gqlUnreadBookmarksQuery, gqlUnreadBookmarksQueryVariables>(
+  return Apollo.useLazyQuery<gqlUnreadBookmarksQuery, gqlUnreadBookmarksQueryVariables>(
     UnreadBookmarksDocument,
     baseOptions,
   );
 }
 export type UnreadBookmarksQueryHookResult = ReturnType<typeof useUnreadBookmarksQuery>;
 export type UnreadBookmarksLazyQueryHookResult = ReturnType<typeof useUnreadBookmarksLazyQuery>;
-export type UnreadBookmarksQueryResult = ApolloReactCommon.QueryResult<
-  gqlUnreadBookmarksQuery,
-  gqlUnreadBookmarksQueryVariables
->;
+export type UnreadBookmarksQueryResult = Apollo.QueryResult<gqlUnreadBookmarksQuery, gqlUnreadBookmarksQueryVariables>;

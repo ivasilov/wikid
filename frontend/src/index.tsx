@@ -8,7 +8,7 @@ import { FocusStyleManager } from '@blueprintjs/core';
 import * as serviceWorker from './utils/serviceWorker';
 import { Router, Switch } from 'react-router';
 import { createBrowserHistory } from 'history';
-import { ApolloProvider } from 'react-apollo';
+import { ApolloProvider } from '@apollo/client';
 import { GraphQLClient } from './apolloClient';
 import { SignIn } from './signIn';
 import { AuthenticatedRoute } from './authenticatedRoute';

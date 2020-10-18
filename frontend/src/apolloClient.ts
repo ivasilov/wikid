@@ -1,10 +1,9 @@
 import { Service } from 'typedi';
-import { ApolloClient } from 'apollo-client';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { BatchHttpLink } from 'apollo-link-batch-http';
-import { onError } from 'apollo-link-error';
-import { ApolloLink } from 'apollo-link';
-import { setContext } from 'apollo-link-context';
+import { ApolloClient,ApolloLink } from '@apollo/client';
+import {  InMemoryCache } from '@apollo/client/cache';
+import { BatchHttpLink } from '@apollo/client/link/batch-http';
+import { onError } from '@apollo/client/link/error';
+import { setContext } from '@apollo/client/link/context';
 
 export const GraphQLClient = Service(
   () =>

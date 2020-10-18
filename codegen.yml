@@ -11,7 +11,7 @@ generates:
       - typescript-operations
       - typescript-react-apollo
     config:
-      reactApolloVersion: 2
+      reactApolloVersion: 3
       typesPrefix: "gql"
       withMutationFn: false
       pureMagicComment: true # adds PURE descriptor to enable webpack tree-shaking
