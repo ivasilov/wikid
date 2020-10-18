@@ -11,17 +11,8 @@ generates:
       - typescript-operations
       - typescript-react-apollo
     config:
+      reactApolloVersion: 2
       typesPrefix: "gql"
-      withHOC: false
-      withComponent: false
-      withHooks: true
       withMutationFn: false
-  # backend/src/models.ts:
-  #   plugins:
-  #     - typescript
-  #     - typescript-resolvers
-  #   config:
-  #     typesPrefix: 'gql'
-  #     avoidOptionals: true
-  #     useIndexSignature: true
-  #     contextType: ./helpers/context#Context
+      pureMagicComment: true # adds PURE descriptor to enable webpack tree-shaking
+  

@@ -2,6 +2,7 @@ import gql from 'graphql-tag';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Maybe<T> = T | null;
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -139,9 +140,9 @@ export type gqlUser = {
   email: Scalars['String'];
 };
 
-export type gqlBookmarkQueryVariables = {
+export type gqlBookmarkQueryVariables = Exact<{
   id: Scalars['ID'];
-};
+}>;
 
 export type gqlBookmarkQuery = { __typename?: 'Query' } & {
   bookmark: { __typename?: 'Bookmark' } & Pick<gqlBookmark, 'id' | 'url' | 'name'> & {
@@ -149,29 +150,29 @@ export type gqlBookmarkQuery = { __typename?: 'Query' } & {
     };
 };
 
-export type gqlCreateBookmarkMutationVariables = {
+export type gqlCreateBookmarkMutationVariables = Exact<{
   params: gqlCreateBookmarkInput;
-};
+}>;
 
 export type gqlCreateBookmarkMutation = { __typename?: 'Mutation' } & {
   createBookmark: { __typename?: 'Bookmark' } & Pick<gqlBookmark, 'id'>;
 };
 
-export type gqlCreatePageMutationVariables = {
+export type gqlCreatePageMutationVariables = Exact<{
   params: gqlCreatePageInput;
-};
+}>;
 
 export type gqlCreatePageMutation = { __typename?: 'Mutation' } & {
   createPage: { __typename?: 'Page' } & Pick<gqlPage, 'id'>;
 };
 
-export type gqlCurrentUserQueryVariables = {};
+export type gqlCurrentUserQueryVariables = Exact<{ [key: string]: never }>;
 
 export type gqlCurrentUserQuery = { __typename?: 'Query' } & {
   currentUser: { __typename?: 'User' } & Pick<gqlUser, 'id' | 'email'>;
 };
 
-export type gqlCurrentUserBookmarkIdsQueryVariables = {};
+export type gqlCurrentUserBookmarkIdsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type gqlCurrentUserBookmarkIdsQuery = { __typename?: 'Query' } & {
   currentUserBookmarks: { __typename?: 'paginatedBookmarks' } & Pick<gqlPaginatedBookmarks, 'cursor'> & {
@@ -179,39 +180,39 @@ export type gqlCurrentUserBookmarkIdsQuery = { __typename?: 'Query' } & {
     };
 };
 
-export type gqlDeleteBookmarkMutationVariables = {
+export type gqlDeleteBookmarkMutationVariables = Exact<{
   id: Scalars['ID'];
-};
+}>;
 
 export type gqlDeleteBookmarkMutation = { __typename?: 'Mutation' } & Pick<gqlMutation, 'deleteBookmark'>;
 
-export type gqlGetAllPagesQueryVariables = {
+export type gqlGetAllPagesQueryVariables = Exact<{
   cursor?: Maybe<Scalars['String']>;
-};
+}>;
 
 export type gqlGetAllPagesQuery = { __typename?: 'Query' } & {
   currentUserPages: Array<{ __typename?: 'Page' } & Pick<gqlPage, 'id' | 'name' | 'bookmarksCount'>>;
 };
 
-export type gqlPageQueryVariables = {
+export type gqlPageQueryVariables = Exact<{
   id: Scalars['ID'];
-};
+}>;
 
 export type gqlPageQuery = { __typename?: 'Query' } & {
   page: { __typename?: 'Page' } & gqlReadOnlyPageFragmentFragment;
 };
 
-export type gqlUpdatePageMutationVariables = {
+export type gqlUpdatePageMutationVariables = Exact<{
   params: gqlUpdatePageInput;
-};
+}>;
 
 export type gqlUpdatePageMutation = { __typename?: 'Mutation' } & {
   updatePage: { __typename?: 'Page' } & Pick<gqlPage, 'id' | 'name' | 'description' | 'content'>;
 };
 
-export type gqlAllBookmarksQueryVariables = {
+export type gqlAllBookmarksQueryVariables = Exact<{
   cursor?: Maybe<Scalars['String']>;
-};
+}>;
 
 export type gqlAllBookmarksQuery = { __typename?: 'Query' } & {
   currentUserBookmarks: { __typename?: 'paginatedBookmarks' } & Pick<gqlPaginatedBookmarks, 'cursor'> & {
@@ -223,9 +224,9 @@ export type gqlBookmarkFragmentFragment = { __typename?: 'Bookmark' } & Pick<gql
 
 export type gqlBookmarksFragmentFragment = { __typename?: 'Bookmark' } & gqlBookmarkFragmentFragment;
 
-export type gqlGetBookmarkQueryVariables = {
+export type gqlGetBookmarkQueryVariables = Exact<{
   id: Scalars['ID'];
-};
+}>;
 
 export type gqlGetBookmarkQuery = { __typename?: 'Query' } & {
   bookmark: { __typename?: 'Bookmark' } & Pick<gqlBookmark, 'id' | 'url' | 'name' | 'read'> & {
@@ -233,9 +234,9 @@ export type gqlGetBookmarkQuery = { __typename?: 'Query' } & {
     };
 };
 
-export type gqlUpdateBookmarkMutationVariables = {
+export type gqlUpdateBookmarkMutationVariables = Exact<{
   params: gqlUpdateBookmarkInput;
-};
+}>;
 
 export type gqlUpdateBookmarkMutation = { __typename?: 'Mutation' } & {
   updateBookmark: { __typename?: 'Bookmark' } & Pick<gqlBookmark, 'id' | 'url' | 'name' | 'read'> & {
@@ -248,9 +249,9 @@ export type gqlReadOnlyPageFragmentFragment = { __typename?: 'Page' } & Pick<
   'id' | 'name' | 'description' | 'content'
 > & { bookmarks: Array<{ __typename?: 'Bookmark' } & gqlBookmarksFragmentFragment> };
 
-export type gqlUnreadBookmarksQueryVariables = {
+export type gqlUnreadBookmarksQueryVariables = Exact<{
   cursor?: Maybe<Scalars['String']>;
-};
+}>;
 
 export type gqlUnreadBookmarksQuery = { __typename?: 'Query' } & {
   currentUserUnreadBookmarks: { __typename?: 'paginatedBookmarks' } & Pick<gqlPaginatedBookmarks, 'cursor'> & {
@@ -258,20 +259,20 @@ export type gqlUnreadBookmarksQuery = { __typename?: 'Query' } & {
     };
 };
 
-export const BookmarkFragmentFragmentDoc = gql`
+export const BookmarkFragmentFragmentDoc = /*#__PURE__*/ gql`
   fragment BookmarkFragment on Bookmark {
     id
     url
     name
   }
 `;
-export const BookmarksFragmentFragmentDoc = gql`
+export const BookmarksFragmentFragmentDoc = /*#__PURE__*/ gql`
   fragment BookmarksFragment on Bookmark {
     ...BookmarkFragment
   }
   ${BookmarkFragmentFragmentDoc}
 `;
-export const ReadOnlyPageFragmentFragmentDoc = gql`
+export const ReadOnlyPageFragmentFragmentDoc = /*#__PURE__*/ gql`
   fragment ReadOnlyPageFragment on Page {
     id
     name
@@ -283,7 +284,7 @@ export const ReadOnlyPageFragmentFragmentDoc = gql`
   }
   ${BookmarksFragmentFragmentDoc}
 `;
-export const BookmarkDocument = gql`
+export const BookmarkDocument = /*#__PURE__*/ gql`
   query bookmark($id: ID!) {
     bookmark(id: $id) {
       id
@@ -328,7 +329,7 @@ export function useBookmarkLazyQuery(
 export type BookmarkQueryHookResult = ReturnType<typeof useBookmarkQuery>;
 export type BookmarkLazyQueryHookResult = ReturnType<typeof useBookmarkLazyQuery>;
 export type BookmarkQueryResult = ApolloReactCommon.QueryResult<gqlBookmarkQuery, gqlBookmarkQueryVariables>;
-export const CreateBookmarkDocument = gql`
+export const CreateBookmarkDocument = /*#__PURE__*/ gql`
   mutation createBookmark($params: CreateBookmarkInput!) {
     createBookmark(params: $params) {
       id
@@ -367,7 +368,7 @@ export type CreateBookmarkMutationOptions = ApolloReactCommon.BaseMutationOption
   gqlCreateBookmarkMutation,
   gqlCreateBookmarkMutationVariables
 >;
-export const CreatePageDocument = gql`
+export const CreatePageDocument = /*#__PURE__*/ gql`
   mutation createPage($params: CreatePageInput!) {
     createPage(params: $params) {
       id
@@ -406,7 +407,7 @@ export type CreatePageMutationOptions = ApolloReactCommon.BaseMutationOptions<
   gqlCreatePageMutation,
   gqlCreatePageMutationVariables
 >;
-export const CurrentUserDocument = gql`
+export const CurrentUserDocument = /*#__PURE__*/ gql`
   query currentUser {
     currentUser {
       id
@@ -446,7 +447,7 @@ export function useCurrentUserLazyQuery(
 export type CurrentUserQueryHookResult = ReturnType<typeof useCurrentUserQuery>;
 export type CurrentUserLazyQueryHookResult = ReturnType<typeof useCurrentUserLazyQuery>;
 export type CurrentUserQueryResult = ApolloReactCommon.QueryResult<gqlCurrentUserQuery, gqlCurrentUserQueryVariables>;
-export const CurrentUserBookmarkIdsDocument = gql`
+export const CurrentUserBookmarkIdsDocument = /*#__PURE__*/ gql`
   query currentUserBookmarkIds {
     currentUserBookmarks {
       cursor
@@ -500,7 +501,7 @@ export type CurrentUserBookmarkIdsQueryResult = ApolloReactCommon.QueryResult<
   gqlCurrentUserBookmarkIdsQuery,
   gqlCurrentUserBookmarkIdsQueryVariables
 >;
-export const DeleteBookmarkDocument = gql`
+export const DeleteBookmarkDocument = /*#__PURE__*/ gql`
   mutation deleteBookmark($id: ID!) {
     deleteBookmark(id: $id)
   }
@@ -537,7 +538,7 @@ export type DeleteBookmarkMutationOptions = ApolloReactCommon.BaseMutationOption
   gqlDeleteBookmarkMutation,
   gqlDeleteBookmarkMutationVariables
 >;
-export const GetAllPagesDocument = gql`
+export const GetAllPagesDocument = /*#__PURE__*/ gql`
   query getAllPages($cursor: String) {
     currentUserPages(cursor: $cursor) {
       id
@@ -579,7 +580,7 @@ export function useGetAllPagesLazyQuery(
 export type GetAllPagesQueryHookResult = ReturnType<typeof useGetAllPagesQuery>;
 export type GetAllPagesLazyQueryHookResult = ReturnType<typeof useGetAllPagesLazyQuery>;
 export type GetAllPagesQueryResult = ApolloReactCommon.QueryResult<gqlGetAllPagesQuery, gqlGetAllPagesQueryVariables>;
-export const PageDocument = gql`
+export const PageDocument = /*#__PURE__*/ gql`
   query page($id: ID!) {
     page(id: $id) {
       ...ReadOnlyPageFragment
@@ -615,7 +616,7 @@ export function usePageLazyQuery(
 export type PageQueryHookResult = ReturnType<typeof usePageQuery>;
 export type PageLazyQueryHookResult = ReturnType<typeof usePageLazyQuery>;
 export type PageQueryResult = ApolloReactCommon.QueryResult<gqlPageQuery, gqlPageQueryVariables>;
-export const UpdatePageDocument = gql`
+export const UpdatePageDocument = /*#__PURE__*/ gql`
   mutation updatePage($params: UpdatePageInput!) {
     updatePage(params: $params) {
       id
@@ -657,7 +658,7 @@ export type UpdatePageMutationOptions = ApolloReactCommon.BaseMutationOptions<
   gqlUpdatePageMutation,
   gqlUpdatePageMutationVariables
 >;
-export const AllBookmarksDocument = gql`
+export const AllBookmarksDocument = /*#__PURE__*/ gql`
   query allBookmarks($cursor: String) {
     currentUserBookmarks(cursor: $cursor) {
       cursor
@@ -707,7 +708,7 @@ export type AllBookmarksQueryResult = ApolloReactCommon.QueryResult<
   gqlAllBookmarksQuery,
   gqlAllBookmarksQueryVariables
 >;
-export const GetBookmarkDocument = gql`
+export const GetBookmarkDocument = /*#__PURE__*/ gql`
   query getBookmark($id: ID!) {
     bookmark(id: $id) {
       id
@@ -756,7 +757,7 @@ export function useGetBookmarkLazyQuery(
 export type GetBookmarkQueryHookResult = ReturnType<typeof useGetBookmarkQuery>;
 export type GetBookmarkLazyQueryHookResult = ReturnType<typeof useGetBookmarkLazyQuery>;
 export type GetBookmarkQueryResult = ApolloReactCommon.QueryResult<gqlGetBookmarkQuery, gqlGetBookmarkQueryVariables>;
-export const UpdateBookmarkDocument = gql`
+export const UpdateBookmarkDocument = /*#__PURE__*/ gql`
   mutation updateBookmark($params: UpdateBookmarkInput!) {
     updateBookmark(params: $params) {
       id
@@ -804,7 +805,7 @@ export type UpdateBookmarkMutationOptions = ApolloReactCommon.BaseMutationOption
   gqlUpdateBookmarkMutation,
   gqlUpdateBookmarkMutationVariables
 >;
-export const UnreadBookmarksDocument = gql`
+export const UnreadBookmarksDocument = /*#__PURE__*/ gql`
   query unreadBookmarks($cursor: String) {
     currentUserUnreadBookmarks(cursor: $cursor) {
       cursor
