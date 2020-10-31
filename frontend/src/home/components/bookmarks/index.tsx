@@ -29,12 +29,13 @@ export const Bookmarks = observer(
         threshold: 1.0,
       };
       const observer = new IntersectionObserver(handleObserver, options);
-      if (loader.current) {
-        observer.observe(loader.current);
+      const currentEl = loader.current;
+      if (currentEl) {
+        observer.observe(currentEl);
       }
       return () => {
-        if (loader.current) {
-          observer.unobserve(loader.current);
+        if (currentEl) {
+          observer.unobserve(currentEl);
         }
       };
     });
