@@ -8,9 +8,9 @@ import { uniqBy } from 'lodash';
 import Container from 'typedi';
 import { fromPromise } from 'mobx-utils';
 import {
-  gqlGetAllPagesQuery,
-  gqlGetAllPagesQueryVariables,
-  GetAllPagesDocument,
+  GetAllPagesForDropdownDocument,
+  gqlGetAllPagesForDropdownQuery,
+  gqlGetAllPagesForDropdownQueryVariables,
   useCreateBookmarkMutation,
 } from '../../models';
 import { GraphQLClient } from '../../apolloClient';
@@ -70,7 +70,7 @@ class NewBookmarkState {
   @computed get availablePages() {
     const client = Container.get(GraphQLClient);
     const pages = client
-      .query<gqlGetAllPagesQuery, gqlGetAllPagesQueryVariables>({ query: GetAllPagesDocument })
+      .query<gqlGetAllPagesForDropdownQuery, gqlGetAllPagesForDropdownQueryVariables>({ query: GetAllPagesForDropdownDocument })
       .then(v => v.data.currentUserPages)
       .then(pages => {
         return pages.filter(bp => !this.pages.find(p => p.id === bp.id));

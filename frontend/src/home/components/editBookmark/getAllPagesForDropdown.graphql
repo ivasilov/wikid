@@ -1,7 +1,6 @@
-query getAllPages($cursor: String) {
+query getAllPagesForDropdown($cursor: String) {
   currentUserPages(cursor: $cursor) {
     id
     name
-    bookmarksCount
   }
 }

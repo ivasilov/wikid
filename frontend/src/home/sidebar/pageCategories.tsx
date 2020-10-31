@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { map, groupBy, sortBy, keys } from 'lodash';
-import { useGetAllPagesQuery } from '../../models';
+import { useGetAllPagesWithCountQuery } from '../../models';
 import { Icon } from '@blueprintjs/core';
 import { Link } from 'react-router-dom';
 
@@ -9,7 +9,7 @@ const PageCategoriesLoader = () => {
 };
 
 export const PageCategories = () => {
-  const { data, loading } = useGetAllPagesQuery();
+  const { data, loading } = useGetAllPagesWithCountQuery();
 
   if (loading) {
     return <PageCategoriesLoader />;
