@@ -1,11 +1,7 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import { Dialog, Button, Classes } from '@blueprintjs/core';
-import {
-  useDeleteBookmarkMutation,
-  CurrentUserBookmarkIdsDocument,
-  gqlCurrentUserBookmarkIdsQuery,
-} from '../../models';
+import { useDeleteBookmarkMutation,} from '../../models';
 
 interface Props {
   bookmark: { id: string; name: string };
@@ -16,9 +12,9 @@ export const DeleteBookmarkDialog = observer((props: Props) => {
   const [update, { loading }] = useDeleteBookmarkMutation({
     variables: { id: props.bookmark.id },
     update: (cache, { data }) => {
-      const bs = cache.readQuery({
-        query: CurrentUserBookmarkIdsDocument,
-      }) as gqlCurrentUserBookmarkIdsQuery;
+      // const bs = cache.readQuery({
+      //   query: CurrentUserBookmarkIdsDocument,
+      // }) as gqlCurrentUserBookmarkIdsQuery;
 
       // const filtered = bs.currentUserBookmarks.filter(b => b.id !== data?.deleteBookmark);
       // cache.writeQuery({
