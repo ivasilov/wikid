@@ -14,8 +14,9 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "preserve",
-    "typeRoots": ["../typings"]
+    "jsx": "react",
+    "typeRoots": ["../typings"],
+    "noFallthroughCasesInSwitch": true
   },
   "include": ["src"]
 }
