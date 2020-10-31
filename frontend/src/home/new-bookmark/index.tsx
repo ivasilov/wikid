@@ -70,7 +70,9 @@ class NewBookmarkState {
   @computed get availablePages() {
     const client = Container.get(GraphQLClient);
     const pages = client
-      .query<gqlGetAllPagesForDropdownQuery, gqlGetAllPagesForDropdownQueryVariables>({ query: GetAllPagesForDropdownDocument })
+      .query<gqlGetAllPagesForDropdownQuery, gqlGetAllPagesForDropdownQueryVariables>({
+        query: GetAllPagesForDropdownDocument,
+      })
       .then(v => v.data.currentUserPages)
       .then(pages => {
         return pages.filter(bp => !this.pages.find(p => p.id === bp.id));
