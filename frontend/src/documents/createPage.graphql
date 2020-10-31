@@ -1,5 +1,0 @@
-mutation createPage($params: CreatePageInput!) {
-  createPage(params: $params) {
-    id
-  }
-}

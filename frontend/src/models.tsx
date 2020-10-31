@@ -139,16 +139,6 @@ export type gqlUser = {
   email: Scalars['String'];
 };
 
-export type gqlBookmarkQueryVariables = Exact<{
-  id: Scalars['ID'];
-}>;
-
-export type gqlBookmarkQuery = { __typename?: 'Query' } & {
-  bookmark: { __typename?: 'Bookmark' } & Pick<gqlBookmark, 'id' | 'url' | 'name'> & {
-      pages: Array<{ __typename?: 'Page' } & Pick<gqlPage, 'id' | 'name' | 'description' | 'content'>>;
-    };
-};
-
 export type gqlCreateBookmarkMutationVariables = Exact<{
   params: gqlCreateBookmarkInput;
 }>;
@@ -157,26 +147,10 @@ export type gqlCreateBookmarkMutation = { __typename?: 'Mutation' } & {
   createBookmark: { __typename?: 'Bookmark' } & Pick<gqlBookmark, 'id'>;
 };
 
-export type gqlCreatePageMutationVariables = Exact<{
-  params: gqlCreatePageInput;
-}>;
-
-export type gqlCreatePageMutation = { __typename?: 'Mutation' } & {
-  createPage: { __typename?: 'Page' } & Pick<gqlPage, 'id'>;
-};
-
 export type gqlCurrentUserQueryVariables = Exact<{ [key: string]: never }>;
 
 export type gqlCurrentUserQuery = { __typename?: 'Query' } & {
   currentUser: { __typename?: 'User' } & Pick<gqlUser, 'id' | 'email'>;
-};
-
-export type gqlCurrentUserBookmarkIdsQueryVariables = Exact<{ [key: string]: never }>;
-
-export type gqlCurrentUserBookmarkIdsQuery = { __typename?: 'Query' } & {
-  currentUserBookmarks: { __typename?: 'paginatedBookmarks' } & Pick<gqlPaginatedBookmarks, 'cursor'> & {
-      bookmarks: Array<{ __typename?: 'Bookmark' } & Pick<gqlBookmark, 'id'>>;
-    };
 };
 
 export type gqlDeleteBookmarkMutationVariables = Exact<{
@@ -283,49 +257,6 @@ export const ReadOnlyPageFragmentFragmentDoc = /*#__PURE__*/ gql`
   }
   ${BookmarksFragmentFragmentDoc}
 `;
-export const BookmarkDocument = /*#__PURE__*/ gql`
-  query bookmark($id: ID!) {
-    bookmark(id: $id) {
-      id
-      url
-      name
-      pages {
-        id
-        name
-        description
-        content
-      }
-    }
-  }
-`;
-
-/**
- * __useBookmarkQuery__
- *
- * To run a query within a React component, call `useBookmarkQuery` and pass it any options that fit your needs.
- * When your component renders, `useBookmarkQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useBookmarkQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useBookmarkQuery(baseOptions?: Apollo.QueryHookOptions<gqlBookmarkQuery, gqlBookmarkQueryVariables>) {
-  return Apollo.useQuery<gqlBookmarkQuery, gqlBookmarkQueryVariables>(BookmarkDocument, baseOptions);
-}
-export function useBookmarkLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<gqlBookmarkQuery, gqlBookmarkQueryVariables>,
-) {
-  return Apollo.useLazyQuery<gqlBookmarkQuery, gqlBookmarkQueryVariables>(BookmarkDocument, baseOptions);
-}
-export type BookmarkQueryHookResult = ReturnType<typeof useBookmarkQuery>;
-export type BookmarkLazyQueryHookResult = ReturnType<typeof useBookmarkLazyQuery>;
-export type BookmarkQueryResult = Apollo.QueryResult<gqlBookmarkQuery, gqlBookmarkQueryVariables>;
 export const CreateBookmarkDocument = /*#__PURE__*/ gql`
   mutation createBookmark($params: CreateBookmarkInput!) {
     createBookmark(params: $params) {
@@ -365,42 +296,6 @@ export type CreateBookmarkMutationOptions = Apollo.BaseMutationOptions<
   gqlCreateBookmarkMutation,
   gqlCreateBookmarkMutationVariables
 >;
-export const CreatePageDocument = /*#__PURE__*/ gql`
-  mutation createPage($params: CreatePageInput!) {
-    createPage(params: $params) {
-      id
-    }
-  }
-`;
-
-/**
- * __useCreatePageMutation__
- *
- * To run a mutation, you first call `useCreatePageMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreatePageMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createPageMutation, { data, loading, error }] = useCreatePageMutation({
- *   variables: {
- *      params: // value for 'params'
- *   },
- * });
- */
-export function useCreatePageMutation(
-  baseOptions?: Apollo.MutationHookOptions<gqlCreatePageMutation, gqlCreatePageMutationVariables>,
-) {
-  return Apollo.useMutation<gqlCreatePageMutation, gqlCreatePageMutationVariables>(CreatePageDocument, baseOptions);
-}
-export type CreatePageMutationHookResult = ReturnType<typeof useCreatePageMutation>;
-export type CreatePageMutationResult = Apollo.MutationResult<gqlCreatePageMutation>;
-export type CreatePageMutationOptions = Apollo.BaseMutationOptions<
-  gqlCreatePageMutation,
-  gqlCreatePageMutationVariables
->;
 export const CurrentUserDocument = /*#__PURE__*/ gql`
   query currentUser {
     currentUser {
@@ -438,54 +333,6 @@ export function useCurrentUserLazyQuery(
 export type CurrentUserQueryHookResult = ReturnType<typeof useCurrentUserQuery>;
 export type CurrentUserLazyQueryHookResult = ReturnType<typeof useCurrentUserLazyQuery>;
 export type CurrentUserQueryResult = Apollo.QueryResult<gqlCurrentUserQuery, gqlCurrentUserQueryVariables>;
-export const CurrentUserBookmarkIdsDocument = /*#__PURE__*/ gql`
-  query currentUserBookmarkIds {
-    currentUserBookmarks {
-      cursor
-      bookmarks {
-        id
-      }
-    }
-  }
-`;
-
-/**
- * __useCurrentUserBookmarkIdsQuery__
- *
- * To run a query within a React component, call `useCurrentUserBookmarkIdsQuery` and pass it any options that fit your needs.
- * When your component renders, `useCurrentUserBookmarkIdsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useCurrentUserBookmarkIdsQuery({
- *   variables: {
- *   },
- * });
- */
-export function useCurrentUserBookmarkIdsQuery(
-  baseOptions?: Apollo.QueryHookOptions<gqlCurrentUserBookmarkIdsQuery, gqlCurrentUserBookmarkIdsQueryVariables>,
-) {
-  return Apollo.useQuery<gqlCurrentUserBookmarkIdsQuery, gqlCurrentUserBookmarkIdsQueryVariables>(
-    CurrentUserBookmarkIdsDocument,
-    baseOptions,
-  );
-}
-export function useCurrentUserBookmarkIdsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<gqlCurrentUserBookmarkIdsQuery, gqlCurrentUserBookmarkIdsQueryVariables>,
-) {
-  return Apollo.useLazyQuery<gqlCurrentUserBookmarkIdsQuery, gqlCurrentUserBookmarkIdsQueryVariables>(
-    CurrentUserBookmarkIdsDocument,
-    baseOptions,
-  );
-}
-export type CurrentUserBookmarkIdsQueryHookResult = ReturnType<typeof useCurrentUserBookmarkIdsQuery>;
-export type CurrentUserBookmarkIdsLazyQueryHookResult = ReturnType<typeof useCurrentUserBookmarkIdsLazyQuery>;
-export type CurrentUserBookmarkIdsQueryResult = Apollo.QueryResult<
-  gqlCurrentUserBookmarkIdsQuery,
-  gqlCurrentUserBookmarkIdsQueryVariables
->;
 export const DeleteBookmarkDocument = /*#__PURE__*/ gql`
   mutation deleteBookmark($id: ID!) {
     deleteBookmark(id: $id)
