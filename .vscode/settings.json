@@ -1,0 +1,11 @@
+{
+  "editor.formatOnSave": true,
+  "editor.detectIndentation": false,
+  "editor.rulers": [100],
+  "editor.tabSize": 2,
+  "search.exclude": {
+    "**/node_modules": true,
+    "build/**": true
+  },
+  "typescript.tsdk": "node_modules/typescript/lib"
+}
