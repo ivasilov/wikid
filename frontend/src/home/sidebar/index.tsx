@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 export const Sidebar = () => {
   return (
-    <div className="w-sidebar col-span-2 overflow-auto">
+    <div className="w-sidebar col-span-2">
       <div className="flex">
         <div className="w-logo">W</div>
         <div className="w-plus flex-grow flex justify-end">

@@ -45,7 +45,7 @@
     "test": "react-scripts test --passWithNoTests",
     "clean": "rimraf node_modules && rimraf build/",
     "eject": "react-scripts eject",
-    "build:tailwind": "tailwindcss build src/assets/tailwind.css -o src/tailwind.generated.css",
+    "build:tailwind": "tailwindcss build src/assets/tailwind.css -c tailwind.config.js -o src/tailwind.generated.css",
     "prestart": "npm run build:tailwind",
     "prebuild": "npm run build:tailwind"
   },

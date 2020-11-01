@@ -29,7 +29,7 @@ export const PageCategories = () => {
               <div className="w-pages-list">
                 {group.map(item => {
                   return (
-                    <div key={item.name} className="w-page-item flex flex-row pt-5">
+                    <div key={item.name} className="w-page-item flex pt-5">
                       <Icon icon="tag" className="w-icon pr-3" />
                       <div className="flex-auto">
                         <Link to={`/page/${item.id}`}>{item.name}</Link>
