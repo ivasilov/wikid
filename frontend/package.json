@@ -35,7 +35,7 @@
     "react-router-dom": "^5.0.1",
     "react-scripts": "4.0.0",
     "rimraf": "^2.6.3",
-    "tailwindcss": "^1.4.6",
+    "tailwindcss": "^1.9.0",
     "typedi": "^0.8.0",
     "use-http": "^1.0.12"
   },
@@ -45,7 +45,7 @@
     "test": "react-scripts test --passWithNoTests",
     "clean": "rimraf node_modules && rimraf build/",
     "eject": "react-scripts eject",
-    "build:tailwind": "tailwindcss build src/assets/tailwind.css -c tailwind.config.js -o src/tailwind.generated.css",
+    "build:tailwind": "tailwindcss build -c tailwind.config.js -o src/tailwind.generated.css",
     "prestart": "npm run build:tailwind",
     "prebuild": "npm run build:tailwind"
   },
