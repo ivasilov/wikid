@@ -5,7 +5,7 @@ module.exports = {
   },
   variants: {
     margin: ['default'],
-    padding: ['default']
+    padding: ['default'],
   },
   plugins: [],
   corePlugins: [
@@ -20,6 +20,6 @@ module.exports = {
     'flex', // 0.8 kb
     'fontWeight', // 7 kb
     'flexGrow', // 0.3 kb
-    'justifyContent' // 1 kb
+    'justifyContent', // 1 kb
   ],
 };
