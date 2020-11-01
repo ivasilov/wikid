@@ -21,5 +21,6 @@ module.exports = {
     'fontWeight', // 7 kb
     'flexGrow', // 0.3 kb
     'justifyContent', // 1 kb
+    'alignItems', // 1 kb
   ],
 };

@@ -2688,6 +2688,26 @@ video {
   justify-content: space-evenly;
 }
 
+.items-start {
+  align-items: flex-start;
+}
+
+.items-end {
+  align-items: flex-end;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.items-baseline {
+  align-items: baseline;
+}
+
+.items-stretch {
+  align-items: stretch;
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;
@@ -3075,6 +3095,26 @@ video {
 
   .sm\:justify-evenly {
     justify-content: space-evenly;
+  }
+
+  .sm\:items-start {
+    align-items: flex-start;
+  }
+
+  .sm\:items-end {
+    align-items: flex-end;
+  }
+
+  .sm\:items-center {
+    align-items: center;
+  }
+
+  .sm\:items-baseline {
+    align-items: baseline;
+  }
+
+  .sm\:items-stretch {
+    align-items: stretch;
   }
 }
 
@@ -3466,6 +3506,26 @@ video {
   .md\:justify-evenly {
     justify-content: space-evenly;
   }
+
+  .md\:items-start {
+    align-items: flex-start;
+  }
+
+  .md\:items-end {
+    align-items: flex-end;
+  }
+
+  .md\:items-center {
+    align-items: center;
+  }
+
+  .md\:items-baseline {
+    align-items: baseline;
+  }
+
+  .md\:items-stretch {
+    align-items: stretch;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -3856,6 +3916,26 @@ video {
   .lg\:justify-evenly {
     justify-content: space-evenly;
   }
+
+  .lg\:items-start {
+    align-items: flex-start;
+  }
+
+  .lg\:items-end {
+    align-items: flex-end;
+  }
+
+  .lg\:items-center {
+    align-items: center;
+  }
+
+  .lg\:items-baseline {
+    align-items: baseline;
+  }
+
+  .lg\:items-stretch {
+    align-items: stretch;
+  }
 }
 
 @media (min-width: 1280px) {
@@ -4245,6 +4325,26 @@ video {
 
   .xl\:justify-evenly {
     justify-content: space-evenly;
+  }
+
+  .xl\:items-start {
+    align-items: flex-start;
+  }
+
+  .xl\:items-end {
+    align-items: flex-end;
+  }
+
+  .xl\:items-center {
+    align-items: center;
+  }
+
+  .xl\:items-baseline {
+    align-items: baseline;
+  }
+
+  .xl\:items-stretch {
+    align-items: stretch;
   }
 }
   
