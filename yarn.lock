@@ -16457,3 +16457,8 @@ zen-observable@^0.8.0, zen-observable@^0.8.14:
   version "0.8.15"
   resolved "https://registry.yarnpkg.com/zen-observable/-/zen-observable-0.8.15.tgz#96415c512d8e3ffd920afd3889604e30b9eaac15"
   integrity sha512-PQ2PC7R9rslx84ndNBZB/Dkv8V8fZEpk83RLgXtYd0fwUgEjseMn1Dgajh2x6S8QbZAFa9p2qVCEuYZNgve0dQ==
+
+zod@^1.10.0:
+  version "1.11.10"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-1.11.10.tgz#dbc4e70e2d0622ce58f8162d76ea2606d821cf4a"
+  integrity sha512-wtoLthqFeFawiQWMVtjpL9DwggpXHNlygYlSitjTtZeagb04ODIECj5iYGu28+K3ht4lVmrBTfX6M7G9d1Eo6Q==
