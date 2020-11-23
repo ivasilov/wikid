@@ -63,7 +63,7 @@ class NewBookmarkState {
     return { name: name };
   };
 
-  @action removePage = (page: string) => {
+  @action removePage = (page: any) => {
     this.pages = this.pages.filter(p => p.name !== page);
   };
 
