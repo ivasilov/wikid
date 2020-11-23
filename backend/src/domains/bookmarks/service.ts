@@ -6,6 +6,7 @@ import { BookmarkEntity } from './entity';
 import { PagesService } from '../pages/service';
 import { PageEntity } from '../pages/entity';
 import { UsersService } from '../users/service';
+import { UserEntity } from '../users/entity';
 
 @Injectable()
 export class BookmarksService {
@@ -51,12 +52,17 @@ export class BookmarksService {
     return { bookmarks: data, cursor: cursor.afterCursor };
   };
 
-  create = async (b: { url: string; name: string; pageIds: { id: string; name: string }[] }, userId: string) => {
-    let bookmark = {
+  create = async (
+    b: { url: string; name: string; read?: boolean; pageIds: { id: string; name: string }[] },
+    userId: string,
+  ) => {
+    let bookmark: Omit<BookmarkEntity, 'id' | 'createdAt' | 'updatedAt'> = {
       url: b.url,
       name: b.name,
+      user: {} as UserEntity,
+      read: b.read || true,
       pages: [] as PageEntity[],
-    } as BookmarkEntity;
+    };
 
     if (b.pageIds) {
       // find the existing pages
