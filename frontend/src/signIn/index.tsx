@@ -23,7 +23,7 @@ export const SignIn = () => {
   }
 
   return (
-    <div className="container mx-auto h-100vh flex">
+    <div className="container mx-auto h-screen flex font-sans">
       <div className="self-center mx-auto">
         <Card elevation={2}>
           <div>

@@ -11,7 +11,7 @@ import { Account } from './account';
 
 export const Home = () => {
   return (
-    <div className="grid grid-cols-12">
+    <div className="grid grid-cols-12 font-sans">
       <Sidebar />
       <div className="w-main col-span-10">
         <div className="pt-2 pb-2 pr-6 flex justify-end">
