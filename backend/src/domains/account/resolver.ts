@@ -4,6 +4,7 @@ import { UseGuards } from '@nestjs/common';
 // use the exports from graphql-upload, the type FileUpload is missing from apollo-server-express
 import { GraphQLUpload, FileUpload } from 'graphql-upload';
 import { ImporterService } from './importer.service';
+import { CurrentUser } from '../auth/currentUser';
 
 @ObjectType()
 class UploadedFileResponse {
@@ -26,7 +27,7 @@ class ImportInput {
   type: string;
 
   @Field(type => GraphQLUpload)
-  upload: FileUpload;
+  upload: Promise<FileUpload>;
 }
 
 @UseGuards(GqlAuthGuard)
@@ -34,10 +35,14 @@ export class AccountResolver {
   constructor(private importer: ImporterService) {}
 
   @Mutation(returns => UploadedFileResponse)
-  import(@Args('params') params: ImportInput): Promise<UploadedFileResponse> {
+  async import(
+    @CurrentUser() user: { id: string },
+    @Args('params') params: ImportInput,
+  ): Promise<UploadedFileResponse> {
+    const data = await params.upload;
     return new Promise<Buffer>((resolve, reject) => {
       let bufs: Uint8Array[] = [];
-      const stream = params.upload.createReadStream();
+      const stream = data.createReadStream();
       stream.on('data', d => {
         bufs.push(d);
       });
@@ -49,7 +54,7 @@ export class AccountResolver {
         resolve(buffer);
       });
     }).then(buff => {
-      this.importer.import(params.type, buff.toString());
+      this.importer.import(params.type, buff.toString(), user.id);
 
       return {
         filename: '',

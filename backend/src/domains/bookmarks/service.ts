@@ -1,6 +1,7 @@
-import { Injectable, Inject, Scope, ExecutionContext, forwardRef } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { buildPaginator } from 'typeorm-cursor-pagination';
+import { compact } from 'lodash';
 import { BOOKMARKS_REPOSITORY } from '../../constants';
 import { BookmarkEntity } from './entity';
 import { PagesService } from '../pages/service';
@@ -53,7 +54,7 @@ export class BookmarksService {
   };
 
   create = async (
-    b: { url: string; name: string; read?: boolean; pageIds: { id: string; name: string }[] },
+    b: { url: string; name: string; read?: boolean; pageIds: { id?: string; name: string }[] },
     userId: string,
   ) => {
     let bookmark: Omit<BookmarkEntity, 'id' | 'createdAt' | 'updatedAt'> = {
@@ -66,7 +67,7 @@ export class BookmarksService {
 
     if (b.pageIds) {
       // find the existing pages
-      const pIds = b.pageIds.filter(p => p.id).map(p => p.id);
+      const pIds = compact(b.pageIds.map(p => p.id));
       const pages = await this.pagesService.findByIds(pIds);
 
       const pNames = b.pageIds.filter(p => !p.id).map(p => p.name);

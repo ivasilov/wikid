@@ -1,6 +1,7 @@
 import { Importer, TransformInput } from './types';
 import * as z from 'zod';
 import { BookmarksService } from '../../bookmarks/service';
+import { Injectable } from '@nestjs/common';
 
 const bookmarkSchema = z.object({
   href: z.string(),
@@ -16,6 +17,7 @@ const bookmarkSchema = z.object({
 
 const bookmarksSchema = z.array(bookmarkSchema);
 
+@Injectable()
 export class PinboardImporter implements Importer {
   constructor(private bookmarks: BookmarksService) {}
 
@@ -33,7 +35,7 @@ export class PinboardImporter implements Importer {
         // pinboard tags are one string delimited by spaces
         const pages = b.tags.split(' ');
 
-        const pageIds = pages.map(p => ({ id: p, name: p }));
+        const pageIds = pages.map(p => ({ id: undefined, name: p }));
 
         const translated = {
           url: b.href,

@@ -28,6 +28,11 @@ input CreatePageInput {
   bookmarkIds: [ID!]
 }
 
+input ImportInput {
+  type: String!
+  upload: Upload!
+}
+
 type Mutation {
   createBookmark(params: CreateBookmarkInput!): Bookmark!
   updateBookmark(params: UpdateBookmarkInput!): Bookmark!
@@ -35,6 +40,7 @@ type Mutation {
   createPage(params: CreatePageInput!): Page!
   updatePage(params: UpdatePageInput!): Page!
   deletePage(id: ID!): ID!
+  import(params: ImportInput!): UploadedFileResponse!
 }
 
 type Page {
@@ -73,6 +79,16 @@ input UpdatePageInput {
   name: String
   description: String
   content: String
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+type UploadedFileResponse {
+  filename: String!
+  mimetype: String!
+  encoding: String!
+  url: String!
 }
 
 type User {

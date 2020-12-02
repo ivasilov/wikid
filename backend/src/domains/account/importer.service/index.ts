@@ -2,6 +2,7 @@ import { Injectable, Scope } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 import { OneTabImporter } from './onetab';
 import { PinboardImporter } from './pinboard';
+import { Importer } from './types';
 
 const importers: Record<string, any> = {
   onetab: OneTabImporter,
@@ -12,15 +13,17 @@ const importers: Record<string, any> = {
 export class ImporterService {
   constructor(private moduleRef: ModuleRef) {}
 
-  async import(type: string, str: string) {
+  async import(type: string, str: string, currentUserId: string) {
     const klass = importers[type];
 
     if (!klass) {
       throw new Error(`Data from ${type} can't be imported.`);
     }
 
-    const importer = await this.moduleRef.resolve(klass);
+    const importer = (await this.moduleRef.resolve(klass)) as Importer;
 
-    importer.transform(str);
+    importer.transform({ data: str, userId: currentUserId });
   }
 }
+
+export const ImporterProviders = [ImporterService, OneTabImporter, PinboardImporter];

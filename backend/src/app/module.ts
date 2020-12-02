@@ -8,6 +8,7 @@ import { BookmarksModule } from '../domains/bookmarks';
 import { PagesModule } from '../domains/pages';
 import { AuthModule } from '../domains/auth';
 import { UsersModule } from '../domains/users';
+import { AccountModule } from '../domains/account';
 
 const frontendPath = join(__dirname, '..', '..', '..', 'frontend', 'build');
 
@@ -23,6 +24,7 @@ const frontendPath = join(__dirname, '..', '..', '..', 'frontend', 'build');
     PagesModule,
     AuthModule,
     UsersModule,
+    AccountModule,
     ServeStaticModule.forRoot({
       rootPath: frontendPath,
     }),
