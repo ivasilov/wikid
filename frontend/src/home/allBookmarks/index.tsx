@@ -1,4 +1,3 @@
-import './index.scss';
 import * as React from 'react';
 import { useAllBookmarksQuery } from '../../models';
 import { Bookmarks } from '../components/bookmarks';
@@ -16,7 +15,7 @@ export const AllBookmarks = () => {
     return (
       <Bookmarks
         bookmarks={data.currentUserBookmarks.bookmarks}
-        className="w-all-bookmarks mx-auto mt-8"
+        className="w-5/6 mx-auto mt-8"
         fetchMore={() =>
           fetchMore({
             variables: { cursor },

@@ -15,7 +15,7 @@ export const UnreadBookmarks = () => {
     return (
       <Bookmarks
         bookmarks={data.currentUserUnreadBookmarks.bookmarks}
-        className="w-all-bookmarks mx-auto mt-8"
+        className="w-5/6 mx-auto mt-8"
         fetchMore={() =>
           fetchMore({
             variables: { cursor },

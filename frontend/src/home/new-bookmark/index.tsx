@@ -1,4 +1,3 @@
-import './index.scss';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { Button, InputGroup, MenuItem, FormGroup } from '@blueprintjs/core';
@@ -143,7 +142,7 @@ export const NewBookmark = observer((props: Props) => {
   });
 
   return (
-    <div className="w-new-bookmark mx-auto mt-8">
+    <div className="w-5/6 mx-auto mt-8">
       <FormGroup label="Name of the bookmark">
         <InputGroup leftIcon="filter" onChange={state.changeName} value={state.name} />
       </FormGroup>

@@ -14,7 +14,7 @@ interface Props extends RouteComponentProps<{ id: string }> {
 
 export const Page = observer((props: Props) => {
   return (
-    <div className="w-page mx-auto mt-8">
+    <div className="w-5/6 mx-auto mt-8">
       <InnerPage {...props} />
     </div>
   );

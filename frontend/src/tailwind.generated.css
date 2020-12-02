@@ -740,6 +740,10 @@ video {
   padding-left: 2rem;
 }
 
+.w-5\/6 {
+  width: 83.333333%;
+}
+
 .grid-cols-12 {
   grid-template-columns: repeat(12, minmax(0, 1fr));
 }
