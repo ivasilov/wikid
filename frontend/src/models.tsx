@@ -9,6 +9,8 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** The `Upload` scalar type represents a file upload. */
+  Upload: any;
 };
 
 export type gqlBookmark = {
@@ -38,6 +40,12 @@ export type gqlCreatePageInput = {
   bookmarkIds?: Maybe<Array<Scalars['ID']>>;
 };
 
+export type gqlImportInput = {
+  type: Scalars['String'];
+  upload: Scalars['Upload'];
+  pages?: Maybe<Array<gqlBookmarkNullablePageInput>>;
+};
+
 export type gqlMutation = {
   __typename?: 'Mutation';
   createBookmark: gqlBookmark;
@@ -46,6 +54,7 @@ export type gqlMutation = {
   createPage: gqlPage;
   updatePage: gqlPage;
   deletePage: Scalars['ID'];
+  import: gqlUploadedFileResponse;
 };
 
 export type gqlMutationCreateBookmarkArgs = {
@@ -70,6 +79,10 @@ export type gqlMutationUpdatePageArgs = {
 
 export type gqlMutationDeletePageArgs = {
   id: Scalars['ID'];
+};
+
+export type gqlMutationImportArgs = {
+  params: gqlImportInput;
 };
 
 export type gqlPage = {
@@ -133,6 +146,14 @@ export type gqlUpdatePageInput = {
   content?: Maybe<Scalars['String']>;
 };
 
+export type gqlUploadedFileResponse = {
+  __typename?: 'UploadedFileResponse';
+  filename: Scalars['String'];
+  mimetype: Scalars['String'];
+  encoding: Scalars['String'];
+  url: Scalars['String'];
+};
+
 export type gqlUser = {
   __typename?: 'User';
   id: Scalars['ID'];
@@ -167,6 +188,14 @@ export type gqlUpdatePageMutationVariables = Exact<{
 
 export type gqlUpdatePageMutation = { __typename?: 'Mutation' } & {
   updatePage: { __typename?: 'Page' } & Pick<gqlPage, 'id' | 'name' | 'description' | 'content'>;
+};
+
+export type gqlImportFileMutationVariables = Exact<{
+  params: gqlImportInput;
+}>;
+
+export type gqlImportFileMutation = { __typename?: 'Mutation' } & {
+  import: { __typename?: 'UploadedFileResponse' } & Pick<gqlUploadedFileResponse, 'filename'>;
 };
 
 export type gqlAllBookmarksQueryVariables = Exact<{
@@ -413,6 +442,42 @@ export type UpdatePageMutationResult = Apollo.MutationResult<gqlUpdatePageMutati
 export type UpdatePageMutationOptions = Apollo.BaseMutationOptions<
   gqlUpdatePageMutation,
   gqlUpdatePageMutationVariables
+>;
+export const ImportFileDocument = /*#__PURE__*/ gql`
+  mutation importFile($params: ImportInput!) {
+    import(params: $params) {
+      filename
+    }
+  }
+`;
+
+/**
+ * __useImportFileMutation__
+ *
+ * To run a mutation, you first call `useImportFileMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useImportFileMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [importFileMutation, { data, loading, error }] = useImportFileMutation({
+ *   variables: {
+ *      params: // value for 'params'
+ *   },
+ * });
+ */
+export function useImportFileMutation(
+  baseOptions?: Apollo.MutationHookOptions<gqlImportFileMutation, gqlImportFileMutationVariables>,
+) {
+  return Apollo.useMutation<gqlImportFileMutation, gqlImportFileMutationVariables>(ImportFileDocument, baseOptions);
+}
+export type ImportFileMutationHookResult = ReturnType<typeof useImportFileMutation>;
+export type ImportFileMutationResult = Apollo.MutationResult<gqlImportFileMutation>;
+export type ImportFileMutationOptions = Apollo.BaseMutationOptions<
+  gqlImportFileMutation,
+  gqlImportFileMutationVariables
 >;
 export const AllBookmarksDocument = /*#__PURE__*/ gql`
   query allBookmarks($cursor: String) {

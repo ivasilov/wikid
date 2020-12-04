@@ -2,8 +2,17 @@ import { Service } from 'typedi';
 import { ApolloClient, ApolloLink } from '@apollo/client';
 import { InMemoryCache } from '@apollo/client/cache';
 import { BatchHttpLink } from '@apollo/client/link/batch-http';
+import { createUploadLink } from 'apollo-upload-client';
 import { onError } from '@apollo/client/link/error';
 import { setContext } from '@apollo/client/link/context';
+import { extractFiles } from 'extract-files';
+
+const uploadAndBatchHTTPLink = (opts: any) =>
+  ApolloLink.split(
+    operation => extractFiles(operation).files.size > 0,
+    createUploadLink(opts),
+    new BatchHttpLink(opts),
+  );
 
 export const GraphQLClient = Service(
   () =>
@@ -28,7 +37,7 @@ export const GraphQLClient = Service(
             };
           }),
         )
-        .concat(new BatchHttpLink({ uri: '/api' })),
+        .concat(uploadAndBatchHTTPLink({ uri: '/api' })),
       cache: new InMemoryCache(),
     }),
 );

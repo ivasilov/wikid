@@ -1,0 +1,5 @@
+mutation importFile($params: ImportInput!) {
+  import(params: $params) {
+    filename
+  }
+}
