@@ -6,11 +6,13 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
+  Unique,
 } from 'typeorm';
 import { BookmarkEntity } from '../bookmarks/entity';
 import { UserEntity } from '../users/entity';
 
 @Entity('pages')
+@Unique(['name', 'user'])
 export abstract class PageEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
