@@ -5,7 +5,7 @@ default: # default connection
   'username': 'wikid'
   'password': 'wikid'
   'database': 'wikidb'
-  'logging': true
+  'logging': ["schema", "warn", "error"]
   'entities': ['build/**/entity.js']
   'migrations': ['build/**/migrations/*.js']
   'migrationsRun': true
