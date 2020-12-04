@@ -1,4 +1,6 @@
 import { Test } from '@nestjs/testing';
+import { BookmarksService } from '../../bookmarks/service';
+import { UsersService } from '../../users/service';
 import { PinboardImporter } from './pinboard';
 
 const data = `[
@@ -42,17 +44,21 @@ describe('PinboardImporter', () => {
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
-      providers: [PinboardImporter],
+      providers: [
+        PinboardImporter,
+        { provide: BookmarksService, useValue: { create: () => {} } },
+        { provide: UsersService, useValue: { findById: () => {} } },
+      ],
     }).compile();
 
     importer = await moduleRef.resolve(PinboardImporter);
   });
 
   it('should handle bad format', async () => {
-    expect(() => importer.transform({ userId: 'test', data: 'a' })).toThrow();
+    await expect(() => importer.transform({ userId: 'test', data: 'a', pages: [] })).rejects.toThrow();
   });
 
   it('should handle missing fields in the data', async () => {
-    expect(() => importer.transform({ userId: 'test', data: "{ test: 'test'}" })).toThrow();
+    await expect(() => importer.transform({ userId: 'test', data: "{ test: 'test'}", pages: [] })).rejects.toThrow();
   });
 });
