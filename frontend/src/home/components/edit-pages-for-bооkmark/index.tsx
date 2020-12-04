@@ -69,8 +69,6 @@ export const EditPagesForBookmark = (props: Props) => {
   }
 
   if (data?.currentUserPages) {
-    const availablePages = pages.filter(bp => !pages.find(p => p.id === bp.id));
-
     const selectPage = (p: IdName) => {
       const ps = pages.concat([p]);
       onChange(ps);
@@ -95,10 +93,11 @@ export const EditPagesForBookmark = (props: Props) => {
         onItemSelect={selectPage}
         createNewItemFromQuery={addPage}
         createNewItemRenderer={renderNewTag}
-        items={availablePages}
+        items={data.currentUserPages}
         selectedItems={pages}
         noResults={<MenuItem disabled={true} text="No results." />}
         popoverProps={{ minimal: true }}
+        resetOnSelect
         tagInputProps={{
           tagProps: { minimal: true },
           onRemove: removePage,
