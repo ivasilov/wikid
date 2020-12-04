@@ -11,9 +11,9 @@ import { Account } from './account';
 
 export const Home = () => {
   return (
-    <div className="grid grid-cols-12 font-sans">
+    <div className="grid grid-cols-12 font-sans h-screen">
       <Sidebar />
-      <div className="w-main col-span-10">
+      <div className="w-main col-span-10 overflow-y-auto">
         <div className="pt-2 pb-2 pr-6 flex justify-end">
           <Link to="/account">Account</Link>
         </div>
