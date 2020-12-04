@@ -18,7 +18,7 @@ export const Bookmark = (props: { bookmark: gqlBookmarkFragmentFragment }) => {
       <img
         className="w-favicon mr-5"
         alt="bookmark favicon"
-        src={`https://s2.googleusercontent.com/s2/favicons?domain=${bookmark.url}`}
+        src={`https://s2.googleusercontent.com/s2/favicons?domain=${bookmark.url}&sz=16`}
       />
       <div>
         <div className="font-bold">
