@@ -2,6 +2,9 @@ import { Importer, TransformInput } from './types';
 import * as z from 'zod';
 import { BookmarksService } from '../../bookmarks/service';
 import { Injectable } from '@nestjs/common';
+import { UsersService } from '../../users/service';
+import { compact } from 'lodash';
+import { Promise as Bromise } from 'bluebird';
 
 const bookmarkSchema = z.object({
   href: z.string(),
@@ -19,9 +22,9 @@ const bookmarksSchema = z.array(bookmarkSchema);
 
 @Injectable()
 export class PinboardImporter implements Importer {
-  constructor(private bookmarks: BookmarksService) {}
+  constructor(private bookmarks: BookmarksService, private usersService: UsersService) {}
 
-  transform = (params: TransformInput) => {
+  transform = async (params: TransformInput) => {
     let parsed = {};
     try {
       parsed = JSON.parse(params.data);
@@ -29,25 +32,28 @@ export class PinboardImporter implements Importer {
       throw new Error('An error happened while trying to import the Pinboard data.');
     }
     const validated = bookmarksSchema.parse(parsed);
+    const user = await this.usersService.findById(params.userId);
 
-    return Promise.all(
-      validated.map(b => {
+    return Bromise.map(
+      validated,
+      b => {
         // pinboard tags are one string delimited by spaces
         const pages = b.tags.split(' ');
 
-        const pageIds = pages.map(p => ({ id: undefined, name: p }));
+        const pageIds = compact(pages).map(p => ({ id: undefined, name: p }));
 
         const translated = {
           url: b.href,
           name: b.description,
-          read: b.toread === 'yes',
+          read: b.toread !== 'yes',
           pageIds,
         };
 
         // this method will create a new bookmark and link all pages to the bookmark. If pages under that name are
         // non-existant, they will be created also.
-        return this.bookmarks.create(translated, params.userId);
-      }),
+        return this.bookmarks.create(translated, user);
+      },
+      { concurrency: 1 },
     );
   };
 }

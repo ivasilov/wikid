@@ -31,6 +31,7 @@ input CreatePageInput {
 input ImportInput {
   type: String!
   upload: Upload!
+  pages: [BookmarkNullablePageInput!]
 }
 
 type Mutation {

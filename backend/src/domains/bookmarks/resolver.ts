@@ -18,6 +18,7 @@ import { PageModel } from '../pages/model';
 import { CurrentUser } from '../auth/currentUser';
 import { GqlAuthGuard } from '../auth/gql.guard';
 import { UseGuards } from '@nestjs/common';
+import { UsersService } from '../users/service';
 
 @InputType()
 class CreateBookmarkInput {
@@ -50,7 +51,7 @@ class UpdateBookmarkInput {
 }
 
 @InputType()
-class BookmarkNullablePageInput {
+export class BookmarkNullablePageInput {
   @Field(type => ID, { nullable: true })
   id: string;
 
@@ -70,16 +71,18 @@ abstract class PaginatedBookmarksModel {
 @UseGuards(GqlAuthGuard)
 @Resolver(BookmarkModel)
 export class BookmarksResolver {
-  constructor(private bookmarksService: BookmarksService, private pagesService: PagesService) {}
+  constructor(private bookmarksService: BookmarksService, private usersService: UsersService) {}
 
   @Mutation(returns => BookmarkModel)
-  createBookmark(@CurrentUser() user: { id: string }, @Args('params') params: CreateBookmarkInput) {
-    return this.bookmarksService.create(params, user.id);
+  async createBookmark(@CurrentUser() user: { id: string }, @Args('params') params: CreateBookmarkInput) {
+    const found = await this.usersService.findById(user.id);
+    return this.bookmarksService.create(params, found);
   }
 
   @Mutation(returns => BookmarkModel)
-  updateBookmark(@CurrentUser() user: { id: string }, @Args('params') params: UpdateBookmarkInput) {
-    return this.bookmarksService.update(params, user.id);
+  async updateBookmark(@CurrentUser() user: { id: string }, @Args('params') params: UpdateBookmarkInput) {
+    const found = await this.usersService.findById(user.id);
+    return this.bookmarksService.update(params, found);
   }
 
   @Mutation(returns => ID)

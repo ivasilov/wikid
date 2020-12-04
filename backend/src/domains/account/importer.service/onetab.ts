@@ -1,13 +1,15 @@
 import { BookmarksService } from '../../bookmarks/service';
 import { Importer, TransformInput } from './types';
 import { compact } from 'lodash';
+import { UsersService } from '../../users/service';
 
 export class OneTabImporter implements Importer {
-  constructor(private bookmarks: BookmarksService) {}
+  constructor(private bookmarks: BookmarksService, private usersService: UsersService) {}
 
-  transform = (params: TransformInput) => {
+  transform = async (params: TransformInput) => {
     const validated = params.data.split('\n');
     const compacted = compact(validated);
+    const user = await this.usersService.findById(params.userId);
 
     return Promise.all(
       compacted.map(b => {
@@ -19,7 +21,7 @@ export class OneTabImporter implements Importer {
           pageIds: [],
         };
 
-        return this.bookmarks.create(translated, params.userId);
+        return this.bookmarks.create(translated, user);
       }),
     );
   };

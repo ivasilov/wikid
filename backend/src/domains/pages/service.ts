@@ -1,10 +1,12 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { isNumber } from 'lodash';
+import { isNumber, compact, differenceWith } from 'lodash';
 import { BookmarkEntity } from '../bookmarks/entity';
 import { PageEntity } from './entity';
 import { Repository } from 'typeorm';
 import { PAGES_REPOSITORY } from '../../constants';
 import { UsersService } from '../users/service';
+import { UserEntity } from '../users/entity';
+import { isIdentifierStart } from 'typescript';
 
 @Injectable()
 export class PagesService {
@@ -22,6 +24,10 @@ export class PagesService {
     return pages;
   };
 
+  findByName = async (name: string, user: UserEntity) => {
+    return this.pagesRepository.findOne({ name, user });
+  };
+
   getBookmarksByPageId({ id }: { id: string }) {
     return this.pagesRepository
       .createQueryBuilder('getPageBookmarks')
@@ -30,7 +36,7 @@ export class PagesService {
       .loadMany() as Promise<BookmarkEntity[]>;
   }
 
-  create = async (params: { name: string; description: string; content: string }, userId: string) => {
+  create = async (params: { name: string; description: string; content: string }, user: UserEntity) => {
     const page = {} as PageEntity;
     page.name = params.name;
     if (params.description) {
@@ -39,7 +45,7 @@ export class PagesService {
     if (params.content) {
       page.content = params.content;
     }
-    page.user = await this.usersService.findById(userId);
+    page.user = user;
 
     return this.pagesRepository.save(page);
   };
@@ -78,5 +84,19 @@ export class PagesService {
     } else {
       return 0;
     }
+  };
+
+  upsert = async (pageIds: { id?: string; name: string }[], user: UserEntity) => {
+    const pIds = compact(pageIds.map(p => p.id));
+    const pages = await this.findByIds(pIds);
+
+    let pNames = compact(pageIds.filter(p => !p.id).map(p => p.name));
+
+    const existingPages = compact(await Promise.all(pNames.map(name => this.findByName(name, user))));
+    pNames = differenceWith(pNames, existingPages, (n, e) => n === e.name);
+
+    const newPages = await Promise.all(pNames.map(name => this.create({ name, description: '', content: '' }, user)));
+
+    return [...pages, ...existingPages, ...newPages];
   };
 }

@@ -6,6 +6,7 @@ import { PageEntity } from './entity';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from '../auth/gql.guard';
 import { CurrentUser } from '../auth/currentUser';
+import { UsersService } from '../users/service';
 
 @InputType()
 export class CreatePageInput {
@@ -40,11 +41,12 @@ class UpdatePageInput {
 @UseGuards(GqlAuthGuard)
 @Resolver(PageModel)
 export class PagesResolver {
-  constructor(private pagesService: PagesService) {}
+  constructor(private pagesService: PagesService, private usersService: UsersService) {}
 
   @Mutation(returns => PageModel)
-  createPage(@CurrentUser() user: { id: string }, @Args('params') params: CreatePageInput) {
-    return this.pagesService.create(params, user.id);
+  async createPage(@CurrentUser() user: { id: string }, @Args('params') params: CreatePageInput) {
+    const found = await this.usersService.findById(user.id);
+    return this.pagesService.create(params, found);
   }
 
   @Mutation(returns => PageModel)

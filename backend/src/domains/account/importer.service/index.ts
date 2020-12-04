@@ -13,7 +13,7 @@ const importers: Record<string, any> = {
 export class ImporterService {
   constructor(private moduleRef: ModuleRef) {}
 
-  async import(type: string, str: string, currentUserId: string) {
+  async import(type: string, str: string, pages: { id: string; name: string }[], currentUserId: string) {
     const klass = importers[type];
 
     if (!klass) {
@@ -22,7 +22,7 @@ export class ImporterService {
 
     const importer = (await this.moduleRef.resolve(klass)) as Importer;
 
-    importer.transform({ data: str, userId: currentUserId });
+    importer.transform({ data: str, pages, userId: currentUserId });
   }
 }
 

@@ -5,6 +5,7 @@ import { UseGuards } from '@nestjs/common';
 import { GraphQLUpload, FileUpload } from 'graphql-upload';
 import { ImporterService } from './importer.service';
 import { CurrentUser } from '../auth/currentUser';
+import { BookmarkNullablePageInput } from '../bookmarks/resolver';
 
 @ObjectType()
 class UploadedFileResponse {
@@ -28,6 +29,9 @@ class ImportInput {
 
   @Field(type => GraphQLUpload)
   upload: Promise<FileUpload>;
+
+  @Field(type => [BookmarkNullablePageInput], { nullable: true })
+  pages: { id: string; name: string }[];
 }
 
 @UseGuards(GqlAuthGuard)
@@ -53,8 +57,8 @@ export class AccountResolver {
         const buffer = Buffer.concat(bufs);
         resolve(buffer);
       });
-    }).then(buff => {
-      this.importer.import(params.type, buff.toString(), user.id);
+    }).then(async buff => {
+      await this.importer.import(params.type, buff.toString(), params.pages, user.id);
 
       return {
         filename: '',
