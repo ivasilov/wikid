@@ -7,8 +7,6 @@ COPY . .
 RUN yarn install
 RUN yarn build
 
-RUN ls /usr/src/app/backend/build
-
 # Build stage 2, build a lean image for deploying
 FROM node:12
 
