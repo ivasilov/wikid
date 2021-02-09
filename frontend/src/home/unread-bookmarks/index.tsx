@@ -1,13 +1,15 @@
+import { uniqBy } from 'lodash';
 import * as React from 'react';
 import { useUnreadBookmarksQuery } from '../../models';
-import { Bookmarks } from '../components/bookmarks';
-import { Loading } from '../../loading';
+import { Bookmarks, LoadingBookmarks } from '../components/bookmarks';
 
 export const UnreadBookmarks = () => {
+  const classes = 'w-5/6 mx-auto mt-8';
+
   const { data, loading, fetchMore } = useUnreadBookmarksQuery({ fetchPolicy: 'network-only' });
 
   if (loading) {
-    return <Loading />;
+    return <LoadingBookmarks className={classes} />;
   }
   if (data?.currentUserUnreadBookmarks) {
     const cursor = data.currentUserUnreadBookmarks.cursor;
@@ -15,7 +17,7 @@ export const UnreadBookmarks = () => {
     return (
       <Bookmarks
         bookmarks={data.currentUserUnreadBookmarks.bookmarks}
-        className="w-5/6 mx-auto mt-8"
+        className={classes}
         fetchMore={() =>
           fetchMore({
             variables: { cursor },
@@ -24,7 +26,7 @@ export const UnreadBookmarks = () => {
                 return previousResult;
               }
               const previousEntry = previousResult.currentUserUnreadBookmarks;
-              let newBookmarks = fetchMoreResult.currentUserUnreadBookmarks.bookmarks;
+              let newBookmarks = fetchMoreResult.currentUserUnreadBookmarks;
               let newCursor = fetchMoreResult.currentUserUnreadBookmarks.cursor;
 
               return {
@@ -33,7 +35,7 @@ export const UnreadBookmarks = () => {
                   // to the new cursor.
                   cursor: newCursor,
                   // Put the new comments in the front of the list
-                  bookmarks: [...previousEntry.bookmarks, ...newBookmarks],
+                  bookmarks: uniqBy([...previousEntry.bookmarks, ...newBookmarks.bookmarks], b => b.id),
                   __typename: previousEntry.__typename,
                 },
               };

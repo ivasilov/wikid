@@ -1,13 +1,15 @@
 import * as React from 'react';
 import { useAllBookmarksQuery } from '../../models';
-import { Bookmarks } from '../components/bookmarks';
-import { Loading } from '../../loading';
+import { Bookmarks, LoadingBookmarks } from '../components/bookmarks';
+import { uniqBy } from 'lodash';
 
 export const AllBookmarks = () => {
+  const classes = 'w-5/6 mx-auto mt-8';
+
   const { data, loading, fetchMore } = useAllBookmarksQuery({ fetchPolicy: 'network-only' });
 
   if (loading) {
-    return <Loading />;
+    return <LoadingBookmarks className={classes} />;
   }
   if (data?.currentUserBookmarks) {
     const cursor = data.currentUserBookmarks.cursor;
@@ -15,12 +17,11 @@ export const AllBookmarks = () => {
     return (
       <Bookmarks
         bookmarks={data.currentUserBookmarks.bookmarks}
-        className="w-5/6 mx-auto mt-8"
+        className={classes}
         fetchMore={() =>
           fetchMore({
             variables: { cursor },
             updateQuery: (previousResult, { fetchMoreResult }) => {
-              console.log('called');
               if (!fetchMoreResult) {
                 return previousResult;
               }
@@ -34,7 +35,7 @@ export const AllBookmarks = () => {
                   // to the new cursor.
                   cursor: newCursor,
                   // Put the new comments in the front of the list
-                  bookmarks: [...previousEntry.bookmarks, ...newBookmarks],
+                  bookmarks: uniqBy([...previousEntry.bookmarks, ...newBookmarks], b => b.id),
                   __typename: previousEntry.__typename,
                 },
               };

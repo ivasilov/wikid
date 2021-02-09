@@ -4,6 +4,7 @@ import { Bookmark } from '../bookmark';
 import { Spinner } from '@blueprintjs/core';
 import { gqlBookmarksFragmentFragment } from '../../../models';
 
+export { LoadingBookmarks } from './loading';
 export const Bookmarks = observer(
   (props: {
     bookmarks: gqlBookmarksFragmentFragment[];
