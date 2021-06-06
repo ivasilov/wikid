@@ -2,6 +2,15 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Page {
+  id: ID!
+  name: String!
+  description: String!
+  content: String!
+  bookmarks: [Bookmark!]!
+  bookmarksCount: Int!
+}
+
 type Bookmark {
   id: ID!
   url: String!
@@ -10,28 +19,30 @@ type Bookmark {
   pages: [Page!]!
 }
 
-input BookmarkNullablePageInput {
-  id: ID
-  name: String!
+type User {
+  id: ID!
+  email: String!
 }
 
-input CreateBookmarkInput {
+type UploadedFileResponse {
+  filename: String!
+  mimetype: String!
+  encoding: String!
   url: String!
-  name: String!
-  pageIds: [BookmarkNullablePageInput!]
 }
 
-input CreatePageInput {
-  name: String!
-  description: String
-  content: String
-  bookmarkIds: [ID!]
+type Query {
+  currentUserBookmarks(cursor: String): paginatedBookmarks!
+  currentUserUnreadBookmarks(cursor: String): paginatedBookmarks!
+  bookmark(id: ID!): Bookmark!
+  currentUserPages(cursor: String): [Page!]!
+  page(id: ID!): Page!
+  currentUser: User!
 }
 
-input ImportInput {
-  type: String!
-  upload: Upload!
-  pages: [BookmarkNullablePageInput!]
+type paginatedBookmarks {
+  cursor: String
+  bookmarks: [Bookmark!]!
 }
 
 type Mutation {
@@ -44,27 +55,15 @@ type Mutation {
   import(params: ImportInput!): UploadedFileResponse!
 }
 
-type Page {
-  id: ID!
+input CreateBookmarkInput {
+  url: String!
   name: String!
-  description: String!
-  content: String!
-  bookmarks: [Bookmark!]!
-  bookmarksCount: Int!
+  pageIds: [BookmarkNullablePageInput!]
 }
 
-type paginatedBookmarks {
-  cursor: String
-  bookmarks: [Bookmark!]!
-}
-
-type Query {
-  currentUserBookmarks(cursor: String): paginatedBookmarks!
-  currentUserUnreadBookmarks(cursor: String): paginatedBookmarks!
-  bookmark(id: ID!): Bookmark!
-  currentUserPages(cursor: String): [Page!]!
-  page(id: ID!): Page!
-  currentUser: User!
+input BookmarkNullablePageInput {
+  id: ID
+  name: String!
 }
 
 input UpdateBookmarkInput {
@@ -75,6 +74,13 @@ input UpdateBookmarkInput {
   pageIds: [BookmarkNullablePageInput!]
 }
 
+input CreatePageInput {
+  name: String!
+  description: String
+  content: String
+  bookmarkIds: [ID!]
+}
+
 input UpdatePageInput {
   id: ID!
   name: String
@@ -82,17 +88,11 @@ input UpdatePageInput {
   content: String
 }
 
+input ImportInput {
+  type: String!
+  upload: Upload!
+  pages: [BookmarkNullablePageInput!]
+}
+
 """The `Upload` scalar type represents a file upload."""
 scalar Upload
-
-type UploadedFileResponse {
-  filename: String!
-  mimetype: String!
-  encoding: String!
-  url: String!
-}
-
-type User {
-  id: ID!
-  email: String!
-}

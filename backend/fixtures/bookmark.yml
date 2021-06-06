@@ -6,3 +6,4 @@ items:
     pages:
       - '@page*'
     user: '@user1'
+    read: false

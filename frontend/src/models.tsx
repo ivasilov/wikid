@@ -13,6 +13,16 @@ export type Scalars = {
   Upload: any;
 };
 
+export type gqlPage = {
+  __typename?: 'Page';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  description: Scalars['String'];
+  content: Scalars['String'];
+  bookmarks: Array<gqlBookmark>;
+  bookmarksCount: Scalars['Int'];
+};
+
 export type gqlBookmark = {
   __typename?: 'Bookmark';
   id: Scalars['ID'];
@@ -22,28 +32,54 @@ export type gqlBookmark = {
   pages: Array<gqlPage>;
 };
 
-export type gqlBookmarkNullablePageInput = {
-  id?: Maybe<Scalars['ID']>;
-  name: Scalars['String'];
+export type gqlUser = {
+  __typename?: 'User';
+  id: Scalars['ID'];
+  email: Scalars['String'];
 };
 
-export type gqlCreateBookmarkInput = {
+export type gqlUploadedFileResponse = {
+  __typename?: 'UploadedFileResponse';
+  filename: Scalars['String'];
+  mimetype: Scalars['String'];
+  encoding: Scalars['String'];
   url: Scalars['String'];
-  name: Scalars['String'];
-  pageIds?: Maybe<Array<gqlBookmarkNullablePageInput>>;
 };
 
-export type gqlCreatePageInput = {
-  name: Scalars['String'];
-  description?: Maybe<Scalars['String']>;
-  content?: Maybe<Scalars['String']>;
-  bookmarkIds?: Maybe<Array<Scalars['ID']>>;
+export type gqlQuery = {
+  __typename?: 'Query';
+  currentUserBookmarks: gqlPaginatedBookmarks;
+  currentUserUnreadBookmarks: gqlPaginatedBookmarks;
+  bookmark: gqlBookmark;
+  currentUserPages: Array<gqlPage>;
+  page: gqlPage;
+  currentUser: gqlUser;
 };
 
-export type gqlImportInput = {
-  type: Scalars['String'];
-  upload: Scalars['Upload'];
-  pages?: Maybe<Array<gqlBookmarkNullablePageInput>>;
+export type gqlQueryCurrentUserBookmarksArgs = {
+  cursor?: Maybe<Scalars['String']>;
+};
+
+export type gqlQueryCurrentUserUnreadBookmarksArgs = {
+  cursor?: Maybe<Scalars['String']>;
+};
+
+export type gqlQueryBookmarkArgs = {
+  id: Scalars['ID'];
+};
+
+export type gqlQueryCurrentUserPagesArgs = {
+  cursor?: Maybe<Scalars['String']>;
+};
+
+export type gqlQueryPageArgs = {
+  id: Scalars['ID'];
+};
+
+export type gqlPaginatedBookmarks = {
+  __typename?: 'paginatedBookmarks';
+  cursor?: Maybe<Scalars['String']>;
+  bookmarks: Array<gqlBookmark>;
 };
 
 export type gqlMutation = {
@@ -85,50 +121,15 @@ export type gqlMutationImportArgs = {
   params: gqlImportInput;
 };
 
-export type gqlPage = {
-  __typename?: 'Page';
-  id: Scalars['ID'];
+export type gqlCreateBookmarkInput = {
+  url: Scalars['String'];
   name: Scalars['String'];
-  description: Scalars['String'];
-  content: Scalars['String'];
-  bookmarks: Array<gqlBookmark>;
-  bookmarksCount: Scalars['Int'];
+  pageIds?: Maybe<Array<gqlBookmarkNullablePageInput>>;
 };
 
-export type gqlPaginatedBookmarks = {
-  __typename?: 'paginatedBookmarks';
-  cursor?: Maybe<Scalars['String']>;
-  bookmarks: Array<gqlBookmark>;
-};
-
-export type gqlQuery = {
-  __typename?: 'Query';
-  currentUserBookmarks: gqlPaginatedBookmarks;
-  currentUserUnreadBookmarks: gqlPaginatedBookmarks;
-  bookmark: gqlBookmark;
-  currentUserPages: Array<gqlPage>;
-  page: gqlPage;
-  currentUser: gqlUser;
-};
-
-export type gqlQueryCurrentUserBookmarksArgs = {
-  cursor?: Maybe<Scalars['String']>;
-};
-
-export type gqlQueryCurrentUserUnreadBookmarksArgs = {
-  cursor?: Maybe<Scalars['String']>;
-};
-
-export type gqlQueryBookmarkArgs = {
-  id: Scalars['ID'];
-};
-
-export type gqlQueryCurrentUserPagesArgs = {
-  cursor?: Maybe<Scalars['String']>;
-};
-
-export type gqlQueryPageArgs = {
-  id: Scalars['ID'];
+export type gqlBookmarkNullablePageInput = {
+  id?: Maybe<Scalars['ID']>;
+  name: Scalars['String'];
 };
 
 export type gqlUpdateBookmarkInput = {
@@ -139,6 +140,13 @@ export type gqlUpdateBookmarkInput = {
   pageIds?: Maybe<Array<gqlBookmarkNullablePageInput>>;
 };
 
+export type gqlCreatePageInput = {
+  name: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  content?: Maybe<Scalars['String']>;
+  bookmarkIds?: Maybe<Array<Scalars['ID']>>;
+};
+
 export type gqlUpdatePageInput = {
   id: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
@@ -146,18 +154,10 @@ export type gqlUpdatePageInput = {
   content?: Maybe<Scalars['String']>;
 };
 
-export type gqlUploadedFileResponse = {
-  __typename?: 'UploadedFileResponse';
-  filename: Scalars['String'];
-  mimetype: Scalars['String'];
-  encoding: Scalars['String'];
-  url: Scalars['String'];
-};
-
-export type gqlUser = {
-  __typename?: 'User';
-  id: Scalars['ID'];
-  email: Scalars['String'];
+export type gqlImportInput = {
+  type: Scalars['String'];
+  upload: Scalars['Upload'];
+  pages?: Maybe<Array<gqlBookmarkNullablePageInput>>;
 };
 
 export type gqlCreateBookmarkMutationVariables = Exact<{
