@@ -21,7 +21,7 @@
     "classnames": "^2.2.6",
     "codemirror": "^5.52.2",
     "extract-files": "^9.0.0",
-    "graphql": "^14.4.2",
+    "graphql": "^15.0.0",
     "graphql-tag": "^2.10.1",
     "mobx": "^5.10.0",
     "mobx-react": "^6.0.3",
