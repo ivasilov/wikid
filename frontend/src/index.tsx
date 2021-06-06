@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import './index.scss';
-import './tailwind.generated.css';
 import Container from 'typedi';
 import { configure } from 'mobx';
 import { FocusStyleManager } from '@blueprintjs/core';

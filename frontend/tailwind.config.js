@@ -1,19 +1,12 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
 
 module.exports = {
-  purge: {
-    enabled: true,
-    content: ['./src/**/*.tsx'],
-  },
+  purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
   theme: {
     fontFamily: {
       sans: ['Inter', ...defaultTheme.fontFamily.sans],
       mono: defaultTheme.fontFamily.mono,
     },
-  },
-  variants: {
-    margin: ['default'],
-    padding: ['default'],
   },
   plugins: [],
 };
