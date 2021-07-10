@@ -50,7 +50,7 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test --passWithNoTests",
-    "clean": "rimraf node_modules && rimraf build/",
+    "clean": "rimraf build && rimraf node_modules",
     "eject": "react-scripts eject"
   },
   "proxy": "http://localhost:4000",
