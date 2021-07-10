@@ -1,5 +1,5 @@
 # Build stage, build an image for building the app
-FROM node:12 as builder
+FROM node:14 as builder
 
 WORKDIR /usr/src/app
 
@@ -8,7 +8,7 @@ RUN yarn install
 RUN yarn build
 
 # Build stage 2, build a lean image for deploying
-FROM node:12
+FROM node:14
 
 WORKDIR /usr/app
 
