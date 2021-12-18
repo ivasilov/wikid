@@ -19,7 +19,7 @@ export const SignIn = () => {
     if (response.data.accessToken) {
       localStorage.setItem('accessToken', response.data.accessToken);
     }
-    window.location.reload(false);
+    window.location.reload();
   }
 
   return (
