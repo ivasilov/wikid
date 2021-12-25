@@ -8,7 +8,7 @@ import { Bookmarks } from '../../components/bookmarks';
 import { gqlReadOnlyPageFragmentFragment } from '../../../models';
 
 const Notes = observer((props: { content: string }) => {
-  return <ReactMarkdown className="singlepage-content-text" source={props.content} />;
+  return <ReactMarkdown className="singlepage-content-text" children={props.content} />;
 });
 
 export const ReadOnlyPage = observer((props: { page: gqlReadOnlyPageFragmentFragment }) => {
