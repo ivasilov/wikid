@@ -1,7 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { buildPaginator } from 'typeorm-cursor-pagination';
-import { isBoolean } from 'lodash';
 import { BOOKMARKS_REPOSITORY } from '../../constants';
 import { BookmarkEntity } from './entity';
 import { PagesService } from '../pages/service';

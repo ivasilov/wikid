@@ -6,7 +6,6 @@ import { Repository } from 'typeorm';
 import { PAGES_REPOSITORY } from '../../constants';
 import { UsersService } from '../users/service';
 import { UserEntity } from '../users/entity';
-import { isIdentifierStart } from 'typescript';
 
 @Injectable()
 export class PagesService {

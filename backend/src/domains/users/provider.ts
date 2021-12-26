@@ -1,4 +1,4 @@
-import { Connection, Repository } from 'typeorm';
+import { Connection } from 'typeorm';
 import { UserEntity } from './entity';
 import { DATABASE_CONNECTION, USERS_REPOSITORY } from '../../constants';
 

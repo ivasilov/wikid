@@ -13,7 +13,6 @@ import {
 } from '@nestjs/graphql';
 import { BookmarkEntity } from './entity';
 import { BookmarkModel } from './model';
-import { PagesService } from '../pages/service';
 import { PageModel } from '../pages/model';
 import { CurrentUser } from '../auth/currentUser';
 import { GqlAuthGuard } from '../auth/gql.guard';

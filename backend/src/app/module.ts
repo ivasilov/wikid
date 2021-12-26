@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { AppService } from './service';
-import { AppController } from './controller';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
@@ -29,7 +28,6 @@ const frontendPath = join(__dirname, '..', '..', '..', 'frontend', 'build');
       rootPath: frontendPath,
     }),
   ],
-  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}

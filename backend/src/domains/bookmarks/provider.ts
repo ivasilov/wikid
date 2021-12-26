@@ -1,4 +1,4 @@
-import { Connection, Repository } from 'typeorm';
+import { Connection } from 'typeorm';
 import { BookmarkEntity } from './entity';
 import { BOOKMARKS_REPOSITORY, DATABASE_CONNECTION } from '../../constants';
 

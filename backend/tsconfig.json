@@ -17,7 +17,8 @@
     "strictPropertyInitialization": false,
     "esModuleInterop": true,
     "removeComments": true,
+    "noUnusedLocals": true,
     "typeRoots": ["../typings", "../node_modules/@types"]
   },
-  "exclude": ["node_modules", "build"]
+  "exclude": ["node_modules", "test", "build", "**/*spec.ts"]
 }
