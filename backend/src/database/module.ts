@@ -1,8 +1,18 @@
 import { Module } from '@nestjs/common';
-import { databaseProviders } from './provider';
+import { createConnection } from 'typeorm';
+import { DATABASE_CONNECTION } from '../constants';
+import { TransactionWrapper } from './transaction-wrapper';
+
+const providers = [
+  {
+    provide: DATABASE_CONNECTION,
+    useFactory: () => createConnection(),
+  },
+  TransactionWrapper,
+];
 
 @Module({
-  providers: [...databaseProviders],
-  exports: [...databaseProviders],
+  providers: [...providers],
+  exports: [...providers],
 })
 export class DatabaseModule {}
