@@ -1,11 +1,10 @@
 import { AuthService } from './service';
-import { UsersService } from '../users/service';
 import { Post, Body, Controller } from '@nestjs/common';
 import { Ctx, RequestContext } from '../../app';
 
 @Controller()
 export class AuthController {
-  constructor(private readonly authService: AuthService, private readonly usersService: UsersService) {}
+  constructor(private readonly authService: AuthService) {}
 
   // @Post('register')
   // public async register(@Response() res, @Body() createUserDto: CreateUserDto) {

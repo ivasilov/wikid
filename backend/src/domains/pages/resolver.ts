@@ -70,7 +70,6 @@ export class PagesResolver {
     @CurrentUser() user: { id: string },
     @Args('cursor', { nullable: true }) cursor?: string,
   ): Promise<PageModel[]> {
-    console.log('currentUserPages');
     return this.pagesService.getPagesByUserId(ctx, user.id);
   }
 
@@ -82,14 +81,12 @@ export class PagesResolver {
   @ResolveField(returns => [BookmarkModel])
   bookmarks(@Ctx() ctx: RequestContext, @Parent() page: PageEntity) {
     const { id } = page;
-    console.log('bookmarks');
     return this.pagesService.getBookmarksByPageId(ctx, { id });
   }
 
   @ResolveField(returns => Int)
   bookmarksCount(@Ctx() ctx: RequestContext, @Parent() page: PageEntity) {
     const { id } = page;
-    console.log('bookmarksCount');
     return this.pagesService.getBookmarksCountByPageId(ctx, id);
   }
 }

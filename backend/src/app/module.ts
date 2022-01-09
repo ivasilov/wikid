@@ -21,6 +21,8 @@ const frontendPath = join(__dirname, '..', '..', '..', 'frontend', 'build');
     GraphQLModule.forRoot({
       autoSchemaFile: join(process.cwd(), 'schema.graphql'),
       path: '/api',
+      // added so that the field resolvers are also intercepted and a separate transaction is created for them
+      fieldResolverEnhancers: ['interceptors'],
       context: ({ req }) => ({ req }),
       cors: {}, // pass options here
     }),
