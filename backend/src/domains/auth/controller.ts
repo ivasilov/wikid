@@ -1,7 +1,7 @@
 import { AuthService } from './service';
 import { UsersService } from '../users/service';
-import { Post, Body, UseGuards, Controller } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
+import { Post, Body, Controller } from '@nestjs/common';
+import { Ctx, RequestContext } from '../../app';
 
 @Controller()
 export class AuthController {
@@ -17,20 +17,18 @@ export class AuthController {
   // }
 
   @Post('login')
-  @UseGuards(AuthGuard('local'))
-  public async login(@Body() body: { email: string; password: string }) {
-    return await this.usersService.findOne({ email: body.email }).then(user => {
-      if (user) {
-        return this.authService.login(user);
-      }
-      // if (!user) {
-      //   res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-      //     message: 'User Not Found',
-      //   });
-      // } else {
-      //   const token = this.authService.login(user);
-      //   return res.status(HttpStatus.OK).json(token);
-      // }
-    });
+  public async login(@Ctx() ctx: RequestContext, @Body() body: { email: string; password: string }) {
+    const user = await this.authService.validateUser(ctx, body.email, body.password);
+    if (user) {
+      return this.authService.login(user);
+    }
+    // if (!user) {
+    //   res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+    //     message: 'User Not Found',
+    //   });
+    // } else {
+    //   const token = this.authService.login(user);
+    //   return res.status(HttpStatus.OK).json(token);
+    // }
   }
 }
