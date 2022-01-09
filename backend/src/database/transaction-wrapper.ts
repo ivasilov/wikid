@@ -5,7 +5,8 @@ import { Connection, QueryRunner } from 'typeorm';
 import { TransactionAlreadyStartedError } from 'typeorm/error/TransactionAlreadyStartedError';
 
 import { RequestContext } from '../app/request-context';
-import { DATABASE_CONNECTION, TRANSACTION_MANAGER_KEY } from '../constants';
+import { TRANSACTION_MANAGER_KEY } from '../constants';
+import { DATABASE_CONNECTION } from './constants';
 
 /**
  * @description
@@ -21,14 +22,14 @@ export class TransactionWrapper {
    * throws an error or rejects, then all DB operations will be rolled back.
    */
   async executeInTransaction<T>(ctx: RequestContext, work: () => Observable<T> | Promise<T>): Promise<T> {
-    const queryRunnerExists = !!(ctx as any)[TRANSACTION_MANAGER_KEY];
-    if (queryRunnerExists) {
+    let queryRunner = (ctx as any)[TRANSACTION_MANAGER_KEY] as QueryRunner | undefined;
+    if (queryRunner && queryRunner.isReleased === false) {
       // If a QueryRunner already exists on the RequestContext, there must be an existing
       // outer transaction in progress. In that case, we just execute the work function
       // as usual without needing to further wrap in a transaction.
-      return from(work()).toPromise();
+      return from(work()).toPromise() as Promise<T>;
     }
-    const queryRunner = this.connection.createQueryRunner();
+    queryRunner = this.connection.createQueryRunner();
     await this.startTransaction(queryRunner);
     (ctx as any)[TRANSACTION_MANAGER_KEY] = queryRunner.manager;
 
@@ -51,7 +52,7 @@ export class TransactionWrapper {
       if (queryRunner.isTransactionActive) {
         await queryRunner.commitTransaction();
       }
-      return result;
+      return result as T;
     } catch (error) {
       if (queryRunner.isTransactionActive) {
         await queryRunner.rollbackTransaction();

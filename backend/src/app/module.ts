@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { AppService } from './service';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 
+import { AppService } from './service';
 import { BookmarksModule } from '../domains/bookmarks';
 import { PagesModule } from '../domains/pages';
 import { AuthModule } from '../domains/auth';
