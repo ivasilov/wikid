@@ -1,3 +1,5 @@
+import { RequestContext } from '../../../app';
+
 export type TransformInput = {
   data: string;
   pages: { id: string; name: string }[];
@@ -5,5 +7,5 @@ export type TransformInput = {
 };
 
 export interface Importer {
-  transform: (i: TransformInput) => Promise<any>;
+  transform: (ctx: RequestContext, i: TransformInput) => Promise<any>;
 }

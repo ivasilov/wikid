@@ -18,6 +18,7 @@ import { CurrentUser } from '../auth/currentUser';
 import { GqlAuthGuard } from '../auth/gql.guard';
 import { UseGuards } from '@nestjs/common';
 import { UsersService } from '../users/service';
+import { Ctx, RequestContext } from '../../app';
 
 @InputType()
 class CreateBookmarkInput {
@@ -73,15 +74,23 @@ export class BookmarksResolver {
   constructor(private bookmarksService: BookmarksService, private usersService: UsersService) {}
 
   @Mutation(returns => BookmarkModel)
-  async createBookmark(@CurrentUser() user: { id: string }, @Args('params') params: CreateBookmarkInput) {
-    const found = await this.usersService.findById(user.id);
-    return this.bookmarksService.create(params, found);
+  async createBookmark(
+    @Ctx() ctx: RequestContext,
+    @CurrentUser() user: { id: string },
+    @Args('params') params: CreateBookmarkInput,
+  ) {
+    const found = await this.usersService.findById(ctx, user.id);
+    return this.bookmarksService.create(ctx, params, found);
   }
 
   @Mutation(returns => BookmarkModel)
-  async updateBookmark(@CurrentUser() user: { id: string }, @Args('params') params: UpdateBookmarkInput) {
-    const found = await this.usersService.findById(user.id);
-    return this.bookmarksService.update(params, found);
+  async updateBookmark(
+    @Ctx() ctx: RequestContext,
+    @CurrentUser() user: { id: string },
+    @Args('params') params: UpdateBookmarkInput,
+  ) {
+    const found = await this.usersService.findById(ctx, user.id);
+    return this.bookmarksService.update(ctx, params, found);
   }
 
   @Mutation(returns => ID)
@@ -90,23 +99,31 @@ export class BookmarksResolver {
   }
 
   @Query(returns => PaginatedBookmarksModel, { name: 'currentUserBookmarks' })
-  currentUserBookmarks(@CurrentUser() user: { id: string }, @Args('cursor', { nullable: true }) cursor?: string) {
-    return this.bookmarksService.getBookmarksByUserId(user.id, false, cursor);
+  currentUserBookmarks(
+    @Ctx() ctx: RequestContext,
+    @CurrentUser() user: { id: string },
+    @Args('cursor', { nullable: true }) cursor?: string,
+  ) {
+    return this.bookmarksService.getBookmarksByUserId(ctx, user.id, false, cursor);
   }
 
   @Query(returns => PaginatedBookmarksModel, { name: 'currentUserUnreadBookmarks' })
-  currentUserUnreadBookmarks(@CurrentUser() user: { id: string }, @Args('cursor', { nullable: true }) cursor?: string) {
-    return this.bookmarksService.getBookmarksByUserId(user.id, true, cursor);
+  currentUserUnreadBookmarks(
+    @Ctx() ctx: RequestContext,
+    @CurrentUser() user: { id: string },
+    @Args('cursor', { nullable: true }) cursor?: string,
+  ) {
+    return this.bookmarksService.getBookmarksByUserId(ctx, user.id, true, cursor);
   }
 
   @Query(returns => BookmarkModel, { name: 'bookmark' })
-  bookmark(@Args('id', { type: () => ID }) id: string): Promise<BookmarkModel> {
-    return this.bookmarksService.findOneById(id);
+  bookmark(@Ctx() ctx: RequestContext, @Args('id', { type: () => ID }) id: string): Promise<BookmarkModel> {
+    return this.bookmarksService.findOneById(ctx, id);
   }
 
   @ResolveField(returns => [PageModel])
-  pages(@Parent() bookmark: BookmarkEntity) {
+  pages(@Ctx() ctx: RequestContext, @Parent() bookmark: BookmarkEntity) {
     const { id } = bookmark;
-    return this.bookmarksService.getPagesByBookmarkId({ id });
+    return this.bookmarksService.getPagesByBookmarkId(ctx, { id });
   }
 }

@@ -5,6 +5,7 @@ import { Injectable } from '@nestjs/common';
 import { UsersService } from '../../users/service';
 import { compact } from 'lodash';
 import { Promise as Bromise } from 'bluebird';
+import { RequestContext } from '../../../app';
 
 const bookmarkSchema = z.object({
   href: z.string(),
@@ -24,7 +25,7 @@ const bookmarksSchema = z.array(bookmarkSchema);
 export class PinboardImporter implements Importer {
   constructor(private bookmarks: BookmarksService, private usersService: UsersService) {}
 
-  transform = async (params: TransformInput) => {
+  transform = async (ctx: RequestContext, params: TransformInput) => {
     let parsed = {};
     try {
       parsed = JSON.parse(params.data);
@@ -32,7 +33,7 @@ export class PinboardImporter implements Importer {
       throw new Error('An error happened while trying to import the Pinboard data.');
     }
     const validated = bookmarksSchema.parse(parsed);
-    const user = await this.usersService.findById(params.userId);
+    const user = await this.usersService.findById(ctx, params.userId);
 
     return Bromise.map(
       validated,
@@ -51,7 +52,7 @@ export class PinboardImporter implements Importer {
 
         // this method will create a new bookmark and link all pages to the bookmark. If pages under that name are
         // non-existant, they will be created also.
-        return this.bookmarks.create(translated, user);
+        return this.bookmarks.create(ctx, translated, user);
       },
       { concurrency: 1 },
     );

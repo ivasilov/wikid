@@ -2,14 +2,15 @@ import { BookmarksService } from '../../bookmarks/service';
 import { Importer, TransformInput } from './types';
 import { compact } from 'lodash';
 import { UsersService } from '../../users/service';
+import { RequestContext } from '../../../app';
 
 export class OneTabImporter implements Importer {
   constructor(private bookmarks: BookmarksService, private usersService: UsersService) {}
 
-  transform = async (params: TransformInput) => {
+  transform = async (ctx: RequestContext, params: TransformInput) => {
     const validated = params.data.split('\n');
     const compacted = compact(validated);
-    const user = await this.usersService.findById(params.userId);
+    const user = await this.usersService.findById(ctx, params.userId);
 
     return Promise.all(
       compacted.map(b => {
@@ -21,7 +22,7 @@ export class OneTabImporter implements Importer {
           pageIds: [],
         };
 
-        return this.bookmarks.create(translated, user);
+        return this.bookmarks.create(ctx, translated, user);
       }),
     );
   };

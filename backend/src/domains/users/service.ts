@@ -1,25 +1,23 @@
-import { Injectable, Inject } from '@nestjs/common';
-import { USERS_REPOSITORY } from '../../constants';
-import { Repository } from 'typeorm';
+import { Injectable } from '@nestjs/common';
+import {} from '../../constants';
 import { UserEntity } from './entity';
+import { TransactionalConnection } from '../../database';
+import { RequestContext } from '../../app/request-context';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    @Inject(USERS_REPOSITORY)
-    private usersRepository: Repository<UserEntity>,
-  ) {}
+  constructor(private connection: TransactionalConnection) {}
 
-  findAll() {
-    return this.usersRepository.find();
+  findAll(ctx: RequestContext) {
+    return this.connection.getRepository(ctx, UserEntity).find();
   }
 
-  findOne(user: Partial<UserEntity>) {
-    return this.usersRepository.findOne(user);
+  findOne(ctx: RequestContext, user: Partial<UserEntity>) {
+    return this.connection.getRepository(ctx, UserEntity).findOne(user);
   }
 
-  findById(id: string) {
-    return this.usersRepository.findOneOrFail(id);
+  findById(ctx: RequestContext, id: string) {
+    return this.connection.getRepository(ctx, UserEntity).findOneOrFail(id);
   }
 
   // async create(createUserDto: CreateUserDto): Promise<IUser> {
