@@ -3,7 +3,7 @@ import * as React from 'react';
 import { RouteComponentProps, Redirect } from 'react-router';
 import { Switch, Route, Link } from 'react-router-dom';
 import { Sidebar } from './sidebar';
-import { Loading } from '../loading';
+import { Loading } from '../components';
 import { lazily } from 'react-lazily';
 
 const { NewBookmark } = lazily(() => import('./new-bookmark'));
@@ -23,8 +23,8 @@ export const Home = () => {
         <React.Suspense fallback={<Loading />}>
           <Switch>
             <Route
-              path="/new-bookmark/:url?"
-              component={(props: RouteComponentProps<{ url: string }>) => <NewBookmark {...props} />}
+              path="/new-bookmark/:url/:title"
+              component={(props: RouteComponentProps<{ url: string; title: string }>) => <NewBookmark {...props} />}
             />
             <Route
               path="/page/:id/edit"

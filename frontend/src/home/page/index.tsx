@@ -6,7 +6,7 @@ import { SinglePageError } from './error';
 import { usePageQuery } from '../../models';
 import { EditingPage } from './editing-page';
 import { ReadOnlyPage } from './read-only-page';
-import { Loading } from '../../loading';
+import { Loading } from '../../components';
 
 interface Props extends RouteComponentProps<{ id: string }> {
   isEditing: boolean;
