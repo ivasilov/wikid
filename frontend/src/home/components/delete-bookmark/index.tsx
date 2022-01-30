@@ -12,21 +12,18 @@ export const DeleteBookmarkDialog = observer((props: Props) => {
   const [update, { loading }] = useDeleteBookmarkMutation({
     variables: { id: props.bookmark.id },
     update: (cache, { data }) => {
-      // const bs = cache.readQuery({
-      //   query: CurrentUserBookmarkIdsDocument,
-      // }) as gqlCurrentUserBookmarkIdsQuery;
-      // const filtered = bs.currentUserBookmarks.filter(b => b.id !== data?.deleteBookmark);
-      // cache.writeQuery({
-      //   query: CurrentUserBookmarkIdsDocument,
-      //   data: {
-      //     currentUser: {
-      //       __typename: bs.currentUser?.__typename,
-      //       id: bs.currentUser?.id,
-      //       bookmarks: filtered,
-      //     },
-      //   },
-      // });
+      const id = data?.deleteBookmark;
+      if (id) {
+        cache.modify({
+          fields: {
+            currentUserBookmarks: (cubRefs, { readField }) => {
+              return { ...cubRefs, bookmarks: cubRefs.bookmarks.filter((bRef: any) => id !== readField('id', bRef)) };
+            },
+          },
+        });
+      }
     },
+    // refetchQueries: [refetchAllBookmarksQuery(), refetchUnreadBookmarksQuery()],
     onCompleted: () => props.onClose(),
   });
 

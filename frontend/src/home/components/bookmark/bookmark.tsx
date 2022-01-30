@@ -2,7 +2,7 @@ import './bookmark.scss';
 import * as React from 'react';
 import { gqlBookmarkFragmentFragment } from '../../../models';
 import { Button } from '@blueprintjs/core';
-import { DeleteBookmarkDialog } from '../deleteBookmark';
+import { DeleteBookmarkDialog } from '../delete-bookmark';
 import { EditBookmarkDialog } from '../editBookmark';
 
 export const Bookmark = (props: { bookmark: gqlBookmarkFragmentFragment }) => {

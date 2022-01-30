@@ -9,8 +9,7 @@ import { createBrowserHistory } from 'history';
 import { ApolloProvider } from '@apollo/client';
 import { GraphQLClient } from './apolloClient';
 import { SignIn } from './signIn';
-import { AuthenticatedRoute } from './authenticatedRoute';
-import { UnauthenticatedRoute } from './unauthenticatedRoute';
+import { AuthenticatedRoute, UnauthenticatedRoute } from './components';
 import { Home } from './home';
 import reportWebVitals from './utils/reportWebVitals';
 
@@ -34,7 +33,6 @@ ReactDOM.render(
         </Switch>
       </Router>
     </ApolloProvider>
-    ,
   </React.StrictMode>,
   document.getElementById('root'),
 );
