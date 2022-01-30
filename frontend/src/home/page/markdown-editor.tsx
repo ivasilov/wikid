@@ -14,7 +14,6 @@ interface Props {
  */
 export class MarkdownEditor extends React.Component<Props, {}> {
   private refEditor = React.createRef<HTMLDivElement>();
-  private refContent = React.createRef<HTMLDivElement>();
 
   private view: EditorView<any> | null = null;
   private readonly editorState: EditorState;
@@ -34,12 +33,6 @@ export class MarkdownEditor extends React.Component<Props, {}> {
     }
   }
 
-  focus() {
-    if (this.view) {
-      this.view.focus();
-    }
-  }
-
   componentWillUnmount() {
     if (this.view) {
       this.view.destroy();
@@ -53,7 +46,7 @@ export class MarkdownEditor extends React.Component<Props, {}> {
   render() {
     return (
       <div ref={this.refEditor}>
-        <div ref={this.refContent} />
+        <div />
       </div>
     );
   }

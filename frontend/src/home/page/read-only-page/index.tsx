@@ -23,7 +23,7 @@ export const ReadOnlyPage = observer((props: { page: gqlReadOnlyPageFragmentFrag
       </Heading>
       <Tabs id="mainPageSelector" defaultSelectedTabId="notes" animate className="pl-8">
         <Tab id="notes" title="Notes" panel={<Notes content={page.content} />} />
-        <Tab id="bookmarks" title="Bookmarks" panel={<Bookmarks bookmarks={page.bookmarks} hasMore={false} />} />
+        <Tab id="bookmarks" title="Bookmarks" panel={<Bookmarks bookmarks={page.bookmarks} />} />
       </Tabs>
     </>
   );

@@ -1,62 +1,45 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import { Bookmark } from '../bookmark';
-import { Spinner } from '@blueprintjs/core';
 import { gqlBookmarksFragmentFragment } from '../../../models';
+import { LoadingBookmarks } from './loading';
+import { isBoolean } from 'lodash';
+import { LoadMoreBookmarks, LoadMoreBookmarksProps } from './load-more-bookmarks';
 
-export { LoadingBookmarks } from './loading';
-export const Bookmarks = observer(
-  (props: {
-    bookmarks: gqlBookmarksFragmentFragment[];
-    className?: string;
-    hasMore: boolean;
-    fetchMore?: () => Promise<unknown>;
-  }) => {
-    const handleObserver = (entities: IntersectionObserverEntry[]) => {
-      const target = entities[0];
-      if (target.isIntersecting && !state.loading && props.fetchMore) {
-        setState({ loading: true });
-        props.fetchMore().then(() => setState({ loading: false }));
-      }
-    };
-    const loader = React.useRef<HTMLDivElement>(null);
+type OnlyBookmarksProps = {
+  className?: string;
+  bookmarks?: gqlBookmarksFragmentFragment[];
+};
 
-    const [state, setState] = React.useState({ loading: false });
+type LoadingBookmarksProps = {
+  className?: string;
+  bookmarks?: gqlBookmarksFragmentFragment[];
+} & LoadMoreBookmarksProps;
 
-    React.useEffect(() => {
-      var options = {
-        root: null,
-        rootMargin: '20px',
-        threshold: 1.0,
-      };
-      const observer = new IntersectionObserver(handleObserver, options);
-      const currentEl = loader.current;
-      if (currentEl) {
-        observer.observe(currentEl);
-      }
-      return () => {
-        if (currentEl) {
-          observer.unobserve(currentEl);
-        }
-      };
-    });
+const isLoadingBookmarksProps = (a: any): a is LoadMoreBookmarksProps => {
+  if (isBoolean(a.hasMore) && isBoolean(a.loading) && a.fetchMore) {
+    return true;
+  }
+  return false;
+};
 
-    return (
-      <div className={props.className}>
-        {props.bookmarks.map(b => (
-          <Bookmark key={b.id} bookmark={b} />
-        ))}
+type BookmarksProps = OnlyBookmarksProps | LoadingBookmarksProps;
 
-        {state.loading ? (
-          <div className="flex pb-6">
-            <Spinner size={30} intent="primary" className="mx-auto" />
-          </div>
-        ) : props.hasMore ? (
-          <div className="flex pb-6" ref={loader}>
-            <span className="mx-auto">Load more?</span>
-          </div>
-        ) : null}
-      </div>
-    );
-  },
-);
+export const Bookmarks = observer((props: BookmarksProps) => {
+  const { className, bookmarks } = props;
+
+  if (isLoadingBookmarksProps(props)) {
+    if (props.loading && (!bookmarks || bookmarks.length === 0)) {
+      return <LoadingBookmarks className={className} />;
+    }
+  }
+
+  return (
+    <div className={className}>
+      {(bookmarks ?? []).map(b => (
+        <Bookmark key={b.id} bookmark={b} />
+      ))}
+      {isLoadingBookmarksProps(props) ? <LoadMoreBookmarks {...props} /> : null}
+    </div>
+  );
+});
