@@ -19,9 +19,7 @@
     "test:notify": "yarn run test:watch -- --notify",
     "coverage": "yarn test -- --coverage",
     "coverage:notify": "yarn run coverage -- --watch --notify",
-    "clean": "run-p clean:*",
-    "clean:build": "rimraf build/",
-    "clean:modules": "rimraf node_modules",
+    "clean": "rimraf build && rimraf node_modules",
     "db:seed": "yarn clean:build && yarn build && fixtures ./fixtures",
     "migration:generate": "typeorm migration:generate -d src/migrations -n ",
     "migration:run": "yarn clean:build && yarn build && typeorm migration:run"
