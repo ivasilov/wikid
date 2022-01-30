@@ -1,24 +1,28 @@
 import { BookmarksService } from '../../bookmarks/service';
-import { Importer, TransformInput } from './types';
+import { Injectable } from '@nestjs/common';
 import { compact } from 'lodash';
+
+import { Importer, TransformInput } from './types';
 import { UsersService } from '../../users/service';
 import { RequestContext } from '../../../app';
 
+@Injectable()
 export class OneTabImporter implements Importer {
-  constructor(private bookmarks: BookmarksService, private usersService: UsersService) {}
+  constructor(private bookmarks: BookmarksService, private users: UsersService) {}
 
   transform = async (ctx: RequestContext, params: TransformInput) => {
     const validated = params.data.split('\n');
     const compacted = compact(validated);
-    const user = await this.usersService.findById(ctx, params.userId);
+    const user = await this.users.findById(ctx, params.userId);
 
     return Promise.all(
       compacted.map(b => {
-        const [url, ...rest] = b;
+        const splitted = b.split('|');
+        const [url, ...rest] = splitted;
 
         const translated = {
-          url: url,
-          name: rest.join(' | '),
+          url: (url ?? '').trim(),
+          name: compact(rest.map(e => (e ?? '').trim())).join(' | '),
           pageIds: [],
         };
 
