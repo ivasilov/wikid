@@ -1,6 +1,6 @@
 overwrite: true
-schema: "backend/schema.graphql"
-documents: "frontend/src/**/*.graphql"
+schema: 'backend/schema.graphql'
+documents: 'frontend/src/**/*.graphql'
 hooks:
   afterAllFileWrite:
     - prettier --write
@@ -10,9 +10,13 @@ generates:
       - typescript
       - typescript-operations
       - typescript-react-apollo
+      # - typed-document-node
+      # - typescript-apollo-client-helpers
     config:
       reactApolloVersion: 3
-      typesPrefix: "gql"
+      typesPrefix: 'gql'
       withMutationFn: false
+      enumsAsTypes: true
+      nonOptionalTypename: true
+      useTypeImports: true
       pureMagicComment: true # adds PURE descriptor to enable webpack tree-shaking
-  
