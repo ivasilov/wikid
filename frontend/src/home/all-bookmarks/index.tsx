@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useAllBookmarksQuery } from '../../models';
 import { Bookmarks } from '../components/bookmarks';
-// import { uniqBy } from 'lodash';
 
 export const AllBookmarks = () => {
   const classes = 'w-5/6 mx-auto mt-8';

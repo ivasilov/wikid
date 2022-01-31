@@ -12,7 +12,7 @@ import {
   gqlGetAllPagesForDropdownQueryVariables,
   useCreateBookmarkMutation,
 } from '../../models';
-import { GraphQLClient } from '../../apolloClient';
+import { GraphQLClient } from '../../utils/apollo-client';
 import { observer } from 'mobx-react';
 
 interface Props extends RouteComponentProps<{ title: string; url: string }> {}

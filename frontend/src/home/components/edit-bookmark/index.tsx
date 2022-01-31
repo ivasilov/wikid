@@ -12,7 +12,7 @@ import {
   GetBookmarkDocument,
   gqlGetBookmarkQueryVariables,
 } from '../../../models';
-import { GraphQLClient } from '../../../apolloClient';
+import { GraphQLClient } from '../../../utils/apollo-client';
 import { EditPagesForBookmark, IdName } from '../edit-pages-for-bооkmark';
 
 interface Props {

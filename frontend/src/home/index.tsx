@@ -9,15 +9,15 @@ import { lazily } from 'react-lazily';
 const { NewBookmark } = lazily(() => import('./new-bookmark'));
 const { Page } = lazily(() => import('./page'));
 const { UnreadBookmarks } = lazily(() => import('./unread-bookmarks'));
-const { AllBookmarks } = lazily(() => import('./allBookmarks'));
+const { AllBookmarks } = lazily(() => import('./all-bookmarks'));
 const { Account } = lazily(() => import('./account'));
 
 export const Home = () => {
   return (
-    <div className="grid grid-cols-12 font-sans h-screen">
+    <div className="grid h-screen grid-cols-12 font-sans">
       <Sidebar />
-      <div className="w-main col-span-10 overflow-y-auto">
-        <div className="pt-2 pb-2 pr-6 flex justify-end">
+      <div className="col-span-10 overflow-y-auto w-main">
+        <div className="flex justify-end pt-2 pb-2 pr-6">
           <Link to="/account">Account</Link>
         </div>
         <React.Suspense fallback={<Loading />}>

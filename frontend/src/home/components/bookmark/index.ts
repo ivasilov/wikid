@@ -1,2 +1,2 @@
 export { Bookmark } from './bookmark';
-export { LoadingBookmark } from './loadingBookmark';
+export { LoadingBookmark } from './loading-bookmark';

@@ -3,7 +3,7 @@ import * as React from 'react';
 import { gqlBookmarkFragmentFragment } from '../../../models';
 import { Button } from '@blueprintjs/core';
 import { DeleteBookmarkDialog } from '../delete-bookmark';
-import { EditBookmarkDialog } from '../editBookmark';
+import { EditBookmarkDialog } from '../edit-bookmark';
 
 export const Bookmark = (props: { bookmark: gqlBookmarkFragmentFragment }) => {
   const [{ editBookmarkDialogShown, deleteBookmarkDialogShown }, setState] = React.useState({
@@ -16,7 +16,7 @@ export const Bookmark = (props: { bookmark: gqlBookmarkFragmentFragment }) => {
   return (
     <div className="flex pb-6">
       <img
-        className="w-favicon mr-5"
+        className="mr-5 w-favicon"
         alt="bookmark favicon"
         src={`https://s2.googleusercontent.com/s2/favicons?domain=${bookmark.url}&sz=16`}
       />
