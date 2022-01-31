@@ -1,11 +1,14 @@
 import { Service } from 'typedi';
-import { ApolloClient, ApolloLink } from '@apollo/client';
-import { InMemoryCache } from '@apollo/client/cache';
+import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
+import { FieldMergeFunction } from '@apollo/client/cache';
 import { BatchHttpLink } from '@apollo/client/link/batch-http';
 import { createUploadLink } from 'apollo-upload-client';
 import { onError } from '@apollo/client/link/error';
 import { setContext } from '@apollo/client/link/context';
 import { extractFiles } from 'extract-files';
+import { uniqBy } from 'lodash';
+
+import { gqlBookmark, gqlPaginatedBookmarks, StrictTypedTypePolicies } from '../models';
 
 const uploadAndBatchHTTPLink = (opts: any) =>
   ApolloLink.split(
@@ -13,6 +16,32 @@ const uploadAndBatchHTTPLink = (opts: any) =>
     createUploadLink(opts),
     new BatchHttpLink(opts),
   );
+
+const mergeBookmarks: FieldMergeFunction<gqlPaginatedBookmarks, gqlPaginatedBookmarks> = (e, i) => {
+  const existing: gqlPaginatedBookmarks = e ?? { __typename: 'paginatedBookmarks', bookmarks: [], cursor: undefined };
+  const incoming: gqlPaginatedBookmarks = i ?? { __typename: 'paginatedBookmarks', bookmarks: [], cursor: undefined };
+  const merged = uniqBy(existing.bookmarks.concat(incoming.bookmarks), i => (i as any).__ref) as gqlBookmark[];
+  return {
+    __typename: 'paginatedBookmarks',
+    bookmarks: merged,
+    cursor: incoming.cursor,
+  };
+};
+
+const typePolicies: StrictTypedTypePolicies = {
+  Query: {
+    fields: {
+      currentUserBookmarks: {
+        keyArgs: false,
+        merge: mergeBookmarks,
+      },
+      currentUserUnreadBookmarks: {
+        keyArgs: false,
+        merge: mergeBookmarks,
+      },
+    },
+  },
+};
 
 export const GraphQLClient = Service(
   () =>
@@ -38,6 +67,8 @@ export const GraphQLClient = Service(
           }),
         )
         .concat(uploadAndBatchHTTPLink({ uri: '/api' })),
-      cache: new InMemoryCache(),
+      cache: new InMemoryCache({
+        typePolicies,
+      }),
     }),
 );

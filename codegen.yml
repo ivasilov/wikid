@@ -11,7 +11,7 @@ generates:
       - typescript-operations
       - typescript-react-apollo
       # - typed-document-node
-      # - typescript-apollo-client-helpers
+      - typescript-apollo-client-helpers
     config:
       reactApolloVersion: 3
       typesPrefix: 'gql'

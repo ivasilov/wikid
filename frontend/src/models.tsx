@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
+import type { FieldPolicy, FieldReadFunction, TypePolicies, TypePolicy } from '@apollo/client/cache';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -203,15 +204,6 @@ export type gqlDeleteBookmarkMutationVariables = Exact<{
 
 export type gqlDeleteBookmarkMutation = { __typename: 'Mutation'; deleteBookmark: string };
 
-export type gqlGetAllPagesForDropdownQueryVariables = Exact<{
-  cursor?: InputMaybe<Scalars['String']>;
-}>;
-
-export type gqlGetAllPagesForDropdownQuery = {
-  __typename: 'Query';
-  currentUserPages: Array<{ __typename: 'Page'; id: string; name: string }>;
-};
-
 export type gqlGetBookmarkQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -242,6 +234,15 @@ export type gqlUpdateBookmarkMutation = {
     read: boolean;
     pages: Array<{ __typename: 'Page'; id: string; name: string; description: string; content: string }>;
   };
+};
+
+export type gqlGetAllPagesForDropdownQueryVariables = Exact<{
+  cursor?: InputMaybe<Scalars['String']>;
+}>;
+
+export type gqlGetAllPagesForDropdownQuery = {
+  __typename: 'Query';
+  currentUserPages: Array<{ __typename: 'Page'; id: string; name: string }>;
 };
 
 export type gqlCreateBookmarkMutationVariables = Exact<{
@@ -491,55 +492,6 @@ export type DeleteBookmarkMutationOptions = Apollo.BaseMutationOptions<
   gqlDeleteBookmarkMutation,
   gqlDeleteBookmarkMutationVariables
 >;
-export const GetAllPagesForDropdownDocument = /*#__PURE__*/ gql`
-  query getAllPagesForDropdown($cursor: String) {
-    currentUserPages(cursor: $cursor) {
-      id
-      name
-    }
-  }
-`;
-
-/**
- * __useGetAllPagesForDropdownQuery__
- *
- * To run a query within a React component, call `useGetAllPagesForDropdownQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetAllPagesForDropdownQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetAllPagesForDropdownQuery({
- *   variables: {
- *      cursor: // value for 'cursor'
- *   },
- * });
- */
-export function useGetAllPagesForDropdownQuery(
-  baseOptions?: Apollo.QueryHookOptions<gqlGetAllPagesForDropdownQuery, gqlGetAllPagesForDropdownQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<gqlGetAllPagesForDropdownQuery, gqlGetAllPagesForDropdownQueryVariables>(
-    GetAllPagesForDropdownDocument,
-    options,
-  );
-}
-export function useGetAllPagesForDropdownLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<gqlGetAllPagesForDropdownQuery, gqlGetAllPagesForDropdownQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<gqlGetAllPagesForDropdownQuery, gqlGetAllPagesForDropdownQueryVariables>(
-    GetAllPagesForDropdownDocument,
-    options,
-  );
-}
-export type GetAllPagesForDropdownQueryHookResult = ReturnType<typeof useGetAllPagesForDropdownQuery>;
-export type GetAllPagesForDropdownLazyQueryHookResult = ReturnType<typeof useGetAllPagesForDropdownLazyQuery>;
-export type GetAllPagesForDropdownQueryResult = Apollo.QueryResult<
-  gqlGetAllPagesForDropdownQuery,
-  gqlGetAllPagesForDropdownQueryVariables
->;
 export const GetBookmarkDocument = /*#__PURE__*/ gql`
   query getBookmark($id: ID!) {
     bookmark(id: $id) {
@@ -636,6 +588,55 @@ export type UpdateBookmarkMutationResult = Apollo.MutationResult<gqlUpdateBookma
 export type UpdateBookmarkMutationOptions = Apollo.BaseMutationOptions<
   gqlUpdateBookmarkMutation,
   gqlUpdateBookmarkMutationVariables
+>;
+export const GetAllPagesForDropdownDocument = /*#__PURE__*/ gql`
+  query getAllPagesForDropdown($cursor: String) {
+    currentUserPages(cursor: $cursor) {
+      id
+      name
+    }
+  }
+`;
+
+/**
+ * __useGetAllPagesForDropdownQuery__
+ *
+ * To run a query within a React component, call `useGetAllPagesForDropdownQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllPagesForDropdownQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllPagesForDropdownQuery({
+ *   variables: {
+ *      cursor: // value for 'cursor'
+ *   },
+ * });
+ */
+export function useGetAllPagesForDropdownQuery(
+  baseOptions?: Apollo.QueryHookOptions<gqlGetAllPagesForDropdownQuery, gqlGetAllPagesForDropdownQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<gqlGetAllPagesForDropdownQuery, gqlGetAllPagesForDropdownQueryVariables>(
+    GetAllPagesForDropdownDocument,
+    options,
+  );
+}
+export function useGetAllPagesForDropdownLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<gqlGetAllPagesForDropdownQuery, gqlGetAllPagesForDropdownQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<gqlGetAllPagesForDropdownQuery, gqlGetAllPagesForDropdownQueryVariables>(
+    GetAllPagesForDropdownDocument,
+    options,
+  );
+}
+export type GetAllPagesForDropdownQueryHookResult = ReturnType<typeof useGetAllPagesForDropdownQuery>;
+export type GetAllPagesForDropdownLazyQueryHookResult = ReturnType<typeof useGetAllPagesForDropdownLazyQuery>;
+export type GetAllPagesForDropdownQueryResult = Apollo.QueryResult<
+  gqlGetAllPagesForDropdownQuery,
+  gqlGetAllPagesForDropdownQueryVariables
 >;
 export const CreateBookmarkDocument = /*#__PURE__*/ gql`
   mutation createBookmark($params: CreateBookmarkInput!) {
@@ -849,3 +850,118 @@ export function useUnreadBookmarksLazyQuery(
 export type UnreadBookmarksQueryHookResult = ReturnType<typeof useUnreadBookmarksQuery>;
 export type UnreadBookmarksLazyQueryHookResult = ReturnType<typeof useUnreadBookmarksLazyQuery>;
 export type UnreadBookmarksQueryResult = Apollo.QueryResult<gqlUnreadBookmarksQuery, gqlUnreadBookmarksQueryVariables>;
+export type BookmarkKeySpecifier = ('id' | 'name' | 'pages' | 'read' | 'url' | BookmarkKeySpecifier)[];
+export type BookmarkFieldPolicy = {
+  id?: FieldPolicy<any> | FieldReadFunction<any>;
+  name?: FieldPolicy<any> | FieldReadFunction<any>;
+  pages?: FieldPolicy<any> | FieldReadFunction<any>;
+  read?: FieldPolicy<any> | FieldReadFunction<any>;
+  url?: FieldPolicy<any> | FieldReadFunction<any>;
+};
+export type MutationKeySpecifier = (
+  | 'createBookmark'
+  | 'createPage'
+  | 'deleteBookmark'
+  | 'deletePage'
+  | 'import'
+  | 'updateBookmark'
+  | 'updatePage'
+  | MutationKeySpecifier
+)[];
+export type MutationFieldPolicy = {
+  createBookmark?: FieldPolicy<any> | FieldReadFunction<any>;
+  createPage?: FieldPolicy<any> | FieldReadFunction<any>;
+  deleteBookmark?: FieldPolicy<any> | FieldReadFunction<any>;
+  deletePage?: FieldPolicy<any> | FieldReadFunction<any>;
+  import?: FieldPolicy<any> | FieldReadFunction<any>;
+  updateBookmark?: FieldPolicy<any> | FieldReadFunction<any>;
+  updatePage?: FieldPolicy<any> | FieldReadFunction<any>;
+};
+export type PageKeySpecifier = (
+  | 'bookmarks'
+  | 'bookmarksCount'
+  | 'content'
+  | 'description'
+  | 'id'
+  | 'name'
+  | PageKeySpecifier
+)[];
+export type PageFieldPolicy = {
+  bookmarks?: FieldPolicy<any> | FieldReadFunction<any>;
+  bookmarksCount?: FieldPolicy<any> | FieldReadFunction<any>;
+  content?: FieldPolicy<any> | FieldReadFunction<any>;
+  description?: FieldPolicy<any> | FieldReadFunction<any>;
+  id?: FieldPolicy<any> | FieldReadFunction<any>;
+  name?: FieldPolicy<any> | FieldReadFunction<any>;
+};
+export type paginatedBookmarksKeySpecifier = ('bookmarks' | 'cursor' | paginatedBookmarksKeySpecifier)[];
+export type paginatedBookmarksFieldPolicy = {
+  bookmarks?: FieldPolicy<any> | FieldReadFunction<any>;
+  cursor?: FieldPolicy<any> | FieldReadFunction<any>;
+};
+export type QueryKeySpecifier = (
+  | 'bookmark'
+  | 'currentUser'
+  | 'currentUserBookmarks'
+  | 'currentUserPages'
+  | 'currentUserUnreadBookmarks'
+  | 'page'
+  | QueryKeySpecifier
+)[];
+export type QueryFieldPolicy = {
+  bookmark?: FieldPolicy<any> | FieldReadFunction<any>;
+  currentUser?: FieldPolicy<any> | FieldReadFunction<any>;
+  currentUserBookmarks?: FieldPolicy<any> | FieldReadFunction<any>;
+  currentUserPages?: FieldPolicy<any> | FieldReadFunction<any>;
+  currentUserUnreadBookmarks?: FieldPolicy<any> | FieldReadFunction<any>;
+  page?: FieldPolicy<any> | FieldReadFunction<any>;
+};
+export type UploadedFileResponseKeySpecifier = (
+  | 'encoding'
+  | 'filename'
+  | 'mimetype'
+  | 'url'
+  | UploadedFileResponseKeySpecifier
+)[];
+export type UploadedFileResponseFieldPolicy = {
+  encoding?: FieldPolicy<any> | FieldReadFunction<any>;
+  filename?: FieldPolicy<any> | FieldReadFunction<any>;
+  mimetype?: FieldPolicy<any> | FieldReadFunction<any>;
+  url?: FieldPolicy<any> | FieldReadFunction<any>;
+};
+export type UserKeySpecifier = ('email' | 'id' | UserKeySpecifier)[];
+export type UserFieldPolicy = {
+  email?: FieldPolicy<any> | FieldReadFunction<any>;
+  id?: FieldPolicy<any> | FieldReadFunction<any>;
+};
+export type StrictTypedTypePolicies = {
+  Bookmark?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+    keyFields?: false | BookmarkKeySpecifier | (() => undefined | BookmarkKeySpecifier);
+    fields?: BookmarkFieldPolicy;
+  };
+  Mutation?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+    keyFields?: false | MutationKeySpecifier | (() => undefined | MutationKeySpecifier);
+    fields?: MutationFieldPolicy;
+  };
+  Page?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+    keyFields?: false | PageKeySpecifier | (() => undefined | PageKeySpecifier);
+    fields?: PageFieldPolicy;
+  };
+  paginatedBookmarks?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+    keyFields?: false | paginatedBookmarksKeySpecifier | (() => undefined | paginatedBookmarksKeySpecifier);
+    fields?: paginatedBookmarksFieldPolicy;
+  };
+  Query?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+    keyFields?: false | QueryKeySpecifier | (() => undefined | QueryKeySpecifier);
+    fields?: QueryFieldPolicy;
+  };
+  UploadedFileResponse?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+    keyFields?: false | UploadedFileResponseKeySpecifier | (() => undefined | UploadedFileResponseKeySpecifier);
+    fields?: UploadedFileResponseFieldPolicy;
+  };
+  User?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+    keyFields?: false | UserKeySpecifier | (() => undefined | UserKeySpecifier);
+    fields?: UserFieldPolicy;
+  };
+};
+export type TypedTypePolicies = StrictTypedTypePolicies & TypePolicies;

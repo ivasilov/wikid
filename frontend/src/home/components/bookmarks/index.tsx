@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { observer } from 'mobx-react';
 import { Bookmark } from '../bookmark';
 import { gqlBookmarksFragmentFragment } from '../../../models';
 import { LoadingBookmarks } from './loading';
@@ -25,7 +24,7 @@ const isLoadingBookmarksProps = (a: any): a is LoadMoreBookmarksProps => {
 
 type BookmarksProps = OnlyBookmarksProps | LoadingBookmarksProps;
 
-export const Bookmarks = observer((props: BookmarksProps) => {
+export const Bookmarks = (props: BookmarksProps) => {
   const { className, bookmarks } = props;
 
   if (isLoadingBookmarksProps(props)) {
@@ -42,4 +41,4 @@ export const Bookmarks = observer((props: BookmarksProps) => {
       {isLoadingBookmarksProps(props) ? <LoadMoreBookmarks {...props} /> : null}
     </div>
   );
-});
+};
