@@ -1,3 +1,5 @@
+export const GRAPHQL_ENDPOINT = '/api';
+
 export const JWT_SECRET_KEY = 'TEST_KEY';
 
 export const TRANSACTION_MANAGER_KEY = Symbol('TRANSACTION_MANAGER');

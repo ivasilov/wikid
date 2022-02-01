@@ -75,7 +75,7 @@ export class BookmarksService {
     b: { id: string; url: string; name: string; read: boolean; pageIds: { id: string; name: string }[] },
     user: UserEntity,
   ) => {
-    const found = (await this.connection.getRepository(ctx, BookmarkEntity).findOneOrFail({ id: b.id })) as any;
+    const found = await this.connection.getRepository(ctx, BookmarkEntity).findOneOrFail({ id: b.id });
     found.url = b.url ?? found.url;
     found.name = b.name ?? found.name;
     found.read = b.read ?? found.read;
