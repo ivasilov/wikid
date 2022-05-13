@@ -85,4 +85,33 @@ export class BookmarksService {
 
     return this.connection.getRepository(ctx, BookmarkEntity).save(found);
   };
+
+  search = async (ctx: RequestContext, id: string, term: string, nextCursor?: string) => {
+    // typeorm doesn't escape % and _ in LIKE queries
+    const escapeLikeString = (raw: string): string => {
+      return raw.replace(/[\\%_]/g, '\\$&');
+    };
+    console.log(nextCursor);
+
+    const queryBuilder = this.connection
+      .getRepository(ctx, BookmarkEntity)
+      .createQueryBuilder('bookmarks')
+      .where({ user: id })
+      .andWhere('bookmarks.url LIKE :term OR bookmarks.name LIKE :term', { term: `%${escapeLikeString(term)}%` });
+
+    const paginator = buildPaginator({
+      entity: BookmarkEntity,
+      alias: 'bookmarks',
+      query: {
+        limit: 10,
+        order: 'ASC',
+        afterCursor: nextCursor,
+      },
+    });
+
+    // Pass queryBuilder as parameter to get paginate result.
+    const { data, cursor } = await paginator.paginate(queryBuilder);
+    console.log(cursor);
+    return { bookmarks: data, cursor: cursor.afterCursor };
+  };
 }

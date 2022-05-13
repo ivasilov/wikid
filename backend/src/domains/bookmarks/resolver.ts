@@ -59,6 +59,15 @@ export class BookmarkNullablePageInput {
   name: string;
 }
 
+@InputType()
+export class SearchInput {
+  @Field()
+  term: string;
+
+  @Field({ nullable: true })
+  cursor?: string;
+}
+
 @ObjectType('paginatedBookmarks', { isAbstract: true })
 abstract class PaginatedBookmarksModel {
   @Field(type => String, { nullable: true })
@@ -114,6 +123,11 @@ export class BookmarksResolver {
     @Args('cursor', { nullable: true }) cursor?: string,
   ) {
     return this.bookmarksService.getBookmarksByUserId(ctx, user.id, true, cursor);
+  }
+
+  @Query(returns => PaginatedBookmarksModel, { name: 'search' })
+  search(@Ctx() ctx: RequestContext, @CurrentUser() user: { id: string }, @Args('params') params: SearchInput) {
+    return this.bookmarksService.search(ctx, user.id, params.term, params.cursor);
   }
 
   @Query(returns => BookmarkModel, { name: 'bookmark' })

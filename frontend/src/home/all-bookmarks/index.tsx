@@ -3,7 +3,7 @@ import { useAllBookmarksQuery } from '../../models';
 import { Bookmarks } from '../components/bookmarks';
 
 export const AllBookmarks = () => {
-  const classes = 'w-5/6 mx-auto mt-8';
+  const classes = 'container pt-8 px-6';
 
   const { data, loading, fetchMore, error } = useAllBookmarksQuery({
     fetchPolicy: 'network-only',

@@ -13832,10 +13832,10 @@ typedi@^0.8.0:
   resolved "https://registry.yarnpkg.com/typedi/-/typedi-0.8.0.tgz#d8e203bd1d41a96e2b0a5c6295147d74b2b2d03e"
   integrity sha512-/c7Bxnm6eh5kXx2I+mTuO+2OvoWni5+rXA3PhXwVWCtJRYmz3hMok5s1AKLzoDvNAZqj/Q/acGstN0ri5aQoOA==
 
-typeorm-cursor-pagination@^0.4.1:
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/typeorm-cursor-pagination/-/typeorm-cursor-pagination-0.4.1.tgz#2bc1cb258f45a065c87d21f9f4ab3eab1efdbcd8"
-  integrity sha512-E/ySil8sjt6tkKWQrCDO+JNQXQ+XM1rjZDv/bfD0U3o5XIIVR276b3f8hFR7IWVT1K92DLQvsxyurWMNqDDfhg==
+typeorm-cursor-pagination@^0.6.0:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/typeorm-cursor-pagination/-/typeorm-cursor-pagination-0.6.1.tgz#c4b809135402e38d434ae97747eabaadc18c3ee0"
+  integrity sha512-lqlvXBG2prsYFsBVZrWz2/wgoAcYzWCks/EMxP4wIVTISEO70dHQtQuaWWQP528lnW+rQNRwIK8sUuXMKJKavw==
 
 typeorm-fixtures-cli@^1.6.0:
   version "1.6.0"

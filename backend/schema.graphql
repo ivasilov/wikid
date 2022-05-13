@@ -34,6 +34,7 @@ type UploadedFileResponse {
 type Query {
   currentUserBookmarks(cursor: String): paginatedBookmarks!
   currentUserUnreadBookmarks(cursor: String): paginatedBookmarks!
+  search(params: SearchInput!): paginatedBookmarks!
   bookmark(id: ID!): Bookmark!
   currentUserPages(cursor: String): [Page!]!
   page(id: ID!): Page!
@@ -43,6 +44,11 @@ type Query {
 type paginatedBookmarks {
   cursor: String
   bookmarks: [Bookmark!]!
+}
+
+input SearchInput {
+  term: String!
+  cursor: String
 }
 
 type Mutation {

@@ -114,6 +114,7 @@ export type gqlQuery = {
   currentUserPages: Array<gqlPage>;
   currentUserUnreadBookmarks: gqlPaginatedBookmarks;
   page: gqlPage;
+  search: gqlPaginatedBookmarks;
 };
 
 export type gqlQueryBookmarkArgs = {
@@ -134,6 +135,15 @@ export type gqlQueryCurrentUserUnreadBookmarksArgs = {
 
 export type gqlQueryPageArgs = {
   id: Scalars['ID'];
+};
+
+export type gqlQuerySearchArgs = {
+  params: gqlSearchInput;
+};
+
+export type gqlSearchInput = {
+  cursor?: InputMaybe<Scalars['String']>;
+  term: Scalars['String'];
 };
 
 export type gqlUpdateBookmarkInput = {
@@ -906,6 +916,7 @@ export type QueryKeySpecifier = (
   | 'currentUserPages'
   | 'currentUserUnreadBookmarks'
   | 'page'
+  | 'search'
   | QueryKeySpecifier
 )[];
 export type QueryFieldPolicy = {
@@ -915,6 +926,7 @@ export type QueryFieldPolicy = {
   currentUserPages?: FieldPolicy<any> | FieldReadFunction<any>;
   currentUserUnreadBookmarks?: FieldPolicy<any> | FieldReadFunction<any>;
   page?: FieldPolicy<any> | FieldReadFunction<any>;
+  search?: FieldPolicy<any> | FieldReadFunction<any>;
 };
 export type UploadedFileResponseKeySpecifier = (
   | 'encoding'
