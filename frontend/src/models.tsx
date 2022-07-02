@@ -175,35 +175,6 @@ export type gqlUser = {
   id: Scalars['ID'];
 };
 
-export type gqlCurrentUserQueryVariables = Exact<{ [key: string]: never }>;
-
-export type gqlCurrentUserQuery = {
-  __typename: 'Query';
-  currentUser: { __typename: 'User'; id: string; email: string };
-};
-
-export type gqlImportFileMutationVariables = Exact<{
-  params: gqlImportInput;
-}>;
-
-export type gqlImportFileMutation = {
-  __typename: 'Mutation';
-  import: { __typename: 'UploadedFileResponse'; filename: string };
-};
-
-export type gqlAllBookmarksQueryVariables = Exact<{
-  cursor?: InputMaybe<Scalars['String']>;
-}>;
-
-export type gqlAllBookmarksQuery = {
-  __typename: 'Query';
-  currentUserBookmarks: {
-    __typename: 'paginatedBookmarks';
-    cursor?: string | null;
-    bookmarks: Array<{ __typename: 'Bookmark'; id: string; url: string; name: string }>;
-  };
-};
-
 export type gqlBookmarkFragmentFragment = { __typename: 'Bookmark'; id: string; url: string; name: string };
 
 export type gqlBookmarksFragmentFragment = { __typename: 'Bookmark'; id: string; url: string; name: string };
@@ -255,6 +226,37 @@ export type gqlGetAllPagesForDropdownQuery = {
   currentUserPages: Array<{ __typename: 'Page'; id: string; name: string }>;
 };
 
+export type gqlGetAllPagesWithCountQueryVariables = Exact<{
+  cursor?: InputMaybe<Scalars['String']>;
+}>;
+
+export type gqlGetAllPagesWithCountQuery = {
+  __typename: 'Query';
+  currentUserPages: Array<{ __typename: 'Page'; id: string; name: string; bookmarksCount: number }>;
+};
+
+export type gqlImportFileMutationVariables = Exact<{
+  params: gqlImportInput;
+}>;
+
+export type gqlImportFileMutation = {
+  __typename: 'Mutation';
+  import: { __typename: 'UploadedFileResponse'; filename: string };
+};
+
+export type gqlAllBookmarksQueryVariables = Exact<{
+  cursor?: InputMaybe<Scalars['String']>;
+}>;
+
+export type gqlAllBookmarksQuery = {
+  __typename: 'Query';
+  currentUserBookmarks: {
+    __typename: 'paginatedBookmarks';
+    cursor?: string | null;
+    bookmarks: Array<{ __typename: 'Bookmark'; id: string; url: string; name: string }>;
+  };
+};
+
 export type gqlCreateBookmarkMutationVariables = Exact<{
   params: gqlCreateBookmarkInput;
 }>;
@@ -262,6 +264,26 @@ export type gqlCreateBookmarkMutationVariables = Exact<{
 export type gqlCreateBookmarkMutation = {
   __typename: 'Mutation';
   createBookmark: { __typename: 'Bookmark'; id: string };
+};
+
+export type gqlUnreadBookmarksQueryVariables = Exact<{
+  cursor?: InputMaybe<Scalars['String']>;
+}>;
+
+export type gqlUnreadBookmarksQuery = {
+  __typename: 'Query';
+  currentUserUnreadBookmarks: {
+    __typename: 'paginatedBookmarks';
+    cursor?: string | null;
+    bookmarks: Array<{ __typename: 'Bookmark'; id: string; url: string; name: string }>;
+  };
+};
+
+export type gqlCurrentUserQueryVariables = Exact<{ [key: string]: never }>;
+
+export type gqlCurrentUserQuery = {
+  __typename: 'Query';
+  currentUser: { __typename: 'User'; id: string; email: string };
 };
 
 export type gqlPageQueryVariables = Exact<{
@@ -298,28 +320,6 @@ export type gqlUpdatePageMutation = {
   updatePage: { __typename: 'Page'; id: string; name: string; description: string; content: string };
 };
 
-export type gqlGetAllPagesWithCountQueryVariables = Exact<{
-  cursor?: InputMaybe<Scalars['String']>;
-}>;
-
-export type gqlGetAllPagesWithCountQuery = {
-  __typename: 'Query';
-  currentUserPages: Array<{ __typename: 'Page'; id: string; name: string; bookmarksCount: number }>;
-};
-
-export type gqlUnreadBookmarksQueryVariables = Exact<{
-  cursor?: InputMaybe<Scalars['String']>;
-}>;
-
-export type gqlUnreadBookmarksQuery = {
-  __typename: 'Query';
-  currentUserUnreadBookmarks: {
-    __typename: 'paginatedBookmarks';
-    cursor?: string | null;
-    bookmarks: Array<{ __typename: 'Bookmark'; id: string; url: string; name: string }>;
-  };
-};
-
 export const BookmarkFragmentFragmentDoc = /*#__PURE__*/ gql`
   fragment BookmarkFragment on Bookmark {
     id
@@ -345,125 +345,6 @@ export const ReadOnlyPageFragmentFragmentDoc = /*#__PURE__*/ gql`
   }
   ${BookmarksFragmentFragmentDoc}
 `;
-export const CurrentUserDocument = /*#__PURE__*/ gql`
-  query currentUser {
-    currentUser {
-      id
-      email
-    }
-  }
-`;
-
-/**
- * __useCurrentUserQuery__
- *
- * To run a query within a React component, call `useCurrentUserQuery` and pass it any options that fit your needs.
- * When your component renders, `useCurrentUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useCurrentUserQuery({
- *   variables: {
- *   },
- * });
- */
-export function useCurrentUserQuery(
-  baseOptions?: Apollo.QueryHookOptions<gqlCurrentUserQuery, gqlCurrentUserQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<gqlCurrentUserQuery, gqlCurrentUserQueryVariables>(CurrentUserDocument, options);
-}
-export function useCurrentUserLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<gqlCurrentUserQuery, gqlCurrentUserQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<gqlCurrentUserQuery, gqlCurrentUserQueryVariables>(CurrentUserDocument, options);
-}
-export type CurrentUserQueryHookResult = ReturnType<typeof useCurrentUserQuery>;
-export type CurrentUserLazyQueryHookResult = ReturnType<typeof useCurrentUserLazyQuery>;
-export type CurrentUserQueryResult = Apollo.QueryResult<gqlCurrentUserQuery, gqlCurrentUserQueryVariables>;
-export const ImportFileDocument = /*#__PURE__*/ gql`
-  mutation importFile($params: ImportInput!) {
-    import(params: $params) {
-      filename
-    }
-  }
-`;
-
-/**
- * __useImportFileMutation__
- *
- * To run a mutation, you first call `useImportFileMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useImportFileMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [importFileMutation, { data, loading, error }] = useImportFileMutation({
- *   variables: {
- *      params: // value for 'params'
- *   },
- * });
- */
-export function useImportFileMutation(
-  baseOptions?: Apollo.MutationHookOptions<gqlImportFileMutation, gqlImportFileMutationVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<gqlImportFileMutation, gqlImportFileMutationVariables>(ImportFileDocument, options);
-}
-export type ImportFileMutationHookResult = ReturnType<typeof useImportFileMutation>;
-export type ImportFileMutationResult = Apollo.MutationResult<gqlImportFileMutation>;
-export type ImportFileMutationOptions = Apollo.BaseMutationOptions<
-  gqlImportFileMutation,
-  gqlImportFileMutationVariables
->;
-export const AllBookmarksDocument = /*#__PURE__*/ gql`
-  query allBookmarks($cursor: String) {
-    currentUserBookmarks(cursor: $cursor) {
-      cursor
-      bookmarks {
-        ...BookmarksFragment
-      }
-    }
-  }
-  ${BookmarksFragmentFragmentDoc}
-`;
-
-/**
- * __useAllBookmarksQuery__
- *
- * To run a query within a React component, call `useAllBookmarksQuery` and pass it any options that fit your needs.
- * When your component renders, `useAllBookmarksQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useAllBookmarksQuery({
- *   variables: {
- *      cursor: // value for 'cursor'
- *   },
- * });
- */
-export function useAllBookmarksQuery(
-  baseOptions?: Apollo.QueryHookOptions<gqlAllBookmarksQuery, gqlAllBookmarksQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<gqlAllBookmarksQuery, gqlAllBookmarksQueryVariables>(AllBookmarksDocument, options);
-}
-export function useAllBookmarksLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<gqlAllBookmarksQuery, gqlAllBookmarksQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<gqlAllBookmarksQuery, gqlAllBookmarksQueryVariables>(AllBookmarksDocument, options);
-}
-export type AllBookmarksQueryHookResult = ReturnType<typeof useAllBookmarksQuery>;
-export type AllBookmarksLazyQueryHookResult = ReturnType<typeof useAllBookmarksLazyQuery>;
-export type AllBookmarksQueryResult = Apollo.QueryResult<gqlAllBookmarksQuery, gqlAllBookmarksQueryVariables>;
 export const DeleteBookmarkDocument = /*#__PURE__*/ gql`
   mutation deleteBookmark($id: ID!) {
     deleteBookmark(id: $id)
@@ -648,6 +529,136 @@ export type GetAllPagesForDropdownQueryResult = Apollo.QueryResult<
   gqlGetAllPagesForDropdownQuery,
   gqlGetAllPagesForDropdownQueryVariables
 >;
+export const GetAllPagesWithCountDocument = /*#__PURE__*/ gql`
+  query getAllPagesWithCount($cursor: String) {
+    currentUserPages(cursor: $cursor) {
+      id
+      name
+      bookmarksCount
+    }
+  }
+`;
+
+/**
+ * __useGetAllPagesWithCountQuery__
+ *
+ * To run a query within a React component, call `useGetAllPagesWithCountQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllPagesWithCountQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllPagesWithCountQuery({
+ *   variables: {
+ *      cursor: // value for 'cursor'
+ *   },
+ * });
+ */
+export function useGetAllPagesWithCountQuery(
+  baseOptions?: Apollo.QueryHookOptions<gqlGetAllPagesWithCountQuery, gqlGetAllPagesWithCountQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<gqlGetAllPagesWithCountQuery, gqlGetAllPagesWithCountQueryVariables>(
+    GetAllPagesWithCountDocument,
+    options,
+  );
+}
+export function useGetAllPagesWithCountLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<gqlGetAllPagesWithCountQuery, gqlGetAllPagesWithCountQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<gqlGetAllPagesWithCountQuery, gqlGetAllPagesWithCountQueryVariables>(
+    GetAllPagesWithCountDocument,
+    options,
+  );
+}
+export type GetAllPagesWithCountQueryHookResult = ReturnType<typeof useGetAllPagesWithCountQuery>;
+export type GetAllPagesWithCountLazyQueryHookResult = ReturnType<typeof useGetAllPagesWithCountLazyQuery>;
+export type GetAllPagesWithCountQueryResult = Apollo.QueryResult<
+  gqlGetAllPagesWithCountQuery,
+  gqlGetAllPagesWithCountQueryVariables
+>;
+export const ImportFileDocument = /*#__PURE__*/ gql`
+  mutation importFile($params: ImportInput!) {
+    import(params: $params) {
+      filename
+    }
+  }
+`;
+
+/**
+ * __useImportFileMutation__
+ *
+ * To run a mutation, you first call `useImportFileMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useImportFileMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [importFileMutation, { data, loading, error }] = useImportFileMutation({
+ *   variables: {
+ *      params: // value for 'params'
+ *   },
+ * });
+ */
+export function useImportFileMutation(
+  baseOptions?: Apollo.MutationHookOptions<gqlImportFileMutation, gqlImportFileMutationVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<gqlImportFileMutation, gqlImportFileMutationVariables>(ImportFileDocument, options);
+}
+export type ImportFileMutationHookResult = ReturnType<typeof useImportFileMutation>;
+export type ImportFileMutationResult = Apollo.MutationResult<gqlImportFileMutation>;
+export type ImportFileMutationOptions = Apollo.BaseMutationOptions<
+  gqlImportFileMutation,
+  gqlImportFileMutationVariables
+>;
+export const AllBookmarksDocument = /*#__PURE__*/ gql`
+  query allBookmarks($cursor: String) {
+    currentUserBookmarks(cursor: $cursor) {
+      cursor
+      bookmarks {
+        ...BookmarksFragment
+      }
+    }
+  }
+  ${BookmarksFragmentFragmentDoc}
+`;
+
+/**
+ * __useAllBookmarksQuery__
+ *
+ * To run a query within a React component, call `useAllBookmarksQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAllBookmarksQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAllBookmarksQuery({
+ *   variables: {
+ *      cursor: // value for 'cursor'
+ *   },
+ * });
+ */
+export function useAllBookmarksQuery(
+  baseOptions?: Apollo.QueryHookOptions<gqlAllBookmarksQuery, gqlAllBookmarksQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<gqlAllBookmarksQuery, gqlAllBookmarksQueryVariables>(AllBookmarksDocument, options);
+}
+export function useAllBookmarksLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<gqlAllBookmarksQuery, gqlAllBookmarksQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<gqlAllBookmarksQuery, gqlAllBookmarksQueryVariables>(AllBookmarksDocument, options);
+}
+export type AllBookmarksQueryHookResult = ReturnType<typeof useAllBookmarksQuery>;
+export type AllBookmarksLazyQueryHookResult = ReturnType<typeof useAllBookmarksLazyQuery>;
+export type AllBookmarksQueryResult = Apollo.QueryResult<gqlAllBookmarksQuery, gqlAllBookmarksQueryVariables>;
 export const CreateBookmarkDocument = /*#__PURE__*/ gql`
   mutation createBookmark($params: CreateBookmarkInput!) {
     createBookmark(params: $params) {
@@ -688,6 +699,91 @@ export type CreateBookmarkMutationOptions = Apollo.BaseMutationOptions<
   gqlCreateBookmarkMutation,
   gqlCreateBookmarkMutationVariables
 >;
+export const UnreadBookmarksDocument = /*#__PURE__*/ gql`
+  query unreadBookmarks($cursor: String) {
+    currentUserUnreadBookmarks(cursor: $cursor) {
+      cursor
+      bookmarks {
+        ...BookmarksFragment
+      }
+    }
+  }
+  ${BookmarksFragmentFragmentDoc}
+`;
+
+/**
+ * __useUnreadBookmarksQuery__
+ *
+ * To run a query within a React component, call `useUnreadBookmarksQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUnreadBookmarksQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUnreadBookmarksQuery({
+ *   variables: {
+ *      cursor: // value for 'cursor'
+ *   },
+ * });
+ */
+export function useUnreadBookmarksQuery(
+  baseOptions?: Apollo.QueryHookOptions<gqlUnreadBookmarksQuery, gqlUnreadBookmarksQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<gqlUnreadBookmarksQuery, gqlUnreadBookmarksQueryVariables>(UnreadBookmarksDocument, options);
+}
+export function useUnreadBookmarksLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<gqlUnreadBookmarksQuery, gqlUnreadBookmarksQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<gqlUnreadBookmarksQuery, gqlUnreadBookmarksQueryVariables>(
+    UnreadBookmarksDocument,
+    options,
+  );
+}
+export type UnreadBookmarksQueryHookResult = ReturnType<typeof useUnreadBookmarksQuery>;
+export type UnreadBookmarksLazyQueryHookResult = ReturnType<typeof useUnreadBookmarksLazyQuery>;
+export type UnreadBookmarksQueryResult = Apollo.QueryResult<gqlUnreadBookmarksQuery, gqlUnreadBookmarksQueryVariables>;
+export const CurrentUserDocument = /*#__PURE__*/ gql`
+  query currentUser {
+    currentUser {
+      id
+      email
+    }
+  }
+`;
+
+/**
+ * __useCurrentUserQuery__
+ *
+ * To run a query within a React component, call `useCurrentUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCurrentUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCurrentUserQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCurrentUserQuery(
+  baseOptions?: Apollo.QueryHookOptions<gqlCurrentUserQuery, gqlCurrentUserQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<gqlCurrentUserQuery, gqlCurrentUserQueryVariables>(CurrentUserDocument, options);
+}
+export function useCurrentUserLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<gqlCurrentUserQuery, gqlCurrentUserQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<gqlCurrentUserQuery, gqlCurrentUserQueryVariables>(CurrentUserDocument, options);
+}
+export type CurrentUserQueryHookResult = ReturnType<typeof useCurrentUserQuery>;
+export type CurrentUserLazyQueryHookResult = ReturnType<typeof useCurrentUserLazyQuery>;
+export type CurrentUserQueryResult = Apollo.QueryResult<gqlCurrentUserQuery, gqlCurrentUserQueryVariables>;
 export const PageDocument = /*#__PURE__*/ gql`
   query page($id: ID!) {
     page(id: $id) {
@@ -764,102 +860,6 @@ export type UpdatePageMutationOptions = Apollo.BaseMutationOptions<
   gqlUpdatePageMutation,
   gqlUpdatePageMutationVariables
 >;
-export const GetAllPagesWithCountDocument = /*#__PURE__*/ gql`
-  query getAllPagesWithCount($cursor: String) {
-    currentUserPages(cursor: $cursor) {
-      id
-      name
-      bookmarksCount
-    }
-  }
-`;
-
-/**
- * __useGetAllPagesWithCountQuery__
- *
- * To run a query within a React component, call `useGetAllPagesWithCountQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetAllPagesWithCountQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetAllPagesWithCountQuery({
- *   variables: {
- *      cursor: // value for 'cursor'
- *   },
- * });
- */
-export function useGetAllPagesWithCountQuery(
-  baseOptions?: Apollo.QueryHookOptions<gqlGetAllPagesWithCountQuery, gqlGetAllPagesWithCountQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<gqlGetAllPagesWithCountQuery, gqlGetAllPagesWithCountQueryVariables>(
-    GetAllPagesWithCountDocument,
-    options,
-  );
-}
-export function useGetAllPagesWithCountLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<gqlGetAllPagesWithCountQuery, gqlGetAllPagesWithCountQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<gqlGetAllPagesWithCountQuery, gqlGetAllPagesWithCountQueryVariables>(
-    GetAllPagesWithCountDocument,
-    options,
-  );
-}
-export type GetAllPagesWithCountQueryHookResult = ReturnType<typeof useGetAllPagesWithCountQuery>;
-export type GetAllPagesWithCountLazyQueryHookResult = ReturnType<typeof useGetAllPagesWithCountLazyQuery>;
-export type GetAllPagesWithCountQueryResult = Apollo.QueryResult<
-  gqlGetAllPagesWithCountQuery,
-  gqlGetAllPagesWithCountQueryVariables
->;
-export const UnreadBookmarksDocument = /*#__PURE__*/ gql`
-  query unreadBookmarks($cursor: String) {
-    currentUserUnreadBookmarks(cursor: $cursor) {
-      cursor
-      bookmarks {
-        ...BookmarksFragment
-      }
-    }
-  }
-  ${BookmarksFragmentFragmentDoc}
-`;
-
-/**
- * __useUnreadBookmarksQuery__
- *
- * To run a query within a React component, call `useUnreadBookmarksQuery` and pass it any options that fit your needs.
- * When your component renders, `useUnreadBookmarksQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useUnreadBookmarksQuery({
- *   variables: {
- *      cursor: // value for 'cursor'
- *   },
- * });
- */
-export function useUnreadBookmarksQuery(
-  baseOptions?: Apollo.QueryHookOptions<gqlUnreadBookmarksQuery, gqlUnreadBookmarksQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<gqlUnreadBookmarksQuery, gqlUnreadBookmarksQueryVariables>(UnreadBookmarksDocument, options);
-}
-export function useUnreadBookmarksLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<gqlUnreadBookmarksQuery, gqlUnreadBookmarksQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<gqlUnreadBookmarksQuery, gqlUnreadBookmarksQueryVariables>(
-    UnreadBookmarksDocument,
-    options,
-  );
-}
-export type UnreadBookmarksQueryHookResult = ReturnType<typeof useUnreadBookmarksQuery>;
-export type UnreadBookmarksLazyQueryHookResult = ReturnType<typeof useUnreadBookmarksLazyQuery>;
-export type UnreadBookmarksQueryResult = Apollo.QueryResult<gqlUnreadBookmarksQuery, gqlUnreadBookmarksQueryVariables>;
 export type BookmarkKeySpecifier = ('id' | 'name' | 'pages' | 'read' | 'url' | BookmarkKeySpecifier)[];
 export type BookmarkFieldPolicy = {
   id?: FieldPolicy<any> | FieldReadFunction<any>;
