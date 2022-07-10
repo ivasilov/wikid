@@ -1,4 +1,4 @@
-image: node:12
+image: node:14
 
 services:
   - postgres:latest
@@ -53,7 +53,7 @@ lint:prettier:
   script:
     - yarn lint:prettier
 
-# lints the yarn.lock and reports if there's packages that could be deduplicated. This lowers the total number of 
+# lints the yarn.lock and reports if there's packages that could be deduplicated. This lowers the total number of
 # installed packages, which is really important for the frontend code.
 lint:packages:
   stage: build+test
