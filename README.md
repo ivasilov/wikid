@@ -9,6 +9,8 @@ Wikid is an app for keeping your personal information organized. It organizes yo
 This project is imagined to be a bookmark manager with a twist. The twist comes in the ability to organize bookmarks
 around user-created pages which will give additional context about the bookmarks and the reason for their save :).
 
+You can see a demo [here](http://209.97.189.247:4000/bookmarks) (username: `demo@demo.com`, password: `password`).
+
 ### Built With
 
 - React
