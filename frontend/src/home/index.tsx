@@ -5,7 +5,6 @@ import { Switch, Route, Link } from 'react-router-dom';
 import { Sidebar } from './sidebar';
 import { Loading } from '../components';
 import { lazily } from 'react-lazily';
-import { InputGroup } from '@blueprintjs/core';
 
 const { NewBookmark } = lazily(() => import('./new-bookmark'));
 const { Page } = lazily(() => import('./page'));
@@ -19,15 +18,16 @@ export const Home = () => {
       <Sidebar />
       <div className="col-span-10 overflow-y-auto bg-white">
         <div className="flex justify-between pt-2 pb-2 px-6">
-          <InputGroup type="search" large />
+          <div>{/* <InputGroup type="search" large /> */}</div>
+
           <Link to="/account">Account</Link>
         </div>
 
         <React.Suspense fallback={<Loading />}>
           <Switch>
             <Route
-              path="/new-bookmark/:url/:title"
-              component={(props: RouteComponentProps<{ url: string; title: string }>) => <NewBookmark {...props} />}
+              path="/new-bookmark/:url?/:title?"
+              component={(props: RouteComponentProps<{ url?: string; title?: string }>) => <NewBookmark {...props} />}
             />
             <Route
               path="/page/:id/edit"

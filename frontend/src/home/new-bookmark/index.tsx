@@ -15,7 +15,7 @@ import {
 import { GraphQLClient } from '../../utils/apollo-client';
 import { observer } from 'mobx-react';
 
-interface Props extends RouteComponentProps<{ title: string; url: string }> {}
+interface Props extends RouteComponentProps<{ title?: string; url?: string }> {}
 
 type IdName = { id?: string; name: string };
 
@@ -30,8 +30,8 @@ class NewBookmarkState {
 
   constructor(p: Props) {
     this.props = p;
-    this.url = decodeURIComponent(p.match.params.url);
-    this.name = decodeURIComponent(p.match.params.title);
+    this.url = decodeURIComponent(p.match.params.url || '');
+    this.name = decodeURIComponent(p.match.params.title || '');
     // this.changePages(this.props.bookmark.pages);
   }
 
