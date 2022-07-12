@@ -23,7 +23,9 @@ export const Sidebar = () => {
         </div>
         <div className="pb-4">
           <Icon icon="manual" className="pr-2 w-icon" />
-          <Link href="/bookmarks/unread">Reading list</Link>
+          <Link href="/bookmarks/unread">
+            <a>Reading list</a>
+          </Link>
         </div>
         <PageCategories />
       </div>

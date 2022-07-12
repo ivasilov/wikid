@@ -138,8 +138,8 @@ export const EditBookmarkDialog = observer((props: Props) => {
           </div>
           <div className={Classes.DIALOG_FOOTER}>
             <div className={Classes.DIALOG_FOOTER_ACTIONS}>
-              <Button onClick={state.cancel} text="Cancel" />
-              <Button onClick={state.save} text="Save" />
+              <Button onClick={state.cancel}>Cancel</Button>
+              <Button onClick={state.save}>Save</Button>
             </div>
           </div>
         </>
