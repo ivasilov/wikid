@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { Spinner } from '@blueprintjs/core';
 
 export const Loading = () => {

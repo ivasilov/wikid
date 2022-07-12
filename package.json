@@ -11,7 +11,7 @@
     "develop": "run-p develop:*",
     "develop:gql": "graphql-codegen --config codegen.yml --watch",
     "develop:backend": "yarn workspace backend run develop",
-    "develop:frontend": "yarn workspace frontend run start",
+    "develop:frontend": "yarn workspace frontend run dev",
     "clean": "npm-run-all -l -p clean:backend clean:frontend -p clean:workspace",
     "clean:backend": "yarn workspace backend run clean",
     "clean:frontend": "yarn workspace frontend run clean",
