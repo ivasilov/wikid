@@ -1,21 +1,26 @@
-import { Service } from 'typedi';
-import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
-import { FieldMergeFunction } from '@apollo/client/cache';
-import { BatchHttpLink } from '@apollo/client/link/batch-http';
+import {
+  ApolloClient,
+  ApolloLink,
+  InMemoryCache,
+  HttpLink,
+  NormalizedCacheObject,
+  from,
+  FieldMergeFunction,
+} from '@apollo/client';
 import { createUploadLink } from 'apollo-upload-client';
 import { onError } from '@apollo/client/link/error';
 import { setContext } from '@apollo/client/link/context';
 import { extractFiles } from 'extract-files';
-import { uniqBy } from 'lodash';
+import { useMemo } from 'react';
+import {} from '@apollo/client';
+import uniqBy from 'lodash/uniqBy';
+import isEqual from 'lodash/isEqual';
+import merge from 'deepmerge';
 
 import { gqlBookmark, gqlPaginatedBookmarks, StrictTypedTypePolicies } from '../models';
 
 const uploadAndBatchHTTPLink = (opts: any) =>
-  ApolloLink.split(
-    operation => extractFiles(operation).files.size > 0,
-    createUploadLink(opts),
-    new BatchHttpLink(opts),
-  );
+  ApolloLink.split(operation => extractFiles(operation).files.size > 0, createUploadLink(opts), new HttpLink(opts));
 
 const mergeBookmarks: FieldMergeFunction<gqlPaginatedBookmarks, gqlPaginatedBookmarks> = (e, i) => {
   const existing: gqlPaginatedBookmarks = e ?? { __typename: 'paginatedBookmarks', bookmarks: [], cursor: undefined };
@@ -43,32 +48,94 @@ const typePolicies: StrictTypedTypePolicies = {
   },
 };
 
-export const GraphQLClient = Service(
-  () =>
-    new ApolloClient({
-      link: ApolloLink.from([
-        onError(({ graphQLErrors, networkError }) => {
-          if (graphQLErrors)
-            graphQLErrors.forEach(({ message, locations, path }) =>
-              console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`),
-            );
-          if (networkError) console.log(`[Network error]: ${networkError}`);
-        }),
-      ])
-        .concat(
-          setContext((_, { headers }) => {
-            const token = localStorage.getItem('accessToken');
-            return {
-              headers: {
-                ...headers,
-                authorization: token ? `Bearer ${token}` : '',
-              },
-            };
-          }),
-        )
-        .concat(uploadAndBatchHTTPLink({ uri: '/api' })),
-      cache: new InMemoryCache({
-        typePolicies,
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors) {
+    graphQLErrors.forEach(({ message, locations, path }) =>
+      console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`),
+    );
+  }
+  if (networkError) {
+    console.log(`[Network error]: ${networkError}`);
+  }
+});
+
+let apolloClient: ApolloClient<NormalizedCacheObject>;
+
+/**
+ * Creates an isomorphic Apollo client.
+ */
+function createApolloClient() {
+  return new ApolloClient({
+    ssrMode: typeof window === 'undefined', // set to true for SSR
+    link: from([
+      onError(({ graphQLErrors, networkError }) => {
+        if (graphQLErrors)
+          graphQLErrors.forEach(({ message, locations, path }) =>
+            console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`),
+          );
+        if (networkError) console.log(`[Network error]: ${networkError}`);
       }),
+    ])
+      .concat(
+        setContext((_, { headers }) => {
+          const token = localStorage.getItem('accessToken');
+          return {
+            headers: {
+              ...headers,
+              authorization: token ? `Bearer ${token}` : '',
+            },
+          };
+        }),
+      )
+      .concat(uploadAndBatchHTTPLink({ uri: 'http://127.0.0.1:4000/api' })),
+    cache: new InMemoryCache({
+      typePolicies,
     }),
-);
+  });
+}
+
+/**
+ * Creates an isomorphic Apollo client or returns it from cache.
+ */
+export function initializeApollo(initialState: NormalizedCacheObject | null = null) {
+  const _client = apolloClient ?? createApolloClient();
+
+  // If your page has Next.js data fetching methods that use Apollo Client,
+  // the initial state gets hydrated here
+  if (initialState) {
+    // Get existing cache, loaded during client side data fetching
+    const existingCache = _client.extract();
+
+    // Merge the initialState from getStaticProps/getServerSideProps in the existing cache. This overrides whatever is
+    // browser cache with what came in through server props because that info is newer.
+    const data = merge(existingCache, initialState, {
+      // combine arrays using object equality (like in sets)
+      arrayMerge: (destinationArray, sourceArray) => [
+        ...sourceArray,
+        ...destinationArray.filter(d => sourceArray.every(s => !isEqual(d, s))),
+      ],
+    });
+
+    _client.cache.restore(data);
+  }
+
+  // For SSG and SSR always create a new Apollo Client
+  if (typeof window === 'undefined') {
+    return _client;
+  }
+
+  // Create the Apollo Client once in the client
+  if (!apolloClient) {
+    apolloClient = _client;
+  }
+
+  return _client;
+}
+
+/**
+ * Will update the Apollo cache only when the initial state changes
+ * othrewise return the existing apollo client.
+ */
+export function useApollo(initialState: {}) {
+  return useMemo(() => initializeApollo(initialState), [initialState]);
+}
