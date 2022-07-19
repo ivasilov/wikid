@@ -1,21 +1,20 @@
 import {
   ApolloClient,
   ApolloLink,
-  InMemoryCache,
-  HttpLink,
-  NormalizedCacheObject,
-  from,
   FieldMergeFunction,
+  from,
+  HttpLink,
+  InMemoryCache,
+  NormalizedCacheObject,
 } from '@apollo/client';
-import { createUploadLink } from 'apollo-upload-client';
-import { onError } from '@apollo/client/link/error';
 import { setContext } from '@apollo/client/link/context';
-import { extractFiles } from 'extract-files';
-import { useMemo } from 'react';
-import {} from '@apollo/client';
-import uniqBy from 'lodash/uniqBy';
-import isEqual from 'lodash/isEqual';
+import { onError } from '@apollo/client/link/error';
+import { createUploadLink } from 'apollo-upload-client';
 import merge from 'deepmerge';
+import { extractFiles } from 'extract-files';
+import isEqual from 'lodash/isEqual';
+import uniqBy from 'lodash/uniqBy';
+import { useMemo } from 'react';
 
 import { gqlBookmark, gqlPaginatedBookmarks, StrictTypedTypePolicies } from '../models';
 
@@ -78,7 +77,10 @@ function createApolloClient() {
     ])
       .concat(
         setContext((_, { headers }) => {
-          const token = localStorage.getItem('accessToken');
+          let token: string | null = null;
+          if (typeof window !== 'undefined') {
+            token = localStorage.getItem('accessToken');
+          }
           return {
             headers: {
               ...headers,

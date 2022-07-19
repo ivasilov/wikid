@@ -2,7 +2,7 @@ import { Bookmarks } from '../../components/bookmarks';
 import { useUnreadBookmarksQuery } from '../../models';
 
 export default function Page() {
-  const classes = 'w-5/6 mx-auto mt-8';
+  const classes = 'container pt-8 px-6';
 
   const { data, loading, fetchMore, error } = useUnreadBookmarksQuery({
     fetchPolicy: 'network-only',

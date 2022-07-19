@@ -1,16 +1,15 @@
 import { Button, Tab, Tabs } from '@blueprintjs/core';
-import { observer } from 'mobx-react';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import { Bookmarks } from '../../../../../components/bookmarks';
 import { gqlReadOnlyPageFragmentFragment } from '../../../../../models';
 import { Heading } from '../heading';
 
-const Notes = observer((props: { content: string }) => {
+const Notes = (props: { content: string }) => {
   return <ReactMarkdown className="singlepage-content-text">{props.content}</ReactMarkdown>;
-});
+};
 
-export const ReadOnlyPage = observer((props: { page: gqlReadOnlyPageFragmentFragment }) => {
+export const ReadOnlyPage = (props: { page: gqlReadOnlyPageFragmentFragment }) => {
   const page = props.page;
 
   return (
@@ -26,4 +25,4 @@ export const ReadOnlyPage = observer((props: { page: gqlReadOnlyPageFragmentFrag
       </Tabs>
     </>
   );
-});
+};

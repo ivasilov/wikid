@@ -28,9 +28,8 @@ export default function Page() {
   };
 
   if (response.ok) {
-    console.log(response);
     if (response.data.accessToken) {
-      localStorage.setItem('accessToken', response.data.accessToken);
+      // localStorage.setItem('accessToken', response.data.accessToken);
     }
     window.location.reload();
   }
