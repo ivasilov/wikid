@@ -12,6 +12,11 @@ export const Bookmark = (props: { bookmark: gqlBookmarkFragmentFragment }) => {
   });
 
   const bookmark = props.bookmark;
+  let hostname = '';
+  // new URL can throw and make the whole page unresponsive
+  try {
+    hostname = new URL(bookmark.url).hostname;
+  } catch {}
 
   return (
     <div className="flex pb-6">
@@ -49,7 +54,7 @@ export const Bookmark = (props: { bookmark: gqlBookmarkFragmentFragment }) => {
             }
           />
         </div>
-        <span className="font-normal">{new URL(bookmark.url).hostname}</span>
+        <span className="font-normal">{hostname}</span>
       </div>
       {deleteBookmarkDialogShown && bookmark ? (
         <DeleteBookmarkDialog
