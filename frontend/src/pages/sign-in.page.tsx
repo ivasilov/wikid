@@ -15,7 +15,7 @@ export default function SignInPage() {
   const { data } = useCurrentUserQuery();
 
   useEffect(() => {
-    if (!data || !data.currentUser) {
+    if (data && data.currentUser) {
       router.push('/bookmarks', '/bookmarks');
     }
   }, [router, data]);
@@ -29,7 +29,7 @@ export default function SignInPage() {
 
   if (response.ok) {
     if (response.data.accessToken) {
-      // localStorage.setItem('accessToken', response.data.accessToken);
+      localStorage.setItem('accessToken', response.data.accessToken);
     }
     window.location.reload();
   }
@@ -68,6 +68,6 @@ export default function SignInPage() {
 }
 
 // This is used to override the default layout.
-Page.getLayout = function getLayout(page: ReactElement) {
+SignInPage.getLayout = (page: ReactElement) => {
   return page;
 };

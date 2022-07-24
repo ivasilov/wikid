@@ -14,7 +14,7 @@ const defaultLayout = (page: ReactElement) => {
 export default function App({ Component, pageProps }: AppProps) {
   const client = useApollo(pageProps.initialApolloState);
 
-  const layout = (Component as any).layout || defaultLayout;
+  const layout = (Component as any).getLayout || defaultLayout;
 
   return <ApolloProvider client={client}>{layout(<Component {...pageProps} />)}</ApolloProvider>;
 }
