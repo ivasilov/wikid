@@ -4,7 +4,7 @@ import { ReactElement, useEffect } from 'react';
 import useFetch from 'use-http';
 import { useCurrentUserQuery } from '../models';
 
-export default function Page() {
+export default function SignInPage() {
   const router = useRouter();
   let emailInput: any;
   let passwordInput: any;

@@ -1,10 +1,11 @@
 import { useRouter } from 'next/router';
 import { Loading } from '../../../components/loading';
+import { withAuth } from '../../../components/with-auth';
 import { usePageQuery } from '../../../models';
 import { EditingPage } from './components/editing-page';
 import { SinglePageError } from './components/error';
 
-export default function Page() {
+const EditPagePage = () => {
   const router = useRouter();
   const id = router.query['id'] as string;
   const { data, loading, error } = usePageQuery({ variables: { id } });
@@ -39,4 +40,6 @@ export default function Page() {
       <SinglePageError />
     </div>
   );
-}
+};
+
+export default withAuth(EditPagePage);

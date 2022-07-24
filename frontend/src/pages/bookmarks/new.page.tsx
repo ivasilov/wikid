@@ -6,6 +6,7 @@ import { action, computed, observable } from 'mobx';
 import { fromPromise } from 'mobx-utils';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { withAuth } from '../../components/with-auth';
 import {
   GetAllPagesForDropdownDocument,
   gqlGetAllPagesForDropdownQuery,
@@ -119,7 +120,7 @@ const renderNewTag = (query: string, active: boolean, handleClick: React.MouseEv
   );
 };
 
-export default function Page() {
+const NewBookmarkPage = () => {
   const router = useRouter();
   const title = router.query['title'] as string;
   const url = router.query['url'] as string;
@@ -175,4 +176,6 @@ export default function Page() {
       </div>
     </div>
   );
-}
+};
+
+export default withAuth(NewBookmarkPage);

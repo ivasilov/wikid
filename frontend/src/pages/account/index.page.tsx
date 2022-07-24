@@ -1,8 +1,9 @@
 import { Tab, Tabs } from '@blueprintjs/core';
+import { withAuth } from '../../components/with-auth';
 import { Imports } from './imports';
 import { Settings } from './settings';
 
-export default function Account() {
+const AccountPage = () => {
   return (
     <div className="container mx-auto mt-8">
       <Tabs defaultSelectedTabId="settings" animate className="pl-8">
@@ -11,4 +12,6 @@ export default function Account() {
       </Tabs>
     </div>
   );
-}
+};
+
+export default withAuth(AccountPage);

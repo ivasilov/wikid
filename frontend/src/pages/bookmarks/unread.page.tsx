@@ -1,7 +1,8 @@
 import { Bookmarks } from '../../components/bookmarks';
+import { withAuth } from '../../components/with-auth';
 import { useUnreadBookmarksQuery } from '../../models';
 
-export default function Page() {
+const UnreadBookmarksPage = () => {
   const classes = 'container pt-8 px-6';
 
   const { data, loading, fetchMore, error } = useUnreadBookmarksQuery({
@@ -24,4 +25,6 @@ export default function Page() {
   }
 
   return <div>Something bad happened.</div>;
-}
+};
+
+export default withAuth(UnreadBookmarksPage);
