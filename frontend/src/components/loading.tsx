@@ -1,10 +1,10 @@
-import { Spinner } from '@blueprintjs/core';
+import { Spinner } from '../components';
 
 export const Loading = () => {
   return (
-    <div className="container mx-auto h-screen flex">
+    <div className="grow flex h-full">
       <div className="self-center mx-auto">
-        <Spinner intent="primary" size={145} />
+        <Spinner size="3x" />
       </div>
     </div>
   );

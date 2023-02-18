@@ -1,4 +1,4 @@
-import { Tab, Tabs } from '@blueprintjs/core';
+import { Tab, Tabs } from '../../components';
 import { withAuth } from '../../components/with-auth';
 import { Imports } from './imports';
 import { Settings } from './settings';

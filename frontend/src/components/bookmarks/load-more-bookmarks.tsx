@@ -1,5 +1,5 @@
-import { Spinner } from '@blueprintjs/core';
 import { useEffect, useRef } from 'react';
+import { Spinner } from '../spinner';
 
 export type LoadMoreBookmarksProps = { hasMore: boolean; loading: boolean; fetchMore: () => Promise<unknown> };
 
@@ -37,7 +37,7 @@ export const LoadMoreBookmarks = (props: LoadMoreBookmarksProps) => {
   if (loading) {
     return (
       <div className="flex pb-6">
-        <Spinner size={30} intent="primary" className="mx-auto" />
+        <Spinner size="1x" className="mx-auto" />
       </div>
     );
   }

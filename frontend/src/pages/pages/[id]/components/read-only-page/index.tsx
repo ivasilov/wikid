@@ -1,6 +1,6 @@
-import { Button, Tab, Tabs } from '@blueprintjs/core';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
+import { Button, Tab, Tabs } from '../../../../../components';
 import { Bookmarks } from '../../../../../components/bookmarks';
 import { gqlReadOnlyPageFragmentFragment } from '../../../../../models';
 import { Heading } from '../heading';

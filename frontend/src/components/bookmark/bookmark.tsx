@@ -1,8 +1,10 @@
-import { Button } from '@blueprintjs/core';
+import { faFloppyDisk, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
+import { Button } from '..';
 import { gqlBookmarkFragmentFragment } from '../../models';
 import { DeleteBookmarkDialog } from '../delete-bookmark';
 import { EditBookmarkDialog } from '../edit-bookmark';
+import { Icon } from '../icon';
 
 export const Bookmark = (props: { bookmark: gqlBookmarkFragmentFragment }) => {
   const [{ editBookmarkDialogShown, deleteBookmarkDialogShown }, setState] = useState({
@@ -25,13 +27,13 @@ export const Bookmark = (props: { bookmark: gqlBookmarkFragmentFragment }) => {
         src={`https://s2.googleusercontent.com/s2/favicons?domain=${bookmark.url}&sz=16`}
       />
       <div>
-        <div className="font-bold">
+        <div className="font-bold text-black">
           <a href={bookmark.url}>{bookmark.name}</a>
           <Button
-            small
+            size="small"
             className="ml-2"
             minimal
-            icon="floppy-disk"
+            leftIcon={<Icon name={faFloppyDisk} size="xl" />}
             onClick={() =>
               setState({
                 editBookmarkDialogShown: true,
@@ -40,11 +42,11 @@ export const Bookmark = (props: { bookmark: gqlBookmarkFragmentFragment }) => {
             }
           />
           <Button
-            small
+            size="small"
             className="ml-2"
             intent="danger"
             minimal
-            icon="trash"
+            leftIcon={<Icon name={faTrash} size="xl" />}
             onClick={() =>
               setState({
                 editBookmarkDialogShown,

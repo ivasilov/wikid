@@ -1,5 +1,5 @@
-import { Button, Classes, Dialog } from '@blueprintjs/core';
 import { observer } from 'mobx-react';
+import { Button, Classes, Dialog } from '..';
 import { useDeleteBookmarkMutation } from '../../models';
 
 interface Props {
@@ -33,12 +33,8 @@ export const DeleteBookmarkDialog = observer((props: Props) => {
       </div>
       <div className={Classes.DIALOG_FOOTER}>
         <div className={Classes.DIALOG_FOOTER_ACTIONS}>
-          <Button onClick={props.onClose} loading={loading}>
-            Cancel
-          </Button>
-          <Button intent="danger" onClick={() => update()} loading={loading}>
-            Delete
-          </Button>
+          <Button onClick={props.onClose} loading={loading} text="Cancel" />
+          <Button intent="danger" onClick={() => update()} loading={loading} text="Delete" />
         </div>
       </div>
     </Dialog>

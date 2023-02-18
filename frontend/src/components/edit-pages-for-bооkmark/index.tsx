@@ -1,5 +1,5 @@
-import { MenuItem } from '@blueprintjs/core';
 import { IItemRendererProps, ItemPredicate, MultiSelect } from '@blueprintjs/select';
+import { MenuItem } from '..';
 import { useGetAllPagesForDropdownQuery } from '../../models';
 
 export type IdName = { id?: string; name: string };

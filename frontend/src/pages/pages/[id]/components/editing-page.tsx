@@ -1,7 +1,7 @@
-import { Button, Spinner } from '@blueprintjs/core';
 import { observer } from 'mobx-react';
 import { useRouter } from 'next/router';
 import { useRef } from 'react';
+import { Button, Spinner } from '../../../../components';
 import { useUpdatePageMutation } from '../../../../models';
 import { Heading } from './heading';
 import { MarkdownEditor } from './markdown-editor';

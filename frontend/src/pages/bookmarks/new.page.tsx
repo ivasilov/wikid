@@ -1,11 +1,11 @@
 import { ApolloClient, useApolloClient } from '@apollo/client';
-import { Button, FormGroup, InputGroup, MenuItem } from '@blueprintjs/core';
 import { IItemRendererProps, ItemPredicate, MultiSelect } from '@blueprintjs/select';
 import { uniqBy } from 'lodash';
 import { action, computed, observable } from 'mobx';
 import { fromPromise } from 'mobx-utils';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { Button, FormGroup, InputGroup, MenuItem } from '../../components';
 import { withAuth } from '../../components/with-auth';
 import {
   GetAllPagesForDropdownDocument,
@@ -171,8 +171,8 @@ const NewBookmarkPage = () => {
         })}
       </FormGroup>
       <div>
-        <Button onClick={() => router.push('/')}>Cancel</Button>
-        <Button onClick={() => save()}>Save</Button>
+        <Button onClick={() => router.push('/')} text="Cancel" />
+        <Button onClick={() => save()} text="Save" />
       </div>
     </div>
   );

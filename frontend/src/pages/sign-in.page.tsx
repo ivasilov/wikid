@@ -1,7 +1,8 @@
-import { Button, Callout, Card, FormGroup, InputGroup } from '@blueprintjs/core';
+import { faArrowRightToBracket } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/router';
 import { ReactElement, useEffect } from 'react';
 import useFetch from 'use-http';
+import { Button, Callout, Card, FormGroup, Icon, InputGroup } from '../components';
 import { useCurrentUserQuery } from '../models';
 
 export default function SignInPage() {
@@ -58,7 +59,13 @@ export default function SignInPage() {
                 />
               </FormGroup>
               {error ? <Callout intent="danger">{`${error}`}</Callout> : null}
-              <Button type="submit" minimal icon="log-in" text="Log in" loading={loading} />
+              <Button
+                type="submit"
+                minimal
+                leftIcon={<Icon name={faArrowRightToBracket} />}
+                text="Log in"
+                loading={loading}
+              />
             </form>
           </div>
         </Card>

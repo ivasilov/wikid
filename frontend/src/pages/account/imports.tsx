@@ -1,6 +1,6 @@
-import { Button, Classes, Dialog, FileInput, FormGroup } from '@blueprintjs/core';
 import { upperFirst } from 'lodash';
 import { useState } from 'react';
+import { Button, Classes, Dialog, FileInput, FormGroup } from '../../components';
 import { EditPagesForBookmark, IdName } from '../../components/edit-pages-for-bооkmark';
 import { useImportFileMutation } from '../../models';
 
@@ -55,8 +55,8 @@ const UploadDialog = (props: { type: 'pinboard' | 'onetab'; onClose: () => void 
       </div>
       <div className={Classes.DIALOG_FOOTER}>
         <div className={Classes.DIALOG_FOOTER_ACTIONS}>
-          <Button onClick={props.onClose}>Cancel</Button>
-          <Button onClick={onSubmit}>Save</Button>
+          <Button onClick={props.onClose} text="Cancel" />
+          <Button onClick={onSubmit} text="Save" />
         </div>
       </div>
     </Dialog>

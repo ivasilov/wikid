@@ -1,9 +1,9 @@
 import { ApolloClient, useApolloClient } from '@apollo/client';
-import { Button, Classes, Dialog, FormGroup, InputGroup, Spinner, Switch } from '@blueprintjs/core';
 import { uniqBy } from 'lodash';
 import { action, observable, runInAction } from 'mobx';
 import { observer } from 'mobx-react';
 import { useState } from 'react';
+import { Button, Classes, Dialog, FormGroup, InputGroup, Spinner, Switch } from '..';
 import {
   GetBookmarkDocument,
   gqlGetBookmarkQuery,
@@ -138,8 +138,8 @@ export const EditBookmarkDialog = observer((props: Props) => {
           </div>
           <div className={Classes.DIALOG_FOOTER}>
             <div className={Classes.DIALOG_FOOTER_ACTIONS}>
-              <Button onClick={state.cancel}>Cancel</Button>
-              <Button onClick={state.save}>Save</Button>
+              <Button onClick={state.cancel} text="Cancel" />
+              <Button onClick={state.save} text="Save" />
             </div>
           </div>
         </>
