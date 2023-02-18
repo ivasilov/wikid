@@ -67,18 +67,16 @@ export const PageLink = ({
   );
 
   return (
-    <Link href={href}>
-      <a className={classes}>
-        <Icon
-          className={classNames(
-            current ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
-            'mr-4 flex-shrink-0 h-6 w-6',
-          )}
-          aria-hidden="true"
-          name={icon}
-        />
-        {name}
-      </a>
+    <Link href={href} className={classes}>
+      <Icon
+        className={classNames(
+          current ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
+          'mr-4 flex-shrink-0 h-6 w-6',
+        )}
+        aria-hidden="true"
+        name={icon}
+      />
+      {name}
     </Link>
   );
 };
