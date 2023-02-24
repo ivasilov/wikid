@@ -1,49 +1,15 @@
-import {
-  ApolloClient,
-  ApolloLink,
-  FieldMergeFunction,
-  from,
-  HttpLink,
-  InMemoryCache,
-  NormalizedCacheObject,
-} from '@apollo/client';
+import { ApolloClient, ApolloLink, from, HttpLink, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
 import { createUploadLink } from 'apollo-upload-client';
 import merge from 'deepmerge';
 import { extractFiles } from 'extract-files';
-import { isEqual, uniqBy } from 'lodash';
+import { isEqual } from 'lodash';
 import { useMemo } from 'react';
-import { gqlBookmark, gqlPaginatedBookmarks, StrictTypedTypePolicies } from '../models';
+import { typePolicies } from './type-policies';
 
 const uploadAndBatchHTTPLink = (opts: any) =>
   ApolloLink.split(operation => extractFiles(operation).files.size > 0, createUploadLink(opts), new HttpLink(opts));
-
-const mergeBookmarks: FieldMergeFunction<gqlPaginatedBookmarks, gqlPaginatedBookmarks> = (e, i) => {
-  const existing: gqlPaginatedBookmarks = e ?? { __typename: 'paginatedBookmarks', bookmarks: [], cursor: undefined };
-  const incoming: gqlPaginatedBookmarks = i ?? { __typename: 'paginatedBookmarks', bookmarks: [], cursor: undefined };
-  const merged = uniqBy(existing.bookmarks.concat(incoming.bookmarks), i => (i as any).__ref) as gqlBookmark[];
-  return {
-    __typename: 'paginatedBookmarks',
-    bookmarks: merged,
-    cursor: incoming.cursor,
-  };
-};
-
-const typePolicies: StrictTypedTypePolicies = {
-  Query: {
-    fields: {
-      currentUserBookmarks: {
-        keyArgs: false,
-        merge: mergeBookmarks,
-      },
-      currentUserUnreadBookmarks: {
-        keyArgs: false,
-        merge: mergeBookmarks,
-      },
-    },
-  },
-};
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
