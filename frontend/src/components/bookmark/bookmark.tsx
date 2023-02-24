@@ -57,28 +57,26 @@ export const Bookmark = (props: { bookmark: gqlBookmarkFragmentFragment }) => {
         </div>
         <span className="font-normal">{hostname}</span>
       </div>
-      {deleteBookmarkDialogShown && bookmark ? (
-        <DeleteBookmarkDialog
-          bookmark={bookmark}
-          onClose={() =>
-            setState({
-              editBookmarkDialogShown,
-              deleteBookmarkDialogShown: false,
-            })
-          }
-        />
-      ) : null}
-      {editBookmarkDialogShown && bookmark ? (
-        <EditBookmarkDialog
-          bookmark={bookmark}
-          onClose={() =>
-            setState({
-              editBookmarkDialogShown: false,
-              deleteBookmarkDialogShown,
-            })
-          }
-        />
-      ) : null}
+      <DeleteBookmarkDialog
+        isOpen={deleteBookmarkDialogShown}
+        bookmark={bookmark}
+        onClose={() =>
+          setState({
+            editBookmarkDialogShown,
+            deleteBookmarkDialogShown: false,
+          })
+        }
+      />
+      <EditBookmarkDialog
+        isOpen={editBookmarkDialogShown}
+        bookmark={bookmark}
+        onClose={() =>
+          setState({
+            deleteBookmarkDialogShown,
+            editBookmarkDialogShown: false,
+          })
+        }
+      />
     </div>
   );
 };

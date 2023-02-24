@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
-import { Button, Tab, Tabs } from '../../../../../components';
+import { Button, Tab, TabGroup, TabList, TabPanel, TabPanels } from '../../../../../components';
 import { Bookmarks } from '../../../../../components/bookmarks';
 import { gqlReadOnlyPageFragmentFragment } from '../../../../../models';
 import { Heading } from '../heading';
@@ -19,10 +19,20 @@ export const ReadOnlyPage = (props: { page: gqlReadOnlyPageFragmentFragment }) =
           <Button intent="primary" text="Edit" />
         </Link>
       </Heading>
-      <Tabs id="mainPageSelector" defaultSelectedTabId="notes" animate className="pl-8">
-        <Tab id="notes" title="Notes" panel={<Notes content={page.content} />} />
-        <Tab id="bookmarks" title="Bookmarks" panel={<Bookmarks bookmarks={page.bookmarks} />} />
-      </Tabs>
+      <TabGroup defaultIndex={0}>
+        <TabList>
+          <Tab>Notes</Tab>
+          <Tab>Bookmarks</Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel>
+            <Notes content={page.content} />
+          </TabPanel>
+          <TabPanel>
+            <Bookmarks bookmarks={page.bookmarks} />
+          </TabPanel>
+        </TabPanels>
+      </TabGroup>
     </>
   );
 };

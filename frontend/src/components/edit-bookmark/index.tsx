@@ -1,149 +1,93 @@
-import { ApolloClient, useApolloClient } from '@apollo/client';
+import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import { uniqBy } from 'lodash';
-import { action, observable, runInAction } from 'mobx';
-import { observer } from 'mobx-react';
-import { useState } from 'react';
-import { Button, Classes, Dialog, FormGroup, InputGroup, Spinner, Switch } from '..';
-import {
-  GetBookmarkDocument,
-  gqlGetBookmarkQuery,
-  gqlGetBookmarkQueryVariables,
-  gqlUpdateBookmarkMutation,
-  gqlUpdateBookmarkMutationVariables,
-  UpdateBookmarkDocument,
-} from '../../models';
+import React, { useState } from 'react';
+import { Button, Dialog, DialogBody, DialogFooter, DialogTitle, FormGroup, Input, Spinner, Switch } from '..';
+import { useGetBookmarkQuery, useUpdateBookmarkMutation } from '../../models';
 import { EditPagesForBookmark, IdName } from '../edit-pages-for-bооkmark';
 
 interface Props {
+  isOpen: boolean;
   bookmark: { id: string };
   onClose: () => void;
 }
 
-class EditBookmarkDialogState {
-  readonly props: Props;
-  @observable name: string = '';
-  @observable url: string = '';
+export const EditBookmarkDialog = (props: Props) => {
+  const [name, setName] = useState('');
+  const [url, setUrl] = useState('');
 
-  @observable pages: IdName[] = [];
-  @observable loading: boolean = false;
-  @observable read: boolean = false;
+  const [pages, setPages] = useState<IdName[]>([]);
+  const [read, setRead] = useState(false);
 
-  constructor(p: Props, private client: ApolloClient<object>) {
-    this.props = p;
-    this.init();
-  }
+  const { loading } = useGetBookmarkQuery({
+    variables: { id: props.bookmark.id },
+    onCompleted: data => {
+      const bookmark = data.bookmark;
 
-  cancel = () => {
-    this.props.onClose();
+      setName(bookmark.name);
+      setUrl(bookmark.url);
+      setRead(bookmark.read);
+      changePages(bookmark.pages);
+    },
+  });
+
+  const [update, { loading: loadingUpdate }] = useUpdateBookmarkMutation({
+    variables: {
+      params: {
+        id: props.bookmark.id,
+        name: name,
+        url: url,
+        read: read,
+        pageIds: pages,
+      },
+    },
+    onCompleted: () => props.onClose(),
+  });
+
+  const changeName = (e: React.FormEvent<HTMLInputElement>) => {
+    setName(e.currentTarget.value);
   };
 
-  @action
-  changeName = (e: React.FormEvent<HTMLInputElement>) => {
-    this.name = e.currentTarget.value;
+  const changeUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUrl(e.currentTarget.value);
   };
 
-  @action
-  changeUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.url = e.currentTarget.value;
+  const changeReadFlag = (flag: boolean) => {
+    setRead(flag);
   };
 
-  @action
-  changeReadFlag = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.read = !this.read;
-  };
-
-  @action
-  changePages = (p: IdName[]) => {
+  const changePages = (p: IdName[]) => {
     let pages = p.map(p => ({ id: p.id, name: p.name }));
-    this.pages = uniqBy(pages, p => p.name);
+    setPages(uniqBy(pages, p => p.name));
   };
-
-  init = () => {
-    this.loading = true;
-    this.client
-      .query<gqlGetBookmarkQuery, gqlGetBookmarkQueryVariables>({
-        query: GetBookmarkDocument,
-        variables: { id: this.props.bookmark.id },
-      })
-      .then(result =>
-        runInAction(() => {
-          this.loading = false;
-          const bookmark = result.data.bookmark;
-
-          this.name = bookmark.name;
-          this.url = bookmark.url;
-          this.read = bookmark.read;
-          this.changePages(bookmark.pages);
-        }),
-      )
-      .catch(() =>
-        runInAction(() => {
-          this.loading = false;
-        }),
-      );
-  };
-
-  @action
-  save = () => {
-    this.loading = true;
-
-    this.client
-      .mutate<gqlUpdateBookmarkMutation, gqlUpdateBookmarkMutationVariables>({
-        mutation: UpdateBookmarkDocument,
-        variables: {
-          params: {
-            id: this.props.bookmark.id,
-            name: this.name,
-            url: this.url,
-            read: this.read,
-            pageIds: this.pages,
-          },
-        },
-      })
-      .then(() =>
-        runInAction(() => {
-          this.loading = false;
-          this.props.onClose();
-        }),
-      )
-      .catch(() =>
-        runInAction(() => {
-          this.loading = false;
-        }),
-      );
-  };
-}
-
-export const EditBookmarkDialog = observer((props: Props) => {
-  const apollo = useApolloClient();
-  const [state] = useState(() => new EditBookmarkDialogState(props, apollo));
 
   return (
-    <Dialog isOpen icon="info-sign" title="Edit bookmark" onClose={state.props.onClose}>
-      {state.loading ? (
-        <Spinner className="my-5" size={Spinner.SIZE_LARGE} />
+    <Dialog isOpen={props.isOpen} icon="info-sign" title="Edit bookmark" onClose={props.onClose}>
+      {loading || loadingUpdate ? (
+        <Spinner className="my-5" size="2x" />
       ) : (
         <>
-          <div className={Classes.DIALOG_BODY}>
-            <FormGroup label="Name of the bookmark">
-              <InputGroup leftIcon="filter" onChange={state.changeName} value={state.name} />
+          <DialogTitle>Editing bookmark</DialogTitle>
+          <DialogBody>
+            <FormGroup htmlFor="name" label="Name of the bookmark">
+              <Input leftIcon={faFilter} id="name" onChange={changeName} value={name} />
             </FormGroup>
-            <FormGroup label="Url of the bookmark">
-              <InputGroup leftIcon="filter" onChange={state.changeUrl} value={state.url} />
+            <FormGroup htmlFor="url" label="Url of the bookmark">
+              <Input leftIcon={faFilter} onChange={changeUrl} value={url} />
             </FormGroup>
-            <Switch checked={state.read} label="Read" onChange={state.changeReadFlag} />
-            <FormGroup label="Pages which have this bookmark">
-              <EditPagesForBookmark pages={state.pages} onChange={state.changePages} />
+            <FormGroup htmlFor="read" label="Read">
+              <Switch checked={read} onChange={changeReadFlag} />
             </FormGroup>
-          </div>
-          <div className={Classes.DIALOG_FOOTER}>
-            <div className={Classes.DIALOG_FOOTER_ACTIONS}>
-              <Button onClick={state.cancel} text="Cancel" />
-              <Button onClick={state.save} text="Save" />
-            </div>
-          </div>
+
+            <FormGroup htmlFor="pages" label="Pages which have this bookmark">
+              <EditPagesForBookmark pages={pages} onChange={changePages} />
+            </FormGroup>
+          </DialogBody>
+          <DialogFooter>
+            <Button intent="secondary" onClick={props.onClose} text="Cancel" />
+            <Button intent="primary" onClick={() => update()} text="Save" />
+          </DialogFooter>
         </>
       )}
     </Dialog>
   );
-});
+};

@@ -1,6 +1,6 @@
 import { upperFirst } from 'lodash';
-import { useState } from 'react';
-import { Button, Classes, Dialog, FileInput, FormGroup } from '../../components';
+import React, { useState } from 'react';
+import { Button, Dialog, DialogBody, DialogFooter, FileInput, FormGroup } from '../../components';
 import { EditPagesForBookmark, IdName } from '../../components/edit-pages-for-bооkmark';
 import { useImportFileMutation } from '../../models';
 
@@ -45,20 +45,18 @@ const UploadDialog = (props: { type: 'pinboard' | 'onetab'; onClose: () => void 
 
   return (
     <Dialog isOpen icon="info-sign" title={`Import ${upperFirst(props.type)} data`} onClose={props.onClose}>
-      <div className={Classes.DIALOG_BODY}>
-        <FormGroup label="File to be imported">
+      <DialogBody>
+        <FormGroup htmlFor="file-input" label="File to be imported">
           <FileInput text={inputText} hasSelection={!!state.file} large fill onInputChange={handleChange} />
         </FormGroup>
-        <FormGroup label="Link the imported bookmarks with these pages">
+        <FormGroup htmlFor="pages-select" label="Link the imported bookmarks with these pages">
           <EditPagesForBookmark pages={state.pages} onChange={pages => setState({ ...state, pages })} />
         </FormGroup>
-      </div>
-      <div className={Classes.DIALOG_FOOTER}>
-        <div className={Classes.DIALOG_FOOTER_ACTIONS}>
-          <Button onClick={props.onClose} text="Cancel" />
-          <Button onClick={onSubmit} text="Save" />
-        </div>
-      </div>
+      </DialogBody>
+      <DialogFooter>
+        <Button onClick={props.onClose} text="Cancel" />
+        <Button onClick={onSubmit} text="Save" />
+      </DialogFooter>
     </Dialog>
   );
 };
