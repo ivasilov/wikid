@@ -10,7 +10,7 @@ export function withAuth<T>(
     redirectIfFound?: boolean;
   },
 ) {
-  return (props: any) => {
+  const Wrapper = (props: any) => {
     const router = useRouter();
 
     const { data, loading } = useCurrentUserQuery();
@@ -24,4 +24,7 @@ export function withAuth<T>(
 
     return <WrappedComponent {...props} />;
   };
+
+  Wrapper.displayName = 'AuthWrapper';
+  return Wrapper;
 }

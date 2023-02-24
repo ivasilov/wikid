@@ -83,6 +83,8 @@ export const EditPagesForBookmark = (props: Props) => {
       return !!pages.find(p => p.id === page.id && p.name === page.name);
     };
 
+    const availablePages = data.currentUserPages.filter(ap => pages.findIndex(page => page.id === ap.id) === -1);
+
     return (
       <PageMultiSelect
         fill
@@ -92,7 +94,7 @@ export const EditPagesForBookmark = (props: Props) => {
         onItemSelect={selectPage}
         createNewItemFromQuery={addPage}
         createNewItemRenderer={renderNewTag}
-        items={data.currentUserPages}
+        items={availablePages}
         selectedItems={pages}
         noResults={<MenuItem disabled={true} text="No results." />}
         popoverProps={{ minimal: true }}

@@ -30,8 +30,8 @@ export const Button = forwardRef(
       disabled = true;
     }
 
-    // TODO: Discuss with Alekso about these classes
-    // hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
+    // TODO: decide if we want a focus ring
+    // focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
     let classes = classnames(
       `font-display font-semibold inline-flex items-center border rounded-md hover:opacity-[85%] outline-none`,
       {
@@ -59,7 +59,7 @@ export const Button = forwardRef(
       } else {
         classes = classnames(classes, {
           'text-white': true,
-          'bg-primary-500 border-primary-500': intent === 'primary',
+          'bg-primary-500 border-primary-600 hover:bg-primary-700': intent === 'primary',
           'bg-secondary-500 border-secondary-500': intent === 'secondary',
           'bg-success border-success': intent === 'success',
           'bg-danger border-danger': intent === 'danger',
