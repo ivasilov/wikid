@@ -1,6 +1,7 @@
 export { FileInput, MenuItem } from '@blueprintjs/core';
 export * from './button';
 export * from './dialog';
+export * from './file-input';
 export * from './form-group';
 export * from './icon';
 export * from './input';

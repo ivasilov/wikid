@@ -46,8 +46,9 @@ const UploadDialog = (props: { type: 'pinboard' | 'onetab'; onClose: () => void 
   return (
     <Dialog isOpen icon="info-sign" title={`Import ${upperFirst(props.type)} data`} onClose={props.onClose}>
       <DialogBody>
-        <FormGroup htmlFor="file-input" label="File to be imported">
-          <FileInput text={inputText} hasSelection={!!state.file} large fill onInputChange={handleChange} />
+        <FormGroup htmlFor="file-upload" label="File to be imported">
+          {/* <FileInput text={inputText} hasSelection={!!state.file} large fill onInputChange={handleChange} /> */}
+          <FileInput id="file-upload" subText="PNG, JPG, GIF up to 10MB" onChange={handleChange} />
         </FormGroup>
         <FormGroup htmlFor="pages-select" label="Link the imported bookmarks with these pages">
           <EditPagesForBookmark pages={state.pages} onChange={pages => setState({ ...state, pages })} />
