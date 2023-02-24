@@ -12,10 +12,8 @@ import { onError } from '@apollo/client/link/error';
 import { createUploadLink } from 'apollo-upload-client';
 import merge from 'deepmerge';
 import { extractFiles } from 'extract-files';
-import isEqual from 'lodash/isEqual';
-import uniqBy from 'lodash/uniqBy';
+import { isEqual, uniqBy } from 'lodash';
 import { useMemo } from 'react';
-
 import { gqlBookmark, gqlPaginatedBookmarks, StrictTypedTypePolicies } from '../models';
 
 const uploadAndBatchHTTPLink = (opts: any) =>

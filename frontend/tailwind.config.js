@@ -1,19 +1,14 @@
 const typography = require('@tailwindcss/typography');
 const forms = require('@tailwindcss/forms');
 const defaultTheme = require('tailwindcss/defaultTheme');
+const colors = require('tailwindcss/colors');
 
 module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       colors: {
-        primary: {
-          100: '#8C70A7',
-          300: '#694689',
-          500: '#4D286E',
-          700: '#331152',
-          900: '#1E0435',
-        },
+        primary: colors.indigo,
         secondary: {
           100: '#CFF08E',
           300: '#ACD55A',
