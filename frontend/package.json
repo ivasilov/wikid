@@ -8,10 +8,11 @@
     "start": "next start",
     "lint": "next lint",
     "clean": "rimraf build .next && rimraf node_modules",
-    "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "analyze": "ANALYZE=true yarn build",
     "test:types": "tsc --noEmit"
   },
   "dependencies": {
+    "@next/bundle-analyzer": "^13.1.6",
     "next": "~13.1.0"
   },
   "devDependencies": {
