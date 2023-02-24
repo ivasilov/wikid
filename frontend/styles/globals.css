@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import '~@blueprintjs/core/lib/css/blueprint.css';
 @import './markdown-editor.css';
 
 /* Required by Tailwind to set the height to full screen for a SPA look */

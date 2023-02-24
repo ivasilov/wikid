@@ -17,7 +17,9 @@ export const FormGroup = ({ label, children, htmlFor, errorText, helperText }: F
       <div className="mt-1">{children}</div>
 
       {errorText ? (
-        <p className="mt-2 text-sm text-red-600" id="email-error"></p>
+        <p className="mt-2 text-sm text-red-600" id="email-error">
+          {errorText}
+        </p>
       ) : helperText ? (
         <p className="mt-2 text-sm text-gray-500" id="email-description">
           {helperText}

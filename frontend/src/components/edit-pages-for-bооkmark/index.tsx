@@ -1,56 +1,14 @@
-import { IItemRendererProps, ItemPredicate, MultiSelect } from '@blueprintjs/select';
-import { MenuItem } from '..';
-import { useGetAllPagesForDropdownQuery } from '../../models';
+import React from 'react';
+import AsyncCreatableSelect from 'react-select/async-creatable';
+import { FilterOptionOption } from 'react-select/dist/declarations/src/filters';
+import { MultiValue } from 'react-select/dist/declarations/src/types';
+import { useGetAllPagesForDropdownLazyQuery } from '../../models';
+import styles from './react-select.module.css';
 
 export type IdName = { id?: string; name: string };
 
-const PageMultiSelect = MultiSelect.ofType<IdName>();
-
-const renderNewTag = (query: string, active: boolean, handleClick: React.MouseEventHandler<HTMLElement>) => {
-  return (
-    <MenuItem
-      icon="add"
-      text={`Create "${query}"`}
-      active={active}
-      onClick={handleClick}
-      shouldDismissPopover={false}
-    />
-  );
-};
-
-const renderPage = (
-  page: IdName,
-  { modifiers, handleClick }: IItemRendererProps,
-  isPageSelected: (i: IdName) => boolean,
-) => {
-  if (!modifiers.matchesPredicate) {
-    return null;
-  }
-
-  if (isPageSelected(page)) {
-    return null;
-  }
-
-  return (
-    <MenuItem
-      key={page.name}
-      active={modifiers.active}
-      onClick={handleClick}
-      shouldDismissPopover={false}
-      text={page.name}
-    />
-  );
-};
-
-const filterPage: ItemPredicate<IdName> = (query, page, _index, exactMatch) => {
-  const normalizedName = page.name.toLowerCase();
-  const normalizedQuery = query.toLowerCase();
-
-  if (exactMatch) {
-    return normalizedName === normalizedQuery;
-  } else {
-    return normalizedName.indexOf(normalizedQuery) >= 0;
-  }
+type Mutable<Type> = {
+  -readonly [Key in keyof Type]: Type[Key];
 };
 
 interface Props {
@@ -58,54 +16,61 @@ interface Props {
   onChange: (p: IdName[]) => void;
 }
 
+const filterPage: (option: FilterOptionOption<IdName>, inputValue: string) => boolean = (option, inputValue) => {
+  if ((option.data as any).__isNew__) {
+    return false;
+  }
+
+  const normalizedName = option.data.name.toLowerCase();
+  const normalizedQuery = inputValue.toLowerCase();
+
+  return normalizedName.indexOf(normalizedQuery) >= 0;
+};
+
 export const EditPagesForBookmark = (props: Props) => {
   const { pages, onChange } = props;
 
-  const { data, loading } = useGetAllPagesForDropdownQuery({ fetchPolicy: 'network-only' });
+  const [getAllPages] = useGetAllPagesForDropdownLazyQuery({ fetchPolicy: 'network-only', ssr: false });
 
-  if (loading) {
-    return <div>Loading</div>;
-  }
+  const availablePages = (_inputValue: string) => {
+    // TODO: the input value should be passed to the backend for filtering on the backend
+    return getAllPages().then(value => {
+      return value.data?.currentUserPages || [];
+    });
+  };
 
-  if (data?.currentUserPages) {
-    const selectPage = (p: IdName) => {
-      const ps = pages.concat([p]);
-      onChange(ps);
-    };
-
-    const addPage = (name: string) => ({ name: name });
-    const removePage = (page: any) => {
-      const ps = pages.filter(p => p.name !== page);
-      onChange(ps);
-    };
-
-    const isPageSelected = (page: IdName) => {
-      return !!pages.find(p => p.id === page.id && p.name === page.name);
-    };
-
-    const availablePages = data.currentUserPages.filter(ap => pages.findIndex(page => page.id === ap.id) === -1);
-
-    return (
-      <PageMultiSelect
-        fill
-        tagRenderer={p => p.name}
-        itemRenderer={(item, itemProps) => renderPage(item, itemProps, isPageSelected)}
-        itemPredicate={filterPage}
-        onItemSelect={selectPage}
-        createNewItemFromQuery={addPage}
-        createNewItemRenderer={renderNewTag}
-        items={availablePages}
-        selectedItems={pages}
-        noResults={<MenuItem disabled={true} text="No results." />}
-        popoverProps={{ minimal: true }}
-        resetOnSelect
-        tagInputProps={{
-          tagProps: { minimal: true },
-          onRemove: removePage,
-        }}
-      />
-    );
-  }
-
-  return <div>An error happened while trying to show possible pages for linking to this bookmark.</div>;
+  return (
+    <AsyncCreatableSelect
+      classNames={{
+        // this is done to unstyle the default style from tailwind/forms on input
+        input: () => styles['input-container'],
+        control: state => (state.isFocused ? 'border-primary-600 border-primary-600:hover' : ''),
+      }}
+      styles={{
+        control: (baseStyles, state) => {
+          return {
+            ...baseStyles,
+            // this is needed to clear all border style so that the classNames prop works
+            borderColor: state.isFocused ? undefined : baseStyles.borderColor,
+            '&:hover': undefined,
+          };
+        },
+        menuPortal: base => ({ ...base, zIndex: 9999 }),
+      }}
+      value={pages}
+      isMulti
+      cacheOptions
+      defaultOptions // when set to true, it will auto load the options on render
+      loadOptions={availablePages}
+      createOptionPosition="first"
+      getOptionValue={p => p.id || p.name} // handle the create new case where it has only a name
+      getOptionLabel={p => (p as any).label || p.name} // handle the create new case where it can have a label
+      filterOption={filterPage}
+      closeMenuOnSelect={false}
+      menuPortalTarget={document.body}
+      formatCreateLabel={userInput => `Add "${userInput}"`}
+      getNewOptionData={(value, label) => ({ name: value, label })} // attach the label created by formatCreateLabel
+      onChange={ps => onChange(ps as Mutable<MultiValue<IdName>>)}
+    />
+  );
 };
