@@ -1,4 +1,6 @@
+import classNames from 'classnames';
 import { isBoolean } from 'lodash';
+import React from 'react';
 import { gqlBookmarksFragmentFragment } from '../../models';
 import { Bookmark } from '../bookmark';
 import { LoadMoreBookmarks, LoadMoreBookmarksProps } from './load-more-bookmarks';
@@ -26,14 +28,16 @@ type BookmarksProps = OnlyBookmarksProps | LoadingBookmarksProps;
 export const Bookmarks = (props: BookmarksProps) => {
   const { className, bookmarks } = props;
 
+  const classes = classNames(className, 'space-y-3');
+
   if (isLoadingBookmarksProps(props)) {
     if (props.loading && (!bookmarks || bookmarks.length === 0)) {
-      return <LoadingBookmarks className={className} />;
+      return <LoadingBookmarks className={classes} />;
     }
   }
 
   return (
-    <div className={className}>
+    <div className={classes}>
       {(bookmarks ?? []).map(b => (
         <Bookmark key={b.id} bookmark={b} />
       ))}

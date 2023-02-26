@@ -20,7 +20,7 @@ export const Bookmark = (props: { bookmark: gqlBookmarkFragmentFragment }) => {
   } catch {}
 
   return (
-    <div className="flex pb-6">
+    <div className="overflow-hidden rounded-md bg-white px-6 py-4 shadow flex">
       <img
         className="mr-5 w-5 object-contain"
         alt="bookmark favicon"
