@@ -30,15 +30,7 @@ let apolloClient: ApolloClient<NormalizedCacheObject>;
 function createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined', // set to true for SSR
-    link: from([
-      onError(({ graphQLErrors, networkError }) => {
-        if (graphQLErrors)
-          graphQLErrors.forEach(({ message, locations, path }) =>
-            console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`),
-          );
-        if (networkError) console.log(`[Network error]: ${networkError}`);
-      }),
-    ])
+    link: from([errorLink])
       .concat(
         setContext((_, { headers }) => {
           let token: string | null = null;
