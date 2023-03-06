@@ -1,0 +1,32 @@
+name: Test deduplicated packages
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+          cache-dependency-path: |
+            yarn.lock
+
+      - name: Check if dependencies needs to be deduplicated
+        run: |-
+          yarn lint:packages
+          test -z "$(git status --porcelain)"
