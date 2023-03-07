@@ -65,10 +65,7 @@ docker build .
 
 ## Roadmap
 
-- Migrate to Nextjs for frontend
 - Replace TypeORM with Prisma
-- Remove Blueprintjs and replace it with headless.dev
-- Remove all scss, remove node-sass package and use tailwind everywhere instead
 
 ## Contributing
 
