@@ -20,7 +20,7 @@
     "test:frontend": "yarn workspace frontend run test",
     "test:backend": "yarn workspace backend run test",
     "lint:prettier": "prettier --check '**/*.ts' '**/*.tsx' '**/*.md' '**/*.json' '**/*.js' '**/*.css'",
-    "lint:packages": "yarn-deduplicate --strategy fewer --exclude @types/estree",
+    "lint:packages": "yarn-deduplicate --strategy fewer --fail",
     "prettier:fix": "prettier --write '**/*.ts' '**/*.tsx' '**/*.md' '**/*.json' '**/*.js' '**/*.css'",
     "docker:build": "docker build -t ivasilov/wikid ."
   },
