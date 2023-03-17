@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { buildPaginator } from 'typeorm-cursor-pagination';
-import { BookmarkEntity } from './entity';
-import { PagesService } from '../pages/service';
-import { PageEntity } from '../pages/entity';
-import { UserEntity } from '../users/entity';
-import { TransactionalConnection } from '../../database';
 import { RequestContext } from '../../app';
+import { TransactionalConnection } from '../../database';
+import { PageEntity } from '../pages/entity';
+import { PagesService } from '../pages/service';
+import { UserEntity } from '../users/entity';
+import { BookmarkEntity } from './entity';
 
 @Injectable()
 export class BookmarksService {

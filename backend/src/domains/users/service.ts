@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import {} from '../../constants';
-import { UserEntity } from './entity';
-import { TransactionalConnection } from '../../database';
 import { RequestContext } from '../../app/request-context';
+import {} from '../../constants';
+import { TransactionalConnection } from '../../database';
+import { UserEntity } from './entity';
 
 @Injectable()
 export class UsersService {

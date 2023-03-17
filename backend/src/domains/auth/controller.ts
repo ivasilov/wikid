@@ -1,6 +1,6 @@
-import { AuthService } from './service';
-import { Post, Body, Controller } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { Ctx, RequestContext } from '../../app';
+import { AuthService } from './service';
 
 @Controller()
 export class AuthController {

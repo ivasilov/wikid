@@ -1,12 +1,12 @@
 import {
-  ManyToMany,
-  Entity,
   Column,
-  PrimaryGeneratedColumn,
   CreateDateColumn,
-  UpdateDateColumn,
+  Entity,
+  ManyToMany,
   ManyToOne,
+  PrimaryGeneratedColumn,
   Unique,
+  UpdateDateColumn,
 } from 'typeorm';
 import { BookmarkEntity } from '../bookmarks/entity';
 import { UserEntity } from '../users/entity';

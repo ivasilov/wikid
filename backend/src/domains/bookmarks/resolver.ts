@@ -1,24 +1,24 @@
-import { BookmarksService } from './service';
+import { UseGuards } from '@nestjs/common';
 import {
-  Resolver,
+  Args,
+  Field,
+  ID,
+  InputType,
+  Mutation,
+  ObjectType,
+  Parent,
   Query,
   ResolveField,
-  Parent,
-  Args,
-  ID,
-  Mutation,
-  InputType,
-  Field,
-  ObjectType,
+  Resolver,
 } from '@nestjs/graphql';
-import { BookmarkEntity } from './entity';
-import { BookmarkModel } from './model';
-import { PageModel } from '../pages/model';
+import { Ctx, RequestContext } from '../../app';
 import { CurrentUser } from '../auth/currentUser';
 import { GqlAuthGuard } from '../auth/gql.guard';
-import { UseGuards } from '@nestjs/common';
+import { PageModel } from '../pages/model';
 import { UsersService } from '../users/service';
-import { Ctx, RequestContext } from '../../app';
+import { BookmarkEntity } from './entity';
+import { BookmarkModel } from './model';
+import { BookmarksService } from './service';
 
 @InputType()
 class CreateBookmarkInput {

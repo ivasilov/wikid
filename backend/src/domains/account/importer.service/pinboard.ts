@@ -1,11 +1,11 @@
-import { Importer, TransformInput } from './types';
-import * as z from 'zod';
-import { BookmarksService } from '../../bookmarks/service';
 import { Injectable } from '@nestjs/common';
-import { UsersService } from '../../users/service';
-import { compact } from 'lodash';
 import { Promise as Bromise } from 'bluebird';
+import { compact } from 'lodash';
+import * as z from 'zod';
 import { RequestContext } from '../../../app';
+import { BookmarksService } from '../../bookmarks/service';
+import { UsersService } from '../../users/service';
+import { Importer, TransformInput } from './types';
 
 const bookmarkSchema = z.object({
   href: z.string(),

@@ -1,10 +1,10 @@
-import { Resolver, Query } from '@nestjs/graphql';
-import { UserModel } from './model';
-import { UsersService } from './service';
+import { UseGuards } from '@nestjs/common';
+import { Query, Resolver } from '@nestjs/graphql';
+import { Ctx, RequestContext } from '../../app';
 import { CurrentUser } from '../auth/currentUser';
 import { GqlAuthGuard } from '../auth/gql.guard';
-import { UseGuards } from '@nestjs/common';
-import { Ctx, RequestContext } from '../../app';
+import { UserModel } from './model';
+import { UsersService } from './service';
 
 @UseGuards(GqlAuthGuard)
 @Resolver(UserModel)

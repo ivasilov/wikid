@@ -3,7 +3,6 @@ import { from, Observable } from 'rxjs';
 import { retryWhen, take, tap } from 'rxjs/operators';
 import { Connection, QueryRunner } from 'typeorm';
 import { TransactionAlreadyStartedError } from 'typeorm/error/TransactionAlreadyStartedError';
-
 import { RequestContext } from '../app/request-context';
 import { TRANSACTION_MANAGER_KEY } from '../constants';
 import { DATABASE_CONNECTION } from './constants';

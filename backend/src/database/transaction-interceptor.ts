@@ -1,8 +1,7 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
 import { Observable, of } from 'rxjs';
-import { parseContext } from '../utils/parse-context';
 import { REQUEST_CONTEXT_KEY } from '../constants';
-
+import { parseContext } from '../utils/parse-context';
 import { TransactionWrapper } from './transaction-wrapper';
 
 @Injectable()

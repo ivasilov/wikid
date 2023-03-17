@@ -1,10 +1,9 @@
-import { BookmarksService } from '../../bookmarks/service';
 import { Injectable } from '@nestjs/common';
 import { compact } from 'lodash';
-
-import { Importer, TransformInput } from './types';
-import { UsersService } from '../../users/service';
 import { RequestContext } from '../../../app';
+import { BookmarksService } from '../../bookmarks/service';
+import { UsersService } from '../../users/service';
+import { Importer, TransformInput } from './types';
 
 @Injectable()
 export class OneTabImporter implements Importer {

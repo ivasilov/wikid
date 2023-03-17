@@ -1,6 +1,6 @@
 import { EntityManager, EntitySchema, ObjectType, Repository } from 'typeorm';
-import { TRANSACTION_MANAGER_KEY } from '../constants';
 import { RequestContext } from '../app/request-context';
+import { TRANSACTION_MANAGER_KEY } from '../constants';
 
 export class TransactionalConnection {
   getRepository<Entity>(ctx: RequestContext, target: ObjectType<Entity> | EntitySchema<Entity>): Repository<Entity> {

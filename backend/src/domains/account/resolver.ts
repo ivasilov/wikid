@@ -1,12 +1,12 @@
-import { Args, Field, InputType, Mutation, ObjectType } from '@nestjs/graphql';
-import { GqlAuthGuard } from '../auth/gql.guard';
 import { UseGuards } from '@nestjs/common';
+import { Args, Field, InputType, Mutation, ObjectType } from '@nestjs/graphql';
 // use the exports from graphql-upload, the type FileUpload is missing from apollo-server-express
-import { GraphQLUpload, FileUpload } from 'graphql-upload';
-import { ImporterService } from './importer.service';
-import { CurrentUser } from '../auth/currentUser';
-import { BookmarkNullablePageInput } from '../bookmarks/resolver';
+import { FileUpload, GraphQLUpload } from 'graphql-upload';
 import { Ctx, RequestContext } from '../../app';
+import { CurrentUser } from '../auth/currentUser';
+import { GqlAuthGuard } from '../auth/gql.guard';
+import { BookmarkNullablePageInput } from '../bookmarks/resolver';
+import { ImporterService } from './importer.service';
 
 @ObjectType()
 class UploadedFileResponse {
