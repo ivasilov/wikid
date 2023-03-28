@@ -2,6 +2,7 @@ Dockerfile
 node_modules
 */node_modules
 */build
+*/.next
 .gitignore
 .giattributes
 .prettierignore
@@ -9,3 +10,4 @@ node_modules
 ormconfig.yml
 README.md
 extension
+docker-compose.yml

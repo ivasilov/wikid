@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && rimraf build && node scripts/copy-for-production.mjs",
     "start": "next start",
     "lint": "next lint",
     "clean": "rimraf build .next && rimraf node_modules",

@@ -1,20 +1,18 @@
-import { MiddlewareConsumer, Module } from '@nestjs/common';
-import { GraphQLModule } from '@nestjs/graphql';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { GraphQLModule } from '@nestjs/graphql';
+import { join } from 'path';
 
-import { BookmarksModule } from '../domains/bookmarks';
-import { PagesModule } from '../domains/pages';
-import { AuthModule } from '../domains/auth';
-import { UsersModule } from '../domains/users';
-import { AccountModule } from '../domains/account';
-import { DatabaseModule, TransactionInterceptor } from '../database';
-import { RequestContextInterceptor } from './request-context-interceptor';
 import { graphqlUploadExpress } from 'graphql-upload';
 import { GRAPHQL_ENDPOINT } from '../constants';
-
-const frontendPath = join(__dirname, '..', '..', '..', 'frontend', 'build');
+import { DatabaseModule, TransactionInterceptor } from '../database';
+import { AccountModule } from '../domains/account';
+import { AuthModule } from '../domains/auth';
+import { BookmarksModule } from '../domains/bookmarks';
+import { PagesModule } from '../domains/pages';
+import { UsersModule } from '../domains/users';
+import { NextJSMiddleware } from './nextjs-middleware';
+import { RequestContextInterceptor } from './request-context-interceptor';
 
 @Module({
   imports: [
@@ -32,7 +30,6 @@ const frontendPath = join(__dirname, '..', '..', '..', 'frontend', 'build');
     AuthModule,
     UsersModule,
     AccountModule,
-    ServeStaticModule.forRoot({ rootPath: frontendPath }),
   ],
   providers: [
     // The order of the interceptors should be kept like this because the Transaction one uses request context
@@ -50,5 +47,6 @@ export class AppModule {
   configure(consumer: MiddlewareConsumer) {
     // to enable uploading files through GraphQL
     consumer.apply(graphqlUploadExpress()).forRoutes(GRAPHQL_ENDPOINT);
+    consumer.apply(NextJSMiddleware).forRoutes({ path: '*', method: RequestMethod.GET });
   }
 }
