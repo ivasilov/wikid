@@ -8,7 +8,7 @@ export default function SignInPage() {
   const router = useRouter();
   let emailInput = useRef<HTMLInputElement>(null);
   let passwordInput = useRef<HTMLInputElement>(null);
-  const { loading, error, post, response } = useFetch('http://127.0.0.1:4000/login', {
+  const { loading, error, post, response } = useFetch('/login', {
     cachePolicy: 'no-cache',
   } as any);
 
