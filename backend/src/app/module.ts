@@ -1,9 +1,8 @@
-import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { GraphQLModule } from '@nestjs/graphql';
-import { join } from 'path';
-
 import { graphqlUploadExpress } from 'graphql-upload';
+import { join } from 'path';
 import { GRAPHQL_ENDPOINT } from '../constants';
 import { DatabaseModule, TransactionInterceptor } from '../database';
 import { AccountModule } from '../domains/account';
@@ -11,12 +10,13 @@ import { AuthModule } from '../domains/auth';
 import { BookmarksModule } from '../domains/bookmarks';
 import { PagesModule } from '../domains/pages';
 import { UsersModule } from '../domains/users';
-import { NextJSMiddleware } from './nextjs-middleware';
+import { NextJsMiddlewareModule } from '../next-js-middleware';
 import { RequestContextInterceptor } from './request-context-interceptor';
 
 @Module({
   imports: [
     DatabaseModule,
+    NextJsMiddlewareModule,
     GraphQLModule.forRoot({
       autoSchemaFile: join(process.cwd(), 'schema.graphql'),
       path: GRAPHQL_ENDPOINT,
@@ -47,6 +47,5 @@ export class AppModule {
   configure(consumer: MiddlewareConsumer) {
     // to enable uploading files through GraphQL
     consumer.apply(graphqlUploadExpress()).forRoutes(GRAPHQL_ENDPOINT);
-    consumer.apply(NextJSMiddleware).forRoutes({ path: '*', method: RequestMethod.GET });
   }
 }
